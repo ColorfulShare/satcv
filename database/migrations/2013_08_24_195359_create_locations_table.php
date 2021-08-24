@@ -15,7 +15,6 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users');
             $table->string('address')->nullable();
             $table->string('district')->nullable();
             $table->string('city')->nullable();
