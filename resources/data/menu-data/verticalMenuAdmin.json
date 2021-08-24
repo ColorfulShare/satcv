@@ -38,28 +38,10 @@
       "slug": "",
       "submenu": [
         {
-          "url": "app/invoice/list",
+          "url": "",
           "name": "List",
           "icon": "circle",
           "slug": "app-invoice-list"
-        },
-        {
-          "url": "app/invoice/preview",
-          "name": "Preview",
-          "icon": "circle",
-          "slug": "app-invoice-preview"
-        },
-        {
-          "url": "app/invoice/edit",
-          "name": "Edit",
-          "icon": "circle",
-          "slug": "app-invoice-edit"
-        },
-        {
-          "url": "app/invoice/add",
-          "name": "Add",
-          "icon": "circle",
-          "slug": "app-invoice-add"
         }
       ]
     }
