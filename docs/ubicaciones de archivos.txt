@@ -1,0 +1,6 @@
+Algunas ubicaciones utiles del proyecto;
+
+manu:
+-data: resources/data/menu-data/verticalMenu.json
+-blade: resources/views/verticalLayoutMaster.blade.php
+-import: app/providers/MenuServiceProvider.php
