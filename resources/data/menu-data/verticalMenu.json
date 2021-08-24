@@ -23,6 +23,27 @@
     },
 
     {
+      "name": "contratos",
+      "icon": "home",
+      "slug": "/contratos",
+      "submenu": [
+        {
+          "url": "/contratos",
+          "name": "inversion",
+          "icon": "circle",
+          "slug": "inversion"
+        }
+      ]
+    },
+
+    {
+      "url": "reports/purchase",
+      "name": "Ordenes",
+      "icon": "shopping-cart",
+      "slug": "app-email"
+    },
+
+    {
       "navheader": "Apps & Pages",
       "slug": ""
     },
