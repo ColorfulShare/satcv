@@ -1,0 +1,45 @@
+Las librerias que estan aqui, ya deberian estar localmente en el proyecto
+
+Bootstrap v4.6.0 https://getbootstrap.com/docs/4.6/getting-started/introduction/
+
+Iconos:
+-feather icons: https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/html/ltr/vertical-menu-template/ui-feather.html
+-font awesome: https://fontawesome.com/
+
+tablas:
+-datatable: https://datatables.net/
+
+graficos:
+-chartjs: https://www.chartjs.org/
+-apexcharts: https://apexcharts.com/
+
+mapas:
+-leafletjs: https://leafletjs.com/
+
+alertas:
+-sweet alerts 2: https://sweetalert2.github.io/
+-toastr: https://github.com/CodeSeven/toastr
+
+sliders:
+-nouislider: https://refreshless.com/nouislider/
+-swiperjs: https://swiperjs.com/
+
+arrastrar y soltar
+-dragula: https://bevacqua.github.io/dragula/
+
+tours:
+-shepherdjs: https://shepherdjs.dev/
+
+reproductor multimedia:
+-plyr: https://plyr.io/
+
+auth:
+laravel jetstream: https://jetstream.laravel.com/2.x/introduction.html
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+ALGUNAS LIBRERIAS NO LAS AGREGUE POR QUE NO LAS VI MUY UTILES, PERO SI QUIEREN SABER DE DONDE SAQUE LA INFORMACION ES DE AQUI:
+https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/index.html
+
+AQUI LA DEMO DE LA TEMPLATE:
+https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/
