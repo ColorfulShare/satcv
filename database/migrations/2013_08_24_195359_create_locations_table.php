@@ -19,7 +19,7 @@ class CreateLocationsTable extends Migration
             $table->string('district')->nullable();
             $table->string('city')->nullable();
             $table->string('department')->nullable();
-            $table->longtext('photoDB')->nullable();
+            $table->longtext('photo_document')->nullable();
             $table->timestamps();
 
         });
