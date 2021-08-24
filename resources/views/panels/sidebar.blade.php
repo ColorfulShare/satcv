@@ -32,7 +32,7 @@ $configData = Helper::applClasses();
             </svg>
           </span>
           <h2 class="brand-text">Vuexy</h2>
-        </a>
+        </a> 
       </li>
       <li class="nav-item nav-toggle">
         <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">
