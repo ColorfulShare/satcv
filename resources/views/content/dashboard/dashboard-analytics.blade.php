@@ -4,17 +4,12 @@
 
 @section('vendor-style')
 <!-- vendor css files -->
-{{-- <link rel="stylesheet" href="{{ asset('vendors/css/charts/apexcharts.css') }}">
 <link rel="stylesheet" href="{{ asset('vendors/css/extensions/toastr.min.css') }}">
-<link rel="stylesheet" href="{{ asset('vendors/css/tables/datatable/dataTables.bootstrap4.min.css') }}">
-<link rel="stylesheet" href="{{ asset('vendors/css/tables/datatable/responsive.bootstrap4.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{asset('/fonts/font-awesome/css/font-awesome.min.css')}}"> --}}
+<link rel="stylesheet" type="text/css" href="{{asset('/fonts/font-awesome/css/font-awesome.min.css')}}">
 @endsection
+
 @section('page-style')
 <!-- Page css files -->
-{{-- <link rel="stylesheet" href="{{ asset('css/base/plugins/charts/chart-apex.css') }}">
-<link rel="stylesheet" href="{{ asset('css/base/plugins/extensions/ext-component-toastr.css') }}">
-<link rel="stylesheet" href="{{ asset('css/base/pages/app-invoice-list.css') }}"> --}}
 @endsection
 
 @section('content')
@@ -1075,17 +1070,17 @@
 
 @section('vendor-script')
 <!-- vendor files -->
-{{-- <script src="{{ asset('vendors/js/charts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('vendors/js/charts/apexcharts.min.js') }}"></script>
 <script src="{{ asset('vendors/js/extensions/toastr.min.js') }}"></script>
 <script src="{{ asset('vendors/js/extensions/moment.min.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('vendors/js/tables/datatable/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('vendors/js/tables/datatable/responsive.bootstrap.min.js') }}"></script> --}}
+<script src="{{ asset('vendors/js/tables/datatable/responsive.bootstrap.min.js') }}"></script>
 @endsection
 @section('page-script')
 <!-- Page js files -->
-{{-- <script src="{{ asset('js/scripts/pages/dashboard-analytics.js') }}"></script>
-<script src="{{ asset('js/scripts/pages/app-invoice-list.js') }}"></script> --}}
+<script src="{{ asset('js/scripts/pages/dashboard-analytics.js') }}"></script>
+<script src="{{ asset('js/scripts/pages/app-invoice-list.js') }}"></script>
 @endsection
