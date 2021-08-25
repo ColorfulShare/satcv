@@ -21,6 +21,40 @@
         }
       ]
     },
+    {
+      "name": "contratos",
+      "icon": "file-text",
+      "slug": "/contratos",
+      "submenu": [
+        {
+          "url": "/contratos",
+          "name": "inversion",
+          "icon": "circle",
+          "slug": "inversion"
+        }
+      ]
+    },
+
+    {
+      "url": "reports/purchase",
+      "name": "Ordenes",
+      "icon": "shopping-cart",
+      "slug": "app-email"
+    },
+
+    {
+      "name": "Solicitud",
+      "icon": "home",
+      "slug": "",
+      "submenu": [
+        {
+          "url": "solicitud/retiro",
+          "name": "Retiro",
+          "icon": "circle",
+          "slug": "dashboard-analytics"
+        }
+      ]
+    },
 
     {
       "navheader": "Apps & Pages",
