@@ -1,0 +1,2 @@
+1- copiar el archivo .env.example y renombrarlo como .env y modificarle el nombre y el user de la DB
+2- 

@@ -19,7 +19,9 @@ class UserSeeder extends Seeder
         // usuario admin
         User::create([
             'name'=> 'admin',
+            'lastname'=> Str::random(5),
             'email'=> 'admin@btc.com',
+            'admin'=> '1',
             'password' => Hash::make('123456789'),
 
         ]);
@@ -27,6 +29,7 @@ class UserSeeder extends Seeder
         // usuario normal
         User::create([
             'name'=> 'user',
+            'lastname'=> Str::random(5),
             'email'=> 'user@btc.com',
             'password' => Hash::make('123456789'),
         ]);
