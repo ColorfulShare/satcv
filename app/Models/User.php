@@ -57,4 +57,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function ordenes()
+    {
+        return $this->hasMany('App\Models\OrdenPurchases', 'user_id');
+    }
+
+    public function contracts()
+    {
+        return $this->hasManyThrough('App\Models\Contract', 'App\Models\OrdenPurchases');
+    }
 }
