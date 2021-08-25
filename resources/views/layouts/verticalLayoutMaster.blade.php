@@ -53,11 +53,11 @@
 
 
 
-  <div class="sidenav-overlay"></div>
-  <div class="drag-target"></div>
+  {{-- <div class="sidenav-overlay"></div> --}}
+  {{-- <div class="drag-target"></div> --}}
 
   {{-- include footer --}}
-  @include('panels/footer')
+  {{-- @include('panels/footer') --}}
 
   {{-- include default scripts --}}
   @include('panels/scripts')
