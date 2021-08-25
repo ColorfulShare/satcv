@@ -56,7 +56,6 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
  Route::prefix('user')->middleware(['auth'])->group(function(){
     
-
  Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
 
 Route::get('show-user/',[UserController::class,'showUser'])->name('users.show-user');
