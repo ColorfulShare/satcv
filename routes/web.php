@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContratosController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +16,14 @@ use App\Http\Controllers\ContratosController;
 |
 */
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
+Auth::routes(['verify' => true]);
 
+// Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
+//     return view('dashboard');
+// })->name('dashboard');
 
 // Main Page Route
-// Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('verified');
+Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('verified');
 
 Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard-analytics');
 
@@ -46,12 +48,7 @@ Route::prefix('reports')->group(function(){
     Route::get('commission', 'ReporteController@indexComision')->name('reports.comision');
 });
 
-Auth::routes(['verify' => true]);
 
 
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
