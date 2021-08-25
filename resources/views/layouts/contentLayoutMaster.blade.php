@@ -23,6 +23,7 @@ $configData = Helper::applClasses();
   {{-- Include core + vendor Styles --}}
   @include('panels/styles')
 
+<script src="{{ mix('js/app.js') }}" defer></script>
 </head>
 
 
