@@ -1,0 +1,11 @@
+usuario ADMIN
+
+correo: admin@btc.com
+contraseña: 123456789
+
+
+
+usuario NORMAL
+
+correo: user@btc.com
+contraseña: 123456789

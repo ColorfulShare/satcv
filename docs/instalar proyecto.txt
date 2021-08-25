@@ -1,0 +1,22 @@
+el sistema requiere:
+
+1- php v7.3 o superior
+2- laravel v8 o superior
+3- composer v1 o v2
+4- node v14 o superior
+5- npm v6 o superior (opcional)
+6- docker v7 o superior (opcional)
+
+pasos a seguir para instalar el sistema localmente:
+
+1- copiar el archivo: ".env.example" y renombrarlo como ".env" y modificarle el nombre y el user de la DB
+2-correr los siguientes comandos:
+
+"composer install"
+"npm install"
+"npm run development"
+"php artisan migrate"
+"php artisan db:seed"
+"php artisan serve"
+
+y listo!
