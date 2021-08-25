@@ -16,16 +16,12 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
-Auth::routes(['verify' => true]);
-
-// Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
-//     return view('dashboard');
-// })->name('dashboard');
+// Auth::routes(['verify' => true]);
 
 // Main Page Route
-Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('verified');
+Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('auth');
 
-Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard-analytics');
+Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard-analytics')->middleware('auth');
 
 Route::group(['prefix' => 'contratos'], function () {
     Route::get('/', [ContratosController::class, 'index'])->name('contratos.index');

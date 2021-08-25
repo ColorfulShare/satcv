@@ -1,0 +1,17 @@
+si el proyecto al correr algun comando "php artisan" da algun error, seguir estos pasos:
+
+1- borrar carpeta vendor y node_modules (si existe)
+2- borrar todos los archivo de la ruta: bootstrap/cache/   (excepto el .gitignore)
+3-correr los siguientes comandos:
+
+"composer install"
+"composer update"
+"npm install"
+"npm run development"
+"composer dump-autoload"
+"php artisan optimize:clear"
+"php artisan migrate"
+"php artisan db:seed"
+"php artisan serve"
+
+y listo!
