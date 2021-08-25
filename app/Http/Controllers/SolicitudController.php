@@ -12,7 +12,10 @@ class SolicitudController extends Controller
     public function index_retiros()
     {
         $user = Auth::user();
-        $contratos = $user->contracts->where('status', 1);
+        $contratos = [];
+        if(isset($user->contracts)){
+            $contratos = $user->contracts->where('status', 1);
+        }
     
         return view('retiros.index', compact('contratos'));
     }
