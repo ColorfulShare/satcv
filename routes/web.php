@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContratosController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +51,18 @@ Route::prefix('reports')->group(function(){
 
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
+
+
+ Route::prefix('user')->middleware(['auth'])->group(function(){
+    
+
+ Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
+
+Route::get('show-user/',[UserController::class,'showUser'])->name('users.show-user');
+
+});
+
+
+
+
