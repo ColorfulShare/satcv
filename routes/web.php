@@ -16,9 +16,14 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+
 // Main Page Route
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('verified');
-Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard-analytics');
+// Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard-analytics');
 
 Auth::routes(['verify' => true]);
 
@@ -33,3 +38,7 @@ Route::group(['prefix' => 'dashboard'], function () {
 
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
