@@ -1,5 +1,7 @@
 @extends('layouts/contentLayoutMaster')
 
+@section('title', 'Perfil')
+
 @section('content')
 
 <x-app-layout>

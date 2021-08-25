@@ -16,12 +16,15 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
-// Auth::routes(['verify' => true]);
+// middleware auth: no da acceso a la ruta si el usuario no esta logueado
+// middleware verified: no da acceso a la ruta si el usuario no verifico su email
+
+Auth::routes(['verify' => true]);
 
 // Main Page Route
-Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('auth');
+Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard-analytics')->middleware(['auth']);
 
-Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard-analytics')->middleware('auth');
+Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware(['auth']);
 
 Route::group(['prefix' => 'contratos'], function () {
     Route::get('/', [ContratosController::class, 'index'])->name('contratos.index');
