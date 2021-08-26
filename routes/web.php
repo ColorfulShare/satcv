@@ -34,6 +34,7 @@ Route::get('/getContrato/{id}', [DashboardController::class, 'getContrato'])->na
 
 Route::group(['prefix' => 'contratos'], function () {
     Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
+    Route::get('/testCoin', [ContractsController::class, 'testCoin'])->name('contract.testCoin');
 });
 
 Route::group(['prefix' => 'shop'], function () {

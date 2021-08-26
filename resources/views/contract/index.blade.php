@@ -36,7 +36,7 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <form action="{{route('shop.procces')}}" method="POST">
+                <form action="{{route('shop.procces')}}" method="POST" target="_blank">
                   @csrf
                   <div class="modal-body">
 

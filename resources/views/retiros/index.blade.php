@@ -29,15 +29,16 @@
                                     <td>{{$contrato->type_interes}}</td>
                                     <td>{{$contrato->capital}}</td>
                                     <td>
+                                        {{--
                                         <button type="button" data-toggle="modal" class="btn btn-danger" data-target="#ModalRetirar{{$contrato->id}}">
                                             Retirar
                                         </button>
-
+                                        --}}
                                         <button type="button" class="btn btn-danger retirar" contrato_id="{{$contrato->id}}">
                                             Retirar
                                         </button>
                                     </td>
-                            
+                                    {{--
                                     <!-- Modal -->
                                     <div class="modal fade" id="ModalRetirar{{$contrato->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -64,12 +65,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                
+                                    --}}
                                     </td>
                                 </tr>
                                 @empty 
                                 <tr>
-                                    <td colspan="5">Sn Contratos</td>
+                                    <td colspan="5" class="text-center">Sn Contratos</td>
                                 </tr>
                                 @endforelse
                             </tbody>
