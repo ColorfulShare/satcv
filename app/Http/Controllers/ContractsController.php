@@ -57,13 +57,12 @@ class contractsController extends Controller
 
     public function removeContract(Request $request)
     {
-        return response(['hola' => "hola"]);
-        $contract = Contract::findOrFail($request->id);
+        $contract = Contract::findOrFail($request->contratoId);
         $contract->status = 2;
         $contract->capital = $contract->capital - ($contract->capital * 0.25 );
         $contract->save();
 
-        return back();
+        return response()->json(true);
     }   
 
     /**

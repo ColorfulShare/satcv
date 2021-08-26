@@ -32,7 +32,6 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middl
 
 Route::group(['prefix' => 'contratos'], function () {
     Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
-    Route::post('/remove', [ContractsController::class, 'removeContract'])->name('contract.remove');
 });
 
 Route::group(['prefix' => 'shop'], function () {
