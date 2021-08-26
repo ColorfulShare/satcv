@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ContratosController;
+use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TiendaController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\TicketController;
 
 /*
@@ -28,26 +31,25 @@ Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('dashb
 Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware(['auth']);
 
 Route::group(['prefix' => 'contratos'], function () {
-    Route::get('/', [ContratosController::class, 'index'])->name('contratos.index');
+    Route::get('/', [ContractsController::class, 'index'])->name('contratos.index');
 
 });
 
-Route::prefix('shop')->group(function ()
-{
-    Route::get('/', 'TiendaController@index')->name('shop');
-    Route::get('/groups/{idgroup}/products', 'TiendaController@products')->name('shop.products');
-    Route::post('/procces', 'TiendaController@procesarOrden')->name('shop.procces');
-    Route::post('/ipn', 'TiendaController@ipn')->name('shop.ipn');
-    Route::get('/{status}/estado', 'TiendaController@statusProcess')->name('shop.proceso.status');
-    Route::post('cambiarStatus', 'TiendaController@cambiar_status')->name('cambiarStatus');
+Route::group(['prefix' => 'shop'], function () {
+    Route::get('/', [TiendaController::class, 'index'])->name('shop');
+    Route::post('/procces', [TiendaController::class, 'procesarOrden'])->name('shop.procces');
+    Route::post('/ipn', [TiendaController::class, 'ipn'])->name('shop.ipn');
+    Route::post('/{status}/estado', [TiendaController::class, 'statusProcess'])->name('shop.proceso.status');
+    Route::post('/cambiarStatus', [TiendaController::class, 'cambiar_status'])->name('cambiarStatus');
 });
 
-//Rutas para los reportes
-Route::prefix('reports')->group(function(){
-    Route::get('purchase', 'ReporteController@indexPedidos')->name('reports.pedidos');
-    Route::get('commission', 'ReporteController@indexComision')->name('reports.comision');
+Route::group(['prefix' => 'reports'], function () {
+    Route::get('/purchase', [ReportController::class, 'indexPedidos'])->name('reports.pedidos');
 });
 
+Route::group(['prefix' => 'solicitud'], function () {
+    Route::get('/retiro', [SolicitudController::class, 'index_retiros'])->name('solicitud.retiros');
+});
 
 //Ruta de los Tickets
 Route::prefix('ticket')->middleware(['auth'])->group(function(){
@@ -66,8 +68,6 @@ Route::prefix('ticket')->middleware(['auth'])->group(function(){
     Route::get('list-admin', [TicketController::class,'indexAdmin'])->name('ticket.list-admin');
     Route::get('show-admin/{id}', [TicketController::class,'showAdmin'])->name('ticket.show-admin');
 });
-
-
 
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);

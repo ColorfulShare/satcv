@@ -10,4 +10,5 @@
 @endif
 {{-- page script --}}
 @yield('page-script')
+@stack('custom_js')
 {{-- page script --}}
