@@ -77,15 +77,24 @@ Route::prefix('ticket')->middleware(['auth'])->group(function(){
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
+//rutas para la lista de usuarios
+ Route::prefix('user')->group(function(){
 
-
- Route::prefix('user')->middleware(['auth'])->group(function(){
-    
- Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
+Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
 
 Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.show-user');
 
 });
+
+
+ // Ruta para la pagos
+ Route::prefix('payments')->group(function (){
+
+Route::get('/',[WalletController::class,'payments'])->name('payments.index');
+
+ });
+
+
 
 
 

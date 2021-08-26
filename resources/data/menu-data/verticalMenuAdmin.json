@@ -27,6 +27,19 @@
       "icon": "shopping-cart",
       "slug": "app-email"
     },
+    
+     {
+      "url": "user/list-user",
+      "name": "Usuarios",
+      "icon": "users",
+      "slug": ""
+    },
+     {
+      "url": "",
+      "name": "Retiros",
+      "icon": "credit-card",
+      "slug": ""
+    },
     {
       "navheader": "Apps & Pages",
       "slug": ""
