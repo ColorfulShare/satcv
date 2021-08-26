@@ -32,6 +32,10 @@
                                         <button type="button" data-toggle="modal" class="btn btn-danger" data-target="#ModalRetirar{{$contrato->id}}">
                                             Retirar
                                         </button>
+
+                                        <button type="button" class="btn btn-danger retirar" contrato_id="{{$contrato->id}}">
+                                            Retirar
+                                        </button>
                                     </td>
                             
                                     <!-- Modal -->
@@ -44,12 +48,12 @@
                                                 <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form action="" method="POST">
+                                            <form action="{{route('contract.remove')}}" method="POST">
                                             @csrf
                                             <div class="modal-body">
 
                                                 <input type="hidden" name="id" value="{{$contrato->id}}">
-                                                Si retira el contrato se le quitara como penalización el 25%.
+                                                
                                                 <br>
                                             </div>
                                             <div class="modal-footer">
@@ -74,8 +78,67 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
+
+    <input type="hidden" id="contrato_id" name="contrato_id">
 @endsection
 
+@push('custom_js')
+    <script>
 
+        let btnRetirar = document.querySelector('.retirar');
+        
+        btnRetirar.addEventListener("click", function( event ) {
+            
+            let contratoId = event.target.attributes.contrato_id.value;
+            data= {'contratoId': contratoId}
+            //llamamos la alerta
+            Swal.fire({
+            title: '¿Estas seguro?',
+            text: "Como penalizacion se le quitara un 25% de lo invertido.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Retirar',
+            preConfirm: (login) => {
+                return fetch(`{{route("contract.remove")}}`, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(data), // data can be `string` or {object}!
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                })   
+                .then(response => {
+                    console.log(response.json());
+                    if (!response.ok) {
+                    throw new Error(response.statusText)
+                    }
+                    return response.json()
+                })
+                .catch(error => {
+                    Swal.showValidationMessage(
+                    `Request failed: ${error}`
+                    )
+                })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                'Retirado',
+                'Contrato retirado con exito.',
+                'success'
+                )
+            }
+            })
+        }, false)
+  
+        /*
+        
+        */
+    </script>
+@endpush

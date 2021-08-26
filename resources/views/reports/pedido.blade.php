@@ -12,7 +12,7 @@
                         <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
                             <thead class="">
 
-                                <tr class="text-center text-white bg-purple-alt2">                                
+                                <tr class="text-center">                                
                                     <th>ID</th>
                                     <th>Correo</th>
                                     <th>Transaccion</th>

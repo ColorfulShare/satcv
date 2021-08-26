@@ -30,12 +30,14 @@ use App\Http\Controllers\UserController;
 
 // Main Page Route
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
+Route::get('/getContrato/{id}', [DashboardController::class, 'getContrato'])->name('get.contrato');
+
 
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware(['auth']);
 
 Route::group(['prefix' => 'contratos'], function () {
-    Route::get('/', [ContractsController::class, 'index'])->name('contratos.index');
-
+    Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
+    Route::post('/remove', [ContractsController::class, 'removeContract'])->name('contract.remove');
 });
 
 Route::group(['prefix' => 'shop'], function () {
