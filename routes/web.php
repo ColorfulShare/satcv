@@ -2,17 +2,13 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
-use App\Http\Controllers\ContratosController;
-use App\Http\Controllers\UserController;
-=======
 use App\Http\Controllers\ContractsController;
->>>>>>> a2b7bf2c8f477a3d537cefef4b1c9f7795b9a8c0
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -85,7 +81,7 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
     
  Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
 
-Route::get('show-user/',[UserController::class,'showUser'])->name('users.show-user');
+Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.show-user');
 
 });
 
