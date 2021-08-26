@@ -20,7 +20,6 @@
         }
       ]
     },
-
     {
       "url": "reports/purchase",
       "name": "Ordenes",
@@ -41,7 +40,25 @@
         }
       ]
     },
-
+    {
+      "name": "Soporte",
+      "icon": "tag",
+      "slug": "",
+      "submenu": [
+        {
+          "url": "ticket/create",
+          "name": "Crear Ticket",
+          "icon": "circle",
+          "slug": "app-invoice-list"
+        },
+        {
+          "url": "ticket/list-user",
+          "name": "Lista de Tickets",
+          "icon": "circle",
+          "slug": "app-invoice-list"
+        }
+      ]
+    },
     {
       "navheader": "Examples",
       "slug": ""
@@ -66,29 +83,6 @@
         {
           "url": "",
           "name": "List",
-          "icon": "circle",
-          "slug": "app-invoice-list"
-        }
-      ]
-    },
-    {
-      "navheader": "Menu principal",
-      "slug": ""
-    },
-    {
-      "name": "Soporte",
-      "icon": "tag",
-      "slug": "",
-      "submenu": [
-        {
-          "url": "ticket/create",
-          "name": "Crear Ticket",
-          "icon": "circle",
-          "slug": "app-invoice-list"
-        },
-        {
-          "url": "ticket/list-user",
-          "name": "Lista de Tickets",
           "icon": "circle",
           "slug": "app-invoice-list"
         }

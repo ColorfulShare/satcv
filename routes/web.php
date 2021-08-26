@@ -58,9 +58,9 @@ Route::prefix('ticket')->middleware(['auth'])->group(function(){
 
     // Para el usuario
     Route::get('create', [TicketController::class,'create'])->name('ticket.create');
-    Route::post('store', [TicketController::class,'store'])->name('ticket.store');
+    Route::post('store', [TicketController::class,'storeUser'])->name('ticket.store'); 
     Route::get('edit-user/{id}', [TicketController::class,'editUser'])->name('ticket.edit-user');
-    Route::patch('update-user/{id}', [TicketController::class,'editUser'])->name('ticket.update-user');
+    Route::patch('update-user/{id}', [TicketController::class,'updateUser'])->name('ticket.update-user');
     Route::get('list-user', [TicketController::class,'indexUser'])->name('ticket.list-user');
     Route::get('show-user/{id}', [TicketController::class,'showUser'])->name('ticket.show-user');
 
@@ -68,7 +68,6 @@ Route::prefix('ticket')->middleware(['auth'])->group(function(){
     Route::get('edit-admin/{id}', [TicketController::class,'editAdmin'])->name('ticket.edit-admin');
     Route::patch('update-admin/{id}', [TicketController::class,'updateAdmin'])->name('ticket.update-admin');
     Route::get('list-admin', [TicketController::class,'indexAdmin'])->name('ticket.list-admin');
-    Route::get('show-admin/{id}', [TicketController::class,'showAdmin'])->name('ticket.show-admin');
 });
 
 // locale Route

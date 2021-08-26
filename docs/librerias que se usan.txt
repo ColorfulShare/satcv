@@ -3,7 +3,7 @@ Las librerias que estan aqui, ya deberian estar localmente en el proyecto
 Bootstrap v4.6.0 https://getbootstrap.com/docs/4.6/getting-started/introduction/
 
 Iconos:
--feather icons: https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/html/ltr/vertical-menu-template/ui-feather.html
+-feather icons: https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/html/ltr/vertical-menu-template/ui-feather.html (ej: <i data-feather='plus'>)
 -font awesome: https://fontawesome.com/
 
 tablas:

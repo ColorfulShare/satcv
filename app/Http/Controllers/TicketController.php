@@ -17,15 +17,16 @@ class TicketController extends Controller
      */
     public function indexUser()
     {
-    try {
-      $ticket = Ticket::where('user', Auth::id())->get();
+        try {
 
-      return view('tickets.user.list-user')->with('ticket', $ticket);
+            $ticket = Ticket::where('user', Auth::id())->get();
+
+            return view('tickets.user.list-user')->with('ticket', $ticket);
         
-    } catch (\Throwable $th) {
-        Log::error('indexUser -> Error: '.$th);
-        abort(403, "Ocurrio un error, contacte con el administrador");
-    }
+        } catch (\Throwable $th) {
+            Log::error('indexUser -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     /**
@@ -35,15 +36,16 @@ class TicketController extends Controller
      */
     public function indexAdmin()
     {
-    try {
-      $ticket = Ticket::all();
+        try {
 
-      return view('tickets.admin.list-admin')->with('ticket', $ticket);
+            $ticket = Ticket::all();
+
+            return view('tickets.admin.list-admin')->with('ticket', $ticket);
        
-    } catch (\Throwable $th) {
-        Log::error('indexAdmin -> Error: '.$th);
-        abort(403, "Ocurrio un error, contacte con el administrador");
-    }
+        } catch (\Throwable $th) {
+            Log::error('indexAdmin -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     /**
@@ -53,13 +55,14 @@ class TicketController extends Controller
      */
     public function create()
     {
-    try {
-      return view('tickets.user.create');
+        try {
+
+            return view('tickets.user.create');
    
-    } catch (\Throwable $th) {
-        Log::error('create -> Error: '.$th);
-        abort(403, "Ocurrio un error, contacte con el administrador");
-    }
+        } catch (\Throwable $th) {
+            Log::error('create -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     /**
@@ -70,76 +73,198 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-    // try {
-      // crea el ticket
-      Ticket::create([
-          'user' => Auth::id(),
-          'issue' => $request->issue,
-          'priority' => $request->priority,
-       ]);
+        try {
 
-      // toma el ultimo ticket creado
-      $ticket_create = Ticket::where('user', Auth::id())->orderby('created_at','DESC')->take(1)->get();
-      $id_ticket = $ticket_create[0]->id;
+            // crea el ticket
+            Ticket::create([
+                'user' => Auth::id(),
+                'issue' => $request->issue,
+                'priority' => $request->priority,
+             ]);
 
-      // crea el mensaje
-      TicketMessage::create([
-          'user' => Auth::id(),
-          'admin' => '1',
-          'ticket' => $id_ticket,
-          'type' => '0',
-          'message' => $request->message,
-      ]);
+            // toma el ultimo ticket creado
+            $ticket_create = Ticket::where('user', Auth::id())->orderby('created_at','DESC')->take(1)->get();
+            $id_ticket = $ticket_create[0]->id;
 
-      return redirect()->route('ticket.list-user');
-    // } catch (\Throwable $th) {
-    //     Log::error('store -> Error: '.$th);
-    //     abort(403, "Ocurrio un error, contacte con el administrador");
-    // }    
+            // crea el mensaje para el admin
+            TicketMessage::create([
+                'user' => Auth::id(),
+                'admin' => '1',
+                'ticket' => $id_ticket,
+                'type' => '0',
+                'message' => $request->message,
+            ]);
+
+            return redirect()->route('ticket.list-user')->with('success', 'Ticket Creado');
+
+        } catch (\Throwable $th) {
+            Log::error('store -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }    
     }
 
     /**
-     * Display the specified resource.
+     * Muestra la vista para ver un ticket
      *
      * @param  \App\Models\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function show(Ticket $ticket)
+    public function showUser($id)
     {
-        //
+        try {
+
+            $ticket = Ticket::find($id);
+            $message = TicketMessage::where('ticket', $id)->orderby('created_at','ASC')->get();
+
+            return view('tickets.user.show-user')
+            ->with('ticket', $ticket)
+            ->with('message', $message);
+
+        } catch (\Throwable $th) {
+            Log::error('showUser -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }    
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra la vista para editar un ticket del user
      *
      * @param  \App\Models\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ticket $ticket)
+    public function editUser($id)
     {
-        //
+        try {
+
+            $ticket = Ticket::find($id);
+            $message = TicketMessage::where('ticket', $id)->orderby('created_at','ASC')->get();
+      
+            return view('tickets.user.edit-user')
+            ->with('ticket', $ticket)
+            ->with('message', $message)
+            ->with('success', 'Ticket Editado');
+      
+        } catch (\Throwable $th) {
+            Log::error('editUser -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        } 
     }
 
     /**
-     * Update the specified resource in storage.
+     * Funcion para editar el ticket y el mensaje del user
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ticket $ticket)
+    public function updateUser(Request $request, $id)
     {
-        //
+        try {
+
+            // busca el ticket
+            $ticket = Ticket::find($id);
+
+            // actualiza todo
+            $ticket->update($request->all());
+            $ticket->save();
+
+            // crea un nuevo mensaje para el admin
+            TicketMessage::create([
+                'user' => Auth::id(),
+                'admin' => '1',
+                'ticket' => $ticket->id,
+                'type' => '0',
+                'message' => $request->message,
+            ]);
+
+            return redirect()->back()->with('success', 'Ticket Editado');
+
+        } catch (\Throwable $th) {
+            Log::error('updateUser -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        } 
     }
 
-    /**
-     * Remove the specified resource from storage.
+        /**
+     * Muestra la vista para editar un ticket del admin
      *
      * @param  \App\Models\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ticket $ticket)
+    public function editAdmin($id)
     {
-        //
+        try {
+
+            $ticket = Ticket::find($id);
+            $message = TicketMessage::where('ticket', $id)->orderby('created_at','ASC')->get();
+      
+            return view('tickets.admin.edit-admin')
+            ->with('ticket', $ticket)
+            ->with('message', $message)
+            ->with('success', 'Ticket Editado');
+      
+        } catch (\Throwable $th) {
+            Log::error('editAdmin -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        } 
+    }
+
+    /**
+     * Funcion para editar el ticket y el mensaje del admin
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Ticket  $ticket
+     * @return \Illuminate\Http\Response
+     */
+    public function updateAdmin(Request $request, $id)
+    {
+        try {
+
+            // busca el ticket
+            $ticket = Ticket::find($id);
+
+            // actualiza todo
+            $ticket->update($request->all());
+            $ticket->save();
+
+            // crea un nuevo mensaje para el user
+            TicketMessage::create([
+                'user' => $ticket->user,
+                'admin' => Auth::id(),
+                'ticket' => $ticket->id,
+                'type' => '1',
+                'message' => $request->message,
+            ]);
+
+            return redirect()->back()->with('success', 'Ticket Editado');
+
+        } catch (\Throwable $th) {
+            Log::error('updateAdmin -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        } 
+    }
+
+    /**
+     * Funcion para eliminar el ticket
+     *
+     * @param  \App\Models\Ticket  $ticket
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try {
+
+            // busca el ticket
+            $ticket = Ticket::find($id);
+            
+            // elimina el ticket
+            $ticket->delete();
+            
+            return redirect()->back()->with('warning', 'Ticket Eliminado');
+
+        } catch (\Throwable $th) {
+            Log::error('destroy -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        } 
     }
 }
