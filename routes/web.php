@@ -26,9 +26,9 @@ use App\Http\Controllers\TicketController;
 // Auth::routes(['verify' => true]);
 
 // Main Page Route
-Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard-analytics')->middleware(['auth']);
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
 
-Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware(['auth']);
+// Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware(['auth']);
 
 Route::group(['prefix' => 'contratos'], function () {
     Route::get('/', [ContractsController::class, 'index'])->name('contratos.index');
