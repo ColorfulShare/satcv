@@ -1,25 +1,11 @@
 {
   "menu": [
     {
-      "name": "Dashboards",
-      "badge": "2",
+      "url": "/",
+      "name": "Dashboard Admin",
       "badgeClass": "badge badge-light-warning badge-pill ml-auto mr-1",
       "icon": "home",
-      "slug": "",
-      "submenu": [
-        {
-          "url": "dashboard/analytics",
-          "name": "Analytics",
-          "icon": "circle",
-          "slug": "dashboard-analytics"
-        },
-        {
-          "url": "/",
-          "name": "eCommerce",
-          "icon": "circle",
-          "slug": "dashboard-ecommerce"
-        }
-      ]
+      "slug": "dashboard"
     },
     {
       "name": "contratos",
