@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\TicketController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +23,7 @@ use App\Http\Controllers\SolicitudController;
 // middleware auth: no da acceso a la ruta si el usuario no esta logueado
 // middleware verified: no da acceso a la ruta si el usuario no verifico su email
 
-Auth::routes(['verify' => true]);
+// Auth::routes(['verify' => true]);
 
 // Main Page Route
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
@@ -49,6 +51,24 @@ Route::group(['prefix' => 'reports'], function () {
 
 Route::group(['prefix' => 'solicitud'], function () {
     Route::get('/retiro', [SolicitudController::class, 'index_retiros'])->name('solicitud.retiros');
+});
+
+//Ruta de los Tickets
+Route::prefix('ticket')->middleware(['auth'])->group(function(){
+
+    // Para el usuario
+    Route::get('create', [TicketController::class,'create'])->name('ticket.create');
+    Route::post('store', [TicketController::class,'store'])->name('ticket.store');
+    Route::get('edit-user/{id}', [TicketController::class,'editUser'])->name('ticket.edit-user');
+    Route::patch('update-user/{id}', [TicketController::class,'editUser'])->name('ticket.update-user');
+    Route::get('list-user', [TicketController::class,'indexUser'])->name('ticket.list-user');
+    Route::get('show-user/{id}', [TicketController::class,'showUser'])->name('ticket.show-user');
+
+    // Para el Admin
+    Route::get('edit-admin/{id}', [TicketController::class,'editAdmin'])->name('ticket.edit-admin');
+    Route::patch('update-admin/{id}', [TicketController::class,'updateAdmin'])->name('ticket.update-admin');
+    Route::get('list-admin', [TicketController::class,'indexAdmin'])->name('ticket.list-admin');
+    Route::get('show-admin/{id}', [TicketController::class,'showAdmin'])->name('ticket.show-admin');
 });
 
 // locale Route
