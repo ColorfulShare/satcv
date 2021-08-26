@@ -32,8 +32,8 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middl
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware(['auth']);
 
 Route::group(['prefix' => 'contratos'], function () {
-    Route::get('/', [ContractsController::class, 'index'])->name('contratos.index');
-
+    Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
+    Route::post('/remove', [ContractsController::class, 'removeContract'])->name('contract.remove');
 });
 
 Route::group(['prefix' => 'shop'], function () {
