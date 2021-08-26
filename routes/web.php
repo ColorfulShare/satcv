@@ -25,6 +25,8 @@ Auth::routes(['verify' => true]);
 
 // Main Page Route
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
+Route::get('/getContrato/{id}', [DashboardController::class, 'getContrato'])->name('get.contrato');
+
 
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware(['auth']);
 
