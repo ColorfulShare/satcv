@@ -178,7 +178,7 @@
         let url = '/getContrato/';
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         selectContract.addEventListener('change', function(){
-            fetch(url+selectContract.value, {
+            fetch("api"+url+selectContract.value, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json, text-plain, */*",
