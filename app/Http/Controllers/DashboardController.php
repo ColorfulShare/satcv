@@ -9,31 +9,43 @@ use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
-  // Dashboard - Analytics
+  /**
+     * Lleva a a la vista del dashboard
+     */
   public function index()
   {
     $pageConfigs = ['pageHeader' => false];
-    $ordenes = $this->contratos();
+    $contratos = $this->contratos();
 
-    return view('/content/dashboard/dashboard-analytics', ['pageConfigs' => $pageConfigs, 'ordenes' => $ordenes]);
+    return view('/content/dashboard/dashboard-analytics', ['pageConfigs' => $pageConfigs, 'contratos' => $contratos]);
   }
 
+  /**
+     * Retorna los datos de la tabla contracts
+     *
+     * @return collection
+     */
   public function contratos()
   {
     $user = auth()->user();
       if($user->admin == 1){
-          $ordenes = OrdenPurchases::orderBy('id', 'desc')->get();
+          $contratos = Contract::orderBy('id', 'desc')->get();
       }else{
-          $ordenes = OrdenPurchases::orderBy('id', 'desc')->where('user_id', $user->id)->get();
+          $contratos = Contract::orderBy('id', 'desc')->where('user_id', $user->id)->get();
       }
-      return $ordenes;
+      return $contratos;
   }
 
+  /**
+     * Retorna el contrato según el id que se le pase
+     *
+     * @return json
+     */
   public function getContrato($id)
   {
 		try{
 			$contrato = Contract::find($id);
-			return json_encode($contrato);
+			return response()->json($contrato);
 		} catch (\Throwable $th) {
 		Log::error('Dashboard - getContrato -> Error: '.$th);
 		abort(403, "Ocurrio un error, contacte con el administrador");
