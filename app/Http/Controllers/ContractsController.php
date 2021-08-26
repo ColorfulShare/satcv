@@ -50,10 +50,21 @@ class contractsController extends Controller
             Contract::create($data);
     
         } catch (\Throwable $th) {
-            Log::error('InversionController - saveInversion -> Error: '.$th);
+            Log::error('contractsController - saveContrato -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
+
+    public function removeContract(Request $request)
+    {
+        return response(['hola' => "hola"]);
+        $contract = Contract::findOrFail($request->id);
+        $contract->status = 2;
+        $contract->capital = $contract->capital - ($contract->capital * 0.25 );
+        $contract->save();
+
+        return back();
+    }   
 
     /**
      * Permite Verificar si una inversion esta terminada
