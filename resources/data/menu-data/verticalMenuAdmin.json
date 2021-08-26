@@ -1,27 +1,32 @@
 {
   "menu": [
     {
-      "name": "Dashboards",
-      "badge": "2",
+      "url": "/",
+      "name": "Dashboard",
       "badgeClass": "badge badge-light-warning badge-pill ml-auto mr-1",
       "icon": "home",
-      "slug": "",
+      "slug": "dashboard"
+    },
+    {
+      "name": "contratos",
+      "icon": "home",
+      "slug": "/contratos",
       "submenu": [
         {
-          "url": "dashboard/analytics",
-          "name": "Analytics",
+          "url": "/contratos",
+          "name": "inversion",
           "icon": "circle",
-          "slug": "dashboard-analytics"
-        },
-        {
-          "url": "/",
-          "name": "eCommerce",
-          "icon": "circle",
-          "slug": "dashboard-ecommerce"
+          "slug": "inversion"
         }
       ]
     },
 
+    {
+      "url": "reports/purchase",
+      "name": "Ordenes",
+      "icon": "shopping-cart",
+      "slug": "app-email"
+    },
     {
       "navheader": "Apps & Pages",
       "slug": ""

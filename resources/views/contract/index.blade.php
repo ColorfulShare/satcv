@@ -36,7 +36,8 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <form action="">
+                <form action="{{route('shop.procces')}}" method="POST">
+                  @csrf
                   <div class="modal-body">
 
                     <div class="mb-1">
@@ -58,7 +59,7 @@
 
                   </div>
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                    <button type="submit" class="btn btn-primary">Accept</button>
                   </div>
                 </form>
               </div>

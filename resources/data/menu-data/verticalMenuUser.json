@@ -1,29 +1,49 @@
 {
   "menu": [
     {
-      "name": "Dashboards",
-      "badge": "2",
+      "url": "/",
+      "name": "Dashboard",
       "badgeClass": "badge badge-light-warning badge-pill ml-auto mr-1",
       "icon": "home",
-      "slug": "",
+      "slug": "dashboard"
+    },
+    {
+      "name": "contratos",
+      "icon": "file-text",
+      "slug": "/contratos",
       "submenu": [
         {
-          "url": "dashboard/analytics",
-          "name": "Analytics",
+          "url": "/contratos",
+          "name": "inversion",
           "icon": "circle",
-          "slug": "dashboard-analytics"
-        },
-        {
-          "url": "/",
-          "name": "eCommerce",
-          "icon": "circle",
-          "slug": "dashboard-ecommerce"
+          "slug": "inversion"
         }
       ]
     },
 
     {
-      "navheader": "Apps & Pages",
+      "url": "reports/purchase",
+      "name": "Ordenes",
+      "icon": "shopping-cart",
+      "slug": "app-email"
+    },
+
+    {
+      "name": "Solicitud",
+      "icon": "home",
+      "slug": "",
+      "submenu": [
+        {
+          "url": "solicitud/retiro",
+          "name": "Retiro",
+          "icon": "circle",
+          "slug": "dashboard-analytics"
+        }
+      ]
+    },
+
+    {
+      "navheader": "Examples",
       "slug": ""
     },
     {
@@ -46,6 +66,29 @@
         {
           "url": "",
           "name": "List",
+          "icon": "circle",
+          "slug": "app-invoice-list"
+        }
+      ]
+    },
+    {
+      "navheader": "Menu principal",
+      "slug": ""
+    },
+    {
+      "name": "Soporte",
+      "icon": "tag",
+      "slug": "",
+      "submenu": [
+        {
+          "url": "ticket/create",
+          "name": "Crear Ticket",
+          "icon": "circle",
+          "slug": "app-invoice-list"
+        },
+        {
+          "url": "ticket/list-user",
+          "name": "Lista de Tickets",
           "icon": "circle",
           "slug": "app-invoice-list"
         }

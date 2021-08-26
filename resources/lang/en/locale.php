@@ -4,8 +4,12 @@ return [
     "Apps & Pages" => "Apps & Pages",
     "User Interface" => "User Interface",
     "Dashboards" => "Dashboards",
+    "Dashboard" => "Dashboard",
     "contratos" => "contratos",
     "inversion" => "inversion",
+    "Ordenes" => "Ordenes",
+    "Solicitud" => "Solicitud",
+    "Retiro" => "Retiro",
     "Analytics" => "Analytics",
     "eCommerce" => "eCommerce",
     "Apps" => "Apps",
@@ -182,5 +186,15 @@ return [
     "Verify Email" => "Verify Email",
     "Deactivate Account" => "Deactivate Account",
     "Promotional" => "Promotional",
-    "message" => "Cake sesame snaps cupcake gingerbread danish I love gingerbread. Apple pie pie jujubes chupa chups muffin halvah lollipop. Chocolate cake oat cake tiramisu marzipan sugar plum. Donut sweet pie oat cake dragée fruitcake cotton candy lemon drops."
+    "message" => "Cake sesame snaps cupcake gingerbread danish I love gingerbread. Apple pie pie jujubes chupa chups muffin halvah lollipop. Chocolate cake oat cake tiramisu marzipan sugar plum. Donut sweet pie oat cake dragée fruitcake cotton candy lemon drops.",
+
+    // adicionales
+
+    // menu
+    "Examples" => "Examples",
+    "Menu principal" => "Menu principal",
+    "Soporte" => "Soporte",
+    "Crear Ticket" => "Crear Ticket",
+    "Lista de Tickets" => "Lista de Tickets",
+
 ];

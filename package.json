@@ -8,7 +8,11 @@
         "production": "mix --production"
     },
     "dependencies": {
-        "bootstrap": "4.6.0"
+        "apexcharts": "^3.28.1",
+        "bootstrap": "4.6.0",
+        "datatables": "^1.10.18",
+        "sweetalert2": "^11.1.4",
+        "toastr": "^2.1.4"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.3.1",

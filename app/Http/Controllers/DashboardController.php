@@ -3,22 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\OrdenPurchases;
 
 class DashboardController extends Controller
 {
   // Dashboard - Analytics
-  public function dashboardAnalytics()
+  public function index()
   {
     $pageConfigs = ['pageHeader' => false];
+    $ordenes = $this->getContratos();
 
-    return view('/content/dashboard/dashboard-analytics', ['pageConfigs' => $pageConfigs]);
+    return view('/content/dashboard/dashboard-analytics', ['pageConfigs' => $pageConfigs, 'ordenes' => $ordenes]);
   }
 
-  // Dashboard - Ecommerce
-  public function dashboardEcommerce()
+  public function getContratos()
   {
-    $pageConfigs = ['pageHeader' => false];
-
-    return view('/content/dashboard/dashboard-ecommerce', ['pageConfigs' => $pageConfigs]);
+    $user = auth()->user();
+      if($user->admin == 1){
+          $ordenes = OrdenPurchases::orderBy('id', 'desc')->get();
+      }else{
+          $ordenes = OrdenPurchases::orderBy('id', 'desc')->where('user_id', $user->id)->get();
+      }
+      return $ordenes;
   }
+
 }
