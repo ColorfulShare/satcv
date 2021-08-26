@@ -71,6 +71,26 @@
       }
     })
 
+    @if (session('success'))  
+        toastr['success']('{{ session('success') }}', '¡Exitoso!', {
+                closeButton: true,
+                tapToDismiss: false
+            });
+    @endif
+
+    @if (session('danger'))
+        toastr['danger']('{{ session('danger') }}', 'Error', {
+                closeButton: true,
+                tapToDismiss: false
+            });
+    @endif
+
+    @if (session('warning'))
+        toastr['warning']('{{ session('warning') }}', 'Advertenecia', {
+                closeButton: true,
+                tapToDismiss: false
+            });
+    @endif
   </script>
 </body>
 

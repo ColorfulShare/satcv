@@ -12,10 +12,15 @@
 @if($configData['mainLayoutType'] === 'horizontal')
 <link rel="stylesheet" href="{{ asset('css/base/core/menu/menu-types/horizontal-menu.css') }}" />
 @endif
+
+<link rel="stylesheet" href="{{ asset('vendors/css/extensions/toastr.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/extensions/sweetalert2.min.css') }}">
+
 <link rel="stylesheet" href="{{ asset('css/base/core/menu/menu-types/vertical-menu.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/base/core/colors/palette-gradient.css') }}">
 <link rel="stylesheet" href="{{ asset('css/base/plugins/extensions/ext-component-toastr.css') }}">
 
+<link rel="stylesheet" type="text/css" href="{{ asset('css/base/plugins/extensions/ext-component-sweet-alerts.css') }}">
 {{-- Page Styles --}}
 @yield('page-style')
 @stack('custom_css')
