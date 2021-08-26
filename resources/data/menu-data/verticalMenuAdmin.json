@@ -28,6 +28,12 @@
       "slug": "app-email"
     },
     {
+      "url": "ticket/list-admin",
+      "name": "Soporte",
+      "icon": "tag",
+      "slug": "soporte"
+    },
+    {
       "navheader": "Apps & Pages",
       "slug": ""
     },
