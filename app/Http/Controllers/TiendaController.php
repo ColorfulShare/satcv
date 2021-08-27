@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\ContractsController;
-
+use Hexters\CoinPayment\CoinPayment;
 
 class TiendaController extends Controller
 {
@@ -53,6 +53,8 @@ class TiendaController extends Controller
                 $user = Auth::user();
                 $data['name'] = $user->name ." ". $user->lastname;
                 $data['email'] = $user->email;
+                $data['total'] = $data['amount'] + $porcentaje;
+                $data['descripcion'] = "Inversion contrato";
                 
                 $url = $this->generalUrlOrden($data);
                 if (!empty($url)) {
@@ -136,6 +138,7 @@ class TiendaController extends Controller
     private function generalUrlOrden($data): string
     {
        try {
+        
         $transaction['order_id'] = $data['idorden']; // invoice number
         $transaction['amountTotal'] = floatval($data['total']);
         $transaction['note'] = $data['descripcion'];
@@ -143,9 +146,15 @@ class TiendaController extends Controller
         $transaction['buyer_email'] = $data['email'];
         $transaction['redirect_url'] = url('/back_to_tarnsaction'); // When Transaction was comleted
         $transaction['cancel_url'] = url('/back_to_tarnsaction'); // When user click cancel link
-   
+        $transaction['items'][] = [
+        'itemDescription' => 'contrato',
+        'itemPrice' => (FLOAT) $data['total'], // USD
+        'itemQty' => (INT) 1,
+        'itemSubtotalAmount' => (FLOAT) $data['total'] // USD
+        ];
+        
         $ruta = CoinPayment::generatelink($transaction);
-
+        
         if($ruta != null){
             return $ruta;
         }
