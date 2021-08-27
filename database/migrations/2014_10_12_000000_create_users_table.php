@@ -30,7 +30,12 @@ class CreateUsersTable extends Migration
             $table->enum('status', [0, 1, 2])->default(0)->comment('0 - inactivo, 1 - activo, 2 - eliminado');        
             $table->longtext('photo_dni')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
-            $table->foreignId('location_id')->nullable()->constrained('locations');
+            // Detalles de vivienda
+            $table->string('address')->nullable();
+            $table->string('district')->nullable();
+            $table->string('city')->nullable();
+            $table->string('department')->nullable();
+            $table->longtext('photo_document')->nullable();
             // $table->foreignId('current_team_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
