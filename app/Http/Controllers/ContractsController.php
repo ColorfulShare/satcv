@@ -27,7 +27,8 @@ class contractsController extends Controller
 
     public function index()
     {
-        return view('contract.index');
+        $contratos = $this->contratos();
+        return view('contract.index', compact('contratos'));
     }
     /**
      * Permite guardar las nuevas contratos generadas
@@ -109,5 +110,20 @@ class contractsController extends Controller
         $ruta = CoinPayment::generatelink($transaction);
 
         return redirect($ruta);
+    }
+
+    /**
+     * Permite listar todos los contratos generadas
+     * @return collection
+     */
+    public function contratos()
+    {
+        try{
+            $contratos = Contract::all();
+            return $contratos;
+        } catch (\Throwable $th) {
+            Log::error('Dashboard - getContrato -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 }

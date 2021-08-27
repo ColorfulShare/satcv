@@ -68,6 +68,38 @@
         </div>
         <!-- Vertical modal end-->
         
+
+        <div class="table-responsive my-2">
+          <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
+              <thead class="">
+
+                  <tr class="text-center bg-purple-alt2">                                
+                      <th>ID</th>
+                      <th>Fecha</th>
+                      <th>Monto</th>
+                      <th>Saldo Capital</th>
+                      <th>Productividad</th>
+                      <th>Retirado</th>
+                      <th>Vencimiento</th>
+                  </tr>
+
+              </thead>
+              <tbody>
+                @foreach($contratos as $contrato)
+                  <tr>
+                      <td>{{$contrato->id}}</td>
+                      <td>{{date_format($contrato->created_at,"Y/m/d");}}</td>
+                      <td>{{$contrato->capital}}</td>
+                      <td>{{$contrato->capital}}</td>
+                      <td>Productividad ??</td>
+                      <td>retirado ??</td>
+                      <td>vencimiento ??</td>
+                  </tr>
+                @endforeach
+              </tbody>
+          </table>
+      </div>
+
       </div>
     </div>
   </div>

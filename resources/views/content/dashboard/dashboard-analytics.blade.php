@@ -149,35 +149,37 @@
 
         let url = 'api/getContrato/';
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        selectContract.addEventListener('change', function(){
-            if(selectContract.value > 0){
-                fetch(url+selectContract.value, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json, text-plain, */*",
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRF-TOKEN": token
-                        },
-                    method: 'get',
-                })
-                .then( response => response.text() )
-                .then( resultText => (
-                    data = JSON.parse(resultText),
-                    contratoInversion.innerHTML = data.invested,
-                    contratoSaldoCapital.innerHTML = data.capital,
-                    contratoProductividad.innerHTML = data.gain,
-                    contratoRetirado.innerHTML = data.gain
-                ))
-                .catch(function(error) {
-                    console.log(error);
-                });
-            }else{
-                contratoInversion.innerHTML = 0;
-                contratoSaldoCapital.innerHTML = 0;
-                contratoProductividad.innerHTML = 0;
-                contratoRetirado.innerHTML = 0;
-            }
-        });
+        if(selectContract != null){
+            selectContract.addEventListener('change', function(){
+                if(selectContract.value > 0){
+                    fetch(url+selectContract.value, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json, text-plain, */*",
+                            "X-Requested-With": "XMLHttpRequest",
+                            "X-CSRF-TOKEN": token
+                            },
+                        method: 'get',
+                    })
+                    .then( response => response.text() )
+                    .then( resultText => (
+                        data = JSON.parse(resultText),
+                        contratoInversion.innerHTML = data.invested,
+                        contratoSaldoCapital.innerHTML = data.capital,
+                        contratoProductividad.innerHTML = data.gain,
+                        contratoRetirado.innerHTML = data.gain
+                    ))
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+                }else{
+                    contratoInversion.innerHTML = 0;
+                    contratoSaldoCapital.innerHTML = 0;
+                    contratoProductividad.innerHTML = 0;
+                    contratoRetirado.innerHTML = 0;
+                }
+            });
+        }
 
     });
 
@@ -188,7 +190,7 @@
 @endsection
 
 @section('page-script')
-<!-- Page js files -->
+{{-- <!-- Page js files -->
 <script src="{{ asset('js/scripts/pages/dashboard-analytics.js') }}"></script>
-<script src="{{ asset('js/scripts/pages/app-invoice-list.js') }}"></script>
+<script src="{{ asset('js/scripts/pages/app-invoice-list.js') }}"></script> --}}
 @endsection
