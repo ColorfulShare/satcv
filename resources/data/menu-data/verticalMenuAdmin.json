@@ -34,11 +34,24 @@
       "icon": "users",
       "slug": ""
     },
-     {
-      "url": "",
+    {
       "name": "Retiros",
       "icon": "credit-card",
-      "slug": ""
+      "slug": "/retiros",
+      "submenu": [
+        {
+          "url": "settlement/capital",
+          "name": "Liquidaciones de Capital",
+          "icon": "circle",
+          "slug": "retiros"
+        },
+         {
+          "url": "settlement/commissions",
+          "name": "Liquidaciones de Comisiones",
+          "icon": "circle",
+          "slug": "retiros"
+        }
+      ]
     },
     {
       "url": "ticket/list-admin",

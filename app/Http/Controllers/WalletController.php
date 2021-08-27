@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\Models\PorcentajeUtilidad;
 use App\Models\Inversion;
-use App\Models\Liquidaction;
+use App\Models\Liquidation;
 
 class WalletController extends Controller
 {
@@ -25,7 +25,7 @@ class WalletController extends Controller
 
     public function __construct()
     {
-        $this->treeController = new TreeController;
+        // $this->treeController = new TreeController;
     }
 
     /**
@@ -51,7 +51,7 @@ class WalletController extends Controller
      */
     public function payments()
     {
-        $payments = Liquidaction::where([['iduser', '=', Auth::user()->id], ['status', '=', '1']])->get();
+        $payments = Liquidation::where([['user_id', '=', Auth::user()->id], ['status', '=', '1']])->get();
 
         return view('wallet.payments', compact('payments'));
     }
