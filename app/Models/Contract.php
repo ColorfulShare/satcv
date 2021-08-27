@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Contract extends Model
 {
@@ -13,4 +15,21 @@ class Contract extends Model
         'orden_purchases_id','invested', 'gain', 'capital',
         'status', 'type_interes'
     ];
+
+    public function getOrden()
+    {
+        return $this->belongsTo('App\Models\OrdenPurchases', 'orden_purchases_id');
+    }
+
+    public function contractExpiration()
+    {
+        $this->created_at = Carbon::now();
+        return $this->created_at->addYear();
+    }
+
+    public function diffDaysExpiration()
+    {
+        return $this->contractExpiration()->diffInDays();
+    }
+    
 }
