@@ -29,15 +29,16 @@
                                     <td>{{$contrato->type_interes}}</td>
                                     <td>{{$contrato->capital}}</td>
                                     <td>
+                                        {{--
                                         <button type="button" data-toggle="modal" class="btn btn-danger" data-target="#ModalRetirar{{$contrato->id}}">
                                             Retirar
                                         </button>
-
+                                        --}}
                                         <button type="button" class="btn btn-danger retirar" contrato_id="{{$contrato->id}}">
                                             Retirar
                                         </button>
                                     </td>
-                            
+                                    {{--
                                     <!-- Modal -->
                                     <div class="modal fade" id="ModalRetirar{{$contrato->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -64,12 +65,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                
+                                    --}}
                                     </td>
                                 </tr>
                                 @empty 
                                 <tr>
-                                    <td colspan="5">Sn Contratos</td>
+                                    <td colspan="5" class="text-center">Sn Contratos</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -90,55 +91,56 @@
 
         let btnRetirar = document.querySelector('.retirar');
         
-        btnRetirar.addEventListener("click", function( event ) {
-            
-            let contratoId = event.target.attributes.contrato_id.value;
-            data= {'contratoId': contratoId}
-            //llamamos la alerta
-            Swal.fire({
-            title: '¿Estas seguro?',
-            text: "Como penalizacion se le quitara un 25% de lo invertido.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Retirar',
-            preConfirm: (login) => {
-                return fetch(`{{route("contract.remove")}}`, {
-                method: 'POST', // or 'PUT'
-                body: JSON.stringify(data), // data can be `string` or {object}!
-                headers:{
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-                })   
-                .then(response => {
-                    console.log(response.json());
-                    if (!response.ok) {
-                    throw new Error(response.statusText)
+        if(btnRetirar != null){
+            btnRetirar.addEventListener("click", function( event ) {
+                
+                let contratoId = event.target.attributes.contrato_id.value;
+                data= {'contratoId': contratoId}
+                //llamamos la alerta
+                Swal.fire({
+                title: '¿Estas seguro?',
+                text: "Como penalizacion se le quitara un 25% de lo invertido.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Retirar',
+                preConfirm: (login) => {
+                    return fetch(`{{route("contract.remove")}}`, {
+                    method: 'POST', // or 'PUT'
+                    body: JSON.stringify(data), // data can be `string` or {object}!
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
-                    return response.json()
-                })
-                .catch(error => {
-                    Swal.showValidationMessage(
-                    `Request failed: ${error}`
+                    })   
+                    .then(response => {
+                        
+                        if (!response.ok) {
+                        throw new Error(response.statusText)
+                        }
+                        
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                        `Request failed: ${error}`
+                        )
+                    })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                
+                if (result.isConfirmed) {
+                    Swal.fire(
+                    'Retirado',
+                    'Contrato retirado con exito.',
+                    'success'
                     )
+                    location.reload(true);
+                }
                 })
-            },
-            allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                'Retirado',
-                'Contrato retirado con exito.',
-                'success'
-                )
-            }
-            })
-        }, false)
-  
-        /*
-        
-        */
+            }, false)
+        }
     </script>
 @endpush
