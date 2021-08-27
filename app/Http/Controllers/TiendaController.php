@@ -22,7 +22,6 @@ class TiendaController extends Controller
     public function __construct()
     {
         $this->ContractsController = new ContractsController();
-        $this->apis_key_nowpayments = 'J9KX1AC-8BE4VYV-MQ51VMT-QVWVZTW';
     }
 
     /**
@@ -51,8 +50,10 @@ class TiendaController extends Controller
                 ];
 
                 $data['idorden'] = $this->saveOrden($data);
-                $data['total'] = $data['amount'] + $data['fee'];
-                dd($data);
+                $user = Auth::user();
+                $data['name'] = $user->name ." ". $user->lastname;
+                $data['email'] = $user->email;
+                
                 $url = $this->generalUrlOrden($data);
                 if (!empty($url)) {
                     return redirect($url);
@@ -135,6 +136,20 @@ class TiendaController extends Controller
     private function generalUrlOrden($data): string
     {
        try {
+        $transaction['order_id'] = $data['idorden']; // invoice number
+        $transaction['amountTotal'] = floatval($data['total']);
+        $transaction['note'] = $data['descripcion'];
+        $transaction['buyer_name'] = $data['name'];
+        $transaction['buyer_email'] = $data['email'];
+        $transaction['redirect_url'] = url('/back_to_tarnsaction'); // When Transaction was comleted
+        $transaction['cancel_url'] = url('/back_to_tarnsaction'); // When user click cancel link
+   
+        $ruta = CoinPayment::generatelink($transaction);
+
+        if($ruta != null){
+            return $ruta;
+        }
+           /*
             $headers = [
                 'x-api-key: '.$this->apis_key_nowpayments,
                 'Content-Type:application/json'
@@ -179,6 +194,7 @@ class TiendaController extends Controller
                 }
                   
             return $resul;
+            */
         } catch (\Throwable $th) {
             Log::error('Tienda - generalUrlOrden -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");

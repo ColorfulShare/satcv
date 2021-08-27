@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\ContractsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,4 +18,8 @@ Route::get('/getContrato/{id}', [DashboardController::class, 'getContrato'])->na
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group(['prefix' => 'contratos'], function () {
+    Route::post('/remove', [ContractsController::class, 'removeContract'])->name('contract.remove');
 });
