@@ -196,5 +196,7 @@ return [
     "Soporte" => "Soporte",
     "Crear Ticket" => "Crear Ticket",
     "Lista de Tickets" => "Lista de Tickets",
+    "Usuarios" => "Usuarios",
+    "Retiros" => "Retiros",
 
 ];
