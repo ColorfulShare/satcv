@@ -6,6 +6,7 @@ use App\Models\Contract;
 use Illuminate\Http\Request;
 use App\Models\OrdenPurchases;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -31,7 +32,7 @@ class DashboardController extends Controller
       if($user->admin == 1){
           $contratos = Contract::orderBy('id', 'desc')->get();
       }else{
-          $contratos = Contract::orderBy('id', 'desc')->where('user_id', $user->id)->get();
+          $contratos = Auth::user()->contracts;
       }
       return $contratos;
   }
