@@ -43,13 +43,13 @@
           "url": "settlement/capital",
           "name": "Liquidaciones de Capital",
           "icon": "circle",
-          "slug": "retiros"
+          "slug": "settlement.index"
         },
          {
           "url": "settlement/commissions",
           "name": "Liquidaciones de Comisiones",
           "icon": "circle",
-          "slug": "retiros"
+          "slug": "settlement.history"
         }
       ]
     },

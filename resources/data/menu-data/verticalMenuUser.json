@@ -41,6 +41,19 @@
       ]
     },
     {
+     "name": "Retiros",
+      "icon": "credit-card",
+      "slug": "/retiros",
+      "submenu": [
+        {
+          "url": "payments",
+          "name": "Retiros Realizados",
+          "icon": "circle",
+          "slug": "payments.index"
+        }
+      ]
+    },
+    {
       "name": "Soporte",
       "icon": "tag",
       "slug": "",

@@ -10,6 +10,7 @@ use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\liquidationController;
+use App\Http\Controllers\walletController;
 
 
 
@@ -86,18 +87,21 @@ Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.sho
 });
 
   //Rutas para las liquidaciones realizadas
-  Route::prefix('settlement')->group(function()
-        {
-
-     Route::get('/capital',[LiquidationController::class,'index'])->name('settlement');
+  Route::prefix('settlement')->group(function(){
+     //Vista de liquidaciones de Capital
+     Route::get('/capital',[LiquidationController::class,'index'])->name('settlement.index');
+    //Vista de liquidaciones de Comision
      Route::get('/commissions',[LiquidationController::class,'commissions'])->name('settlement.history');
 
 
 });
-            // Route::post('/process', 'LiquidactionController@procesarLiquidacion')->name('settlement.process');
-            // Route::get('/{status}/history', 'LiquidactionController@indexHistory')->name('settlement.history.status');
-            // Route::resource('liquidation', 'LiquidactionController');
 
+    // Ruta para la pagos
+Route::prefix('payments')->group(function (){
+  //Vista de pagos Realizados  
+  Route::get('/', [WalletController::class,'payments'])->name('payments.index');
+
+ });
 
 
 

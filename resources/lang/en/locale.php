@@ -199,6 +199,8 @@ return [
     "Usuarios" => "Usuarios",
     "Retiros" => "Retiros",
     "Liquidaciones de Capital" => "Liquidaciones de Capital",
-    "Liquidaciones de Comisiones" => "Liquidaciones de Comisiones"
+    "Liquidaciones de Comisiones" => "Liquidaciones de Comisiones",
+    "Retiros Realizados" => "Retiros Realizados"
+
 
 ];

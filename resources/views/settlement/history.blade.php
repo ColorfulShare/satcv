@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'liquidaciones de comision')
+@section('title', 'Liquidaciones de comision')
 
 @section('content')
 <div id="settlement">
@@ -29,6 +29,5 @@
                     </div>
                 </div>
             </div>
-    </div>
-</div>
+       </div>
 @endsection
