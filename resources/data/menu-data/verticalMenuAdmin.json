@@ -8,15 +8,27 @@
       "slug": "dashboard"
     },
     {
-      "name": "contratos",
-      "icon": "home",
+      "name": "Contratos",
+      "icon": "file-text",
       "slug": "/contratos",
       "submenu": [
         {
           "url": "/contratos",
-          "name": "inversion",
+          "name": "Contratos",
           "icon": "circle",
-          "slug": "inversion"
+          "slug": "contract.index"
+        },
+        {
+          "url": "/contratos/inversion",
+          "name": "Inversiones",
+          "icon": "circle",
+          "slug": "contract.inversion"
+        },
+        {
+          "url": "/contratos/utilidades",
+          "name": "Utilidades",
+          "icon": "circle",
+          "slug": "contract.utilidades"
         }
       ]
     },

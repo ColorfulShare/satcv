@@ -8,17 +8,10 @@
       "slug": "dashboard"
     },
     {
-      "name": "contratos",
+      "url": "/contratos/user",
+      "name": "Contratos",
       "icon": "file-text",
-      "slug": "/contratos",
-      "submenu": [
-        {
-          "url": "/contratos",
-          "name": "inversion",
-          "icon": "circle",
-          "slug": "inversion"
-        }
-      ]
+      "slug": "contract.user"
     },
     {
       "url": "reports/purchase",

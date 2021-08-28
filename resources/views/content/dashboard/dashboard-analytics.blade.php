@@ -5,7 +5,6 @@
 @section('vendor-style')
 <!-- vendor css files -->
 <link rel="stylesheet" href="{{ asset('vendors/css/extensions/toastr.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{asset('/fonts/font-awesome/css/font-awesome.min.css')}}">
 @endsection
 
 @section('page-style')

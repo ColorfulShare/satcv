@@ -126,4 +126,28 @@ class contractsController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
+
+
+    public function contratosUser()
+    {
+        $contratos = $this->contratos();
+        return view('contract.index', compact('contratos'));
+    }
+
+    /**
+     * Lleva a la vista de inversion
+     */
+    public function inversion()
+    {
+        $contratos = $this->contratos();
+        return view('contract.inversion', compact('contratos'));
+    }
+
+     /**
+     * Lleva a la vista de utilidades
+     */
+    public function utilidades()
+    {
+        return view('contract.utilidades');
+    }
 }

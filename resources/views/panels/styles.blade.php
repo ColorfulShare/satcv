@@ -21,6 +21,7 @@
 <link rel="stylesheet" href="{{ asset('css/base/plugins/extensions/ext-component-toastr.css') }}">
 
 <link rel="stylesheet" type="text/css" href="{{ asset('css/base/plugins/extensions/ext-component-sweet-alerts.css') }}">
+<link rel="stylesheet" type="text/css" href="{{asset('/fonts/font-awesome/css/font-awesome.min.css')}}">
 {{-- Page Styles --}}
 @yield('page-style')
 @stack('custom_css')

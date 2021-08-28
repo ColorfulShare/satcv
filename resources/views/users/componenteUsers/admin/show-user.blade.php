@@ -73,7 +73,7 @@
 
                                     <div class="col-12 mt-1 d-flex flex-row-reverse">
 
-                                        <a href="{{ route('users.list-user') }}"
+                                        <a href="{{ url()->previous() }}"
                                         class="btn btn-primary mr-1 mb-1 waves-effect waves-light">regresar</a>
 
                             </form>
