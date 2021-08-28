@@ -131,7 +131,7 @@ class contractsController extends Controller
     public function contratosUser()
     {
         $contratos = $this->contratos();
-        return view('contract.index', compact('contratos'));
+        return view('contract.user', compact('contratos'));
     }
 
     /**
