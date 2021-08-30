@@ -91,7 +91,7 @@
             {{-- Foto de documento de identidad o pasaporte --}}
             <div class="col-sm-12 col-md-6 my-1">
                 <x-jet-label for="photo_dni" value="{{ __('Foto de documento de identidad o pasaporte') }}" />
-                <x-jet-input id="photo_dni" type="file" class="mt-1 block w-full" wire:model.defer="state.photo_dni" autocomplete="photo_dni" />
+                <x-jet-input id="photo_dni" type="file" class="mt-1 block w-full" wire:model.defer="state.photo_dni" autocomplete="photo_dni" accept="image/*" />
                 <x-jet-input-error for="photo_dni" class="mt-2" />
             </div>
             {{-- Fecha de vencimiento del documento de identidad --}}
@@ -155,7 +155,7 @@
 
             <div class="col-sm-12 col-md-6 my-1">
                 <x-jet-label for="photo_document" value="{{ __('Recibo de servicios / Extracto bancario / Recibo de teléfono ') }}" />
-                <x-jet-input id="photo_document" type="file" class="mt-1 block w-full" wire:model.defer="state.photo_document" />
+                <x-jet-input id="photo_document" type="file" class="mt-1 block w-full" wire:model.defer="state.photo_document" accept="image/*"/>
                 <x-jet-input-error for="photo_document" class="mt-2" />
             </div>
 

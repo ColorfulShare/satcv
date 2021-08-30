@@ -2,13 +2,15 @@
 
 namespace App\Actions\Fortify;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Facades\Validator;
+use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
+    use WithFileUploads;
     /**
      * Validate and update the given user's profile information.
      *
@@ -18,6 +20,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update($user, array $input)
     {
+        // dd($input);
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
@@ -32,24 +35,36 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'city' => ['nullable', 'string', 'max:255'],
             'department' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-            // 'photo_dni' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-            // 'photo_document' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'photo_dni' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'photo_document' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
         }
 
-        // if (isset($input['photo_dni'])) {
-        //     $file = file('photo_dni');
-
-        //     $nombre = time() . $file->getClientOriginalName();
-
-        //     $ruta = 'photo/' . $user->id . '/' . $nombre;
-
-        //     Storage::disk('public')->put($ruta,  \File::get($file));
-        //     $user->photo_dni = $ruta;
-        // }
+        if (isset($input['photo_dni'])) {
+            $file = $input['photo_dni'];
+            $nombre = time() . $file->getClientOriginalName();
+            $ruta = 'photo_dni/' . $user->id . '/' . $nombre;
+            $user->photo_dni = $ruta;
+            $file->storeAs('photo_dni/'.$user->id, $nombre);
+        }
+        
+        if (isset($input['photo_dni'])) {
+            $file = $input['photo_dni'];
+            $nombre = time() . $file->getClientOriginalName();
+            $ruta = 'photo_dni/' . $user->id . '/' . $nombre;
+            $user->photo_dni = $ruta;
+            $file->storeAs('photo_dni/'.$user->id, $nombre);
+        }
+        if (isset($input['photo_document'])) {
+            $file = $input['photo_document'];
+            $nombre = time() . $file->getClientOriginalName();
+            $ruta = 'photo_document/' . $user->id . '/' . $nombre;
+            $user->photo_document = $ruta;
+            $file->storeAs('photo_document/'.$user->id, $nombre);
+        }
 
         if ($input['email'] !== $user->email &&
             $user instanceof MustVerifyEmail) {

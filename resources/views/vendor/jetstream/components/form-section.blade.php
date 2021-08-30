@@ -7,7 +7,7 @@
     </x-jet-section-title>
 
     <div class="mt-2 md:mt-0 md:col-span-2">
-        <form wire:submit.prevent="{{ $submit }}">
+        <form wire:submit.prevent="{{ $submit }}" enctype="multipart/form-data">
             <div class="px-4 py-5 bg-white sm:p-6 shadow {{ isset($actions) ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md' }}">
                 <div class="grid">
                     {{ $form }}
