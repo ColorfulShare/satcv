@@ -44,7 +44,7 @@
                           <select class="form-control fa" id="selectContract">
                               <option>-- Seleccione un contrato --</option>
 							@foreach($contratos as $contrato)
-                            <option value="{{$contrato->id}}">Contrato #: {{$contrato->id}} / {{date_format($contrato->created_at,"Y/m/d")}}</option>
+                            <option value="{{$contrato->id}}">Contrato #: {{$contrato->id}} / {{$contrato->created_at->format('Y/m/d')}}</option>
                             @endforeach
 						</select>
 					</div>

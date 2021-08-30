@@ -1,6 +1,9 @@
 {{-- Vendor Scripts --}}
 <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
 <script src="{{ asset('vendors/js/ui/prism.min.js') }}"></script>
+<script src="{{ asset('vendors/js/tables/datatable/datatables.min.js') }}"></script>
+<script src="{{ asset('vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('vendors/js/tables/datatable/responsive.bootstrap4.min.js') }}"></script>
 
 <script src="{{ asset('vendors/js/extensions/toastr.min.js') }}"></script>
 <script src="{{ asset('vendors/js/extensions/sweetalert2.all.min.js') }}"></script>

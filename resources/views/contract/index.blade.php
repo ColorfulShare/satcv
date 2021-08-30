@@ -28,9 +28,9 @@
                                 <tr class="text-center bg-purple-alt2">
                                     <td>{{$contrato->id}}</td>
                                     <td>{{$contrato->getOrden->user->name}}</td>
-                                    <td>3125</td>
+                                    <td>{{$contrato->getOrden->user->dni}}</td>
                                     <td>{{$contrato->getOrden->user->email}}</td>
-                                    <td>{{date_format($contrato->created_at, "Y/m/d")}}</td>
+                                    <td>{{$contrato->created_at->format('Y/m/d')}}</td>
                                     <td>
                                       <div class="d-flex">
                                         

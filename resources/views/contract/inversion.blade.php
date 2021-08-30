@@ -12,7 +12,7 @@
                         <h3>Inversiones</h3>
                     </div>
                     <div class="table-responsive">
-                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
                                 <tr class="text-center bg-purple-alt2">
                                     <th>ID</th>
@@ -28,12 +28,12 @@
                                 @foreach($contratos as $contrato)
                                 <tr class="text-center bg-purple-alt2">
                                     <td>{{$contrato->id}}</td>
-                                    <td>{{date_format($contrato->created_at,"Y/m/d");}}</td>
+                                    <td>{{$contrato->created_at->format('Y/m/d')}}</td>
                                     <td>{{$contrato->getOrden->amount}}</td>
                                     <td>{{$contrato->capital}}</td>
                                     <td>{{$contrato->gain}}</td>
                                     <td>0</td>
-                                    <td>{{date_format($contrato->contractExpiration(), 'Y/m/d')}}</td>
+                                    <td>{{$contrato->contractExpiration()->format('Y/m/d')}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -45,5 +45,17 @@
 
 
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        $('.table').DataTable({
+        responsive: true,
+        order: [[ 0, "desc" ]],
+        searching: true,
+        bLengthChange: true,
+        pageLength: 10
+    })
+    })
+    
+</script>
 
 @endsection

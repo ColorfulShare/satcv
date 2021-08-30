@@ -119,7 +119,7 @@ class contractsController extends Controller
     public function contratos()
     {
         try{
-            $contratos = Contract::all();
+            $contratos = Contract::where('status', 1)->orderBy('id', 'desc')->get();
             return $contratos;
         } catch (\Throwable $th) {
             Log::error('Dashboard - getContrato -> Error: '.$th);
