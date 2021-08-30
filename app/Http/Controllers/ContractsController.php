@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Datatables;
 use App\Models\contract;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -27,8 +28,7 @@ class contractsController extends Controller
 
     public function index()
     {
-        $contratos = $this->contratos();
-        return view('contract.index', compact('contratos'));
+        return view('contract.index');
     }
     /**
      * Permite guardar las nuevas contratos generadas
@@ -149,5 +149,48 @@ class contractsController extends Controller
     public function utilidades()
     {
         return view('contract.utilidades');
+    }
+
+    /**
+     * Datatable dinámico (ServerSide) que se muestra en audit.rangos 
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function dataInversion(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $this->contratos();
+            return Datatables::of($data)
+                ->addColumn('id', function($data){
+                    return $data->id;
+                })
+                ->addColumn('nombre', function($data){
+                    return $data->getOrden->user->name;
+                })
+                ->addColumn('documento', function($data){
+                    return $data->getOrden->user->dni;
+                })
+                ->addColumn('correo', function($data){
+                    return $data->getOrden->user->email;
+                })
+                ->addColumn('fecha', function($data){
+                    return $data->created_at->format('Y/m/d');
+                })
+                ->addColumn('accion', function($data){
+                    return '<div class="d-flex">
+                        <a href="'. route('users.show-user', $data->getOrden->user->id) .'" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Perfil">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                        <button class="btn btn-success"  data-toggle="tooltip" data-placement="right" title="Aprobar">
+                            <i class="fa fa-check-square"></i>
+                        </button>
+                    </div>';
+                })
+                ->rawColumns(['accion'])
+                ->make(true);
+        }
     }
 }

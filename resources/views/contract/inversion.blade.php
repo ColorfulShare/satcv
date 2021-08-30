@@ -12,7 +12,7 @@
                         <h3>Inversiones</h3>
                     </div>
                     <div class="table-responsive">
-                        <table class="table w-100 nowrap scroll-horizontal-vertical table-striped">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical table-striped comuntable">
                             <thead class="">
                                 <tr class="text-center bg-purple-alt2">
                                     <th>ID</th>
@@ -47,3 +47,6 @@
 </div>
 
 @endsection
+
+{{-- CONFIGURACIÓN DE DATATABLE --}}
+@include('panels.datatables-config');

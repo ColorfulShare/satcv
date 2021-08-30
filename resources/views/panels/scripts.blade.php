@@ -15,5 +15,4 @@
 {{-- page script --}}
 @yield('page-script')
 @stack('custom_js')
-<script src="{{ asset('js/custom_datatables.js') }}" defer></script>
 {{-- page script --}}

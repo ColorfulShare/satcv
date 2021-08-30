@@ -40,6 +40,7 @@ Route::group(['prefix' => 'contratos'], function () {
     Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
     Route::get('/user', [ContractsController::class, 'contratosUser'])->name('contract.user');
     Route::get('/inversion', [ContractsController::class, 'inversion'])->name('contract.inversion');
+    Route::get('/inversion-data', [ContractsController::class, 'dataInversion'])->name('data.inversion');
     Route::get('/utilidades', [ContractsController::class, 'utilidades'])->name('contract.utilidades');
     Route::get('/testCoin', [ContractsController::class, 'testCoin'])->name('contract.testCoin');
 });
