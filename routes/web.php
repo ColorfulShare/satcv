@@ -54,6 +54,9 @@ Route::group(['prefix' => 'shop'], function () {
 
 Route::group(['prefix' => 'reports'], function () {
     Route::get('/purchase', [ReportController::class, 'indexPedidos'])->name('reports.pedidos');
+    Route::get('/purchases', [ReportController::class, 'indexOrders'])->name('reports.index');
+    Route::get('/show-contrato{id}', [ReportController::class, 'indexShow'])->name('reports.show-contrato');
+ 
 });
 
 Route::group(['prefix' => 'solicitud'], function () {
@@ -90,11 +93,11 @@ Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.sho
 });
 
   //Rutas para las liquidaciones realizadas
-  Route::prefix('settlement')->group(function(){
+  Route::prefix('liquidations')->group(function(){
      //Vista de liquidaciones de Capital
-     Route::get('/capital',[LiquidationController::class,'index'])->name('settlement.index');
+     Route::get('/capital',[LiquidationController::class,'index'])->name('liquidations.index');
     //Vista de liquidaciones de Comision
-     Route::get('/commissions',[LiquidationController::class,'commissions'])->name('settlement.history');
+     Route::get('/commissions',[LiquidationController::class,'commissions'])->name('liquidations.history');
 
 
 });

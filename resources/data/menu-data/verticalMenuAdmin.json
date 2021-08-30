@@ -34,10 +34,10 @@
     },
 
     {
-      "url": "reports/purchase",
+      "url": "reports/purchases",
       "name": "Ordenes",
       "icon": "shopping-cart",
-      "slug": "app-email"
+      "slug": "reports.index"
     },
     
      {
@@ -52,16 +52,16 @@
       "slug": "/retiros",
       "submenu": [
         {
-          "url": "settlement/capital",
+          "url": "liquidations/capital",
           "name": "Liquidaciones de Capital",
           "icon": "circle",
-          "slug": "settlement.index"
+          "slug": "liquidations.index"
         },
          {
-          "url": "settlement/commissions",
+          "url": "liquidations/commissions",
           "name": "Liquidaciones de Comisiones",
           "icon": "circle",
-          "slug": "settlement.history"
+          "slug": "liquidations.history"
         }
       ]
     },
