@@ -12,6 +12,7 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
+                        <h1>Lista de Usuarios</h1>
                         <p> <img src="{{asset('assets/img/sistema/btn-plus.png')}}" alt=""></p>
                         <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
                             

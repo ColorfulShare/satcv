@@ -202,5 +202,9 @@ return [
     "Lista de Tickets" => "Lista de Tickets",
     "Usuarios" => "Usuarios",
     "Retiros" => "Retiros",
+    "Liquidaciones de Capital" => "Liquidaciones de Capital",
+    "Liquidaciones de Comisiones" => "Liquidaciones de Comisiones",
+    "Retiros Realizados" => "Retiros Realizados"
+
 
 ];

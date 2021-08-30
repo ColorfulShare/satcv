@@ -14,7 +14,18 @@ class LiquidationController extends Controller
      */
     public function index()
     {
-        //
+
+     $liquidation = liquidation::all();
+
+
+     return view('settlement.index')->with('liquidation', $liquidation);
+       
+    }
+
+     public function commissions()
+    {
+
+    return view('settlement.history');
     }
 
     /**
