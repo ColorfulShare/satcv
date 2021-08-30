@@ -1,8 +1,5 @@
 <link rel="stylesheet" href="{{ asset('vendors/css/vendors.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('vendors/css/ui/prism.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('vendors/css/tables/datatable/datatables.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('vendors/css/tables/datatable/dataTables.bootstrap4.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('vendors/css/tables/datatable/responsive.bootstrap4.min.css') }}" />
 {{-- Vendor Styles --}}
 @yield('vendor-style')
 {{-- Theme Styles --}}

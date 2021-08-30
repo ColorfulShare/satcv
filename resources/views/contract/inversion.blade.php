@@ -12,7 +12,7 @@
                         <h3>Inversiones</h3>
                     </div>
                     <div class="table-responsive">
-                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical table-striped">
                             <thead class="">
                                 <tr class="text-center bg-purple-alt2">
                                     <th>ID</th>
@@ -45,17 +45,5 @@
 
 
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function(){
-        $('.table').DataTable({
-        responsive: true,
-        order: [[ 0, "desc" ]],
-        searching: true,
-        bLengthChange: true,
-        pageLength: 10
-    })
-    })
-    
-</script>
 
 @endsection

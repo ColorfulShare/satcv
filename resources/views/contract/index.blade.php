@@ -12,7 +12,7 @@
                         <h3>Contratos</h3>
                     </div>
                     <div class="table-responsive">
-                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
+                        <table class="table w-100 nowrap scroll-horizontal-vertical table-striped">
                             <thead class="">
                                 <tr class="text-center bg-purple-alt2">
                                     <th>ID</th>
@@ -32,7 +32,7 @@
                                     <td>{{$contrato->getOrden->user->email}}</td>
                                     <td>{{$contrato->created_at->format('Y/m/d')}}</td>
                                     <td>
-                                      <div class="d-flex">
+                                      <div class="d-flex justify-content-center">
                                         
                                         <a href="{{ route('users.show-user', $contrato->getOrden->user->id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Perfil"><i class="fa fa-eye"></i></a>
                                         <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato"><i class="fa fa-paper-plane"></i></button>
