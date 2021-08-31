@@ -15,7 +15,7 @@ class LiquidationController extends Controller
     public function index()
     {
 
-     $liquidation = liquidation:: orderBy('id', 'desc')->where('status', '0')->get();
+     $liquidation = liquidation:: orderBy('id', 'desc')->where('type', 1)->get();
 
 
      return view('liquidations.index')->with('liquidation', $liquidation);
@@ -24,8 +24,10 @@ class LiquidationController extends Controller
 
      public function commissions()
     {
+     
+    $liquidation = liquidation:: orderBy('id', 'desc')->where('type', 0)->get();
 
-    return view('liquidations.history');
+    return view('liquidations.history')->with('liquidation', $liquidation);
     }
 
     /**

@@ -3,7 +3,7 @@
 @section('title', 'Liquidaciones de comision')
 
 @section('content')
-<div id="settlement">
+<div id="liquidations">
         <div class="card">
             <div class="card-content">
                 <div class="card-body card-dashboard">
@@ -13,17 +13,32 @@
                             <thead class="">
                                 <tr class="text-center text-darck bg-purple-alt2">
                                     <th>ID</th>
-                                    <th>usuario</th>
+                                    <th>Correo</th>
                                     <th>Monto</th>
-                                    <th>Feed</th>
-                                    <th>Hash</th>
-                                    <th>Billetera</th>
+                                    <th>tipo</th>
                                     <th>estado</th>
-                                    <th>Fecha</th>
                                 </tr>
                             </thead>
                             <tbody>
-                      
+                              @foreach ($liquidation as $item)
+                                <tr class="text-center">
+                                    <td>{{$item->id}}</td>
+                                    <td>{{$item->user->email}}</td>
+                                    <td>{{$item->total_amount}}</td>
+                                    @if ($item->type == '0')
+                                    <td>Solicitud</td>
+                                    @elseif($item->type == '1')
+                                    <td>Rendimientos</td>
+                                    @endif
+                                     @if ($item->status == '0')
+                                    <td>En espera</td>
+                                    @elseif($item->status == '1')
+                                    <td>Completado</td>
+                                    @elseif($item->status == '2')
+                                    <td>Cancelado</td>
+                                    @endif
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

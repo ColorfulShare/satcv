@@ -23,6 +23,7 @@ class CreateLiquidationsTable extends Migration
             $table->string('hash')->nullable();
             $table->string('wallet_used')->nullable();
             $table->tinyInteger('status');
+            $table->tinyInteger('type')->comment('0 - solicitud , 1 - rendimientos');
 
             $table->timestamps();
         });
