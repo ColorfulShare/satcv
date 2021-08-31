@@ -45,7 +45,14 @@
                                         <td>Eliminado</td>
                                         @endif
                                    
-                                        <td><a href="{{ route('users.show-user',$item->id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Contrato"><i data-feather='eye'></i></a></td>
+                                        <td>
+                                            @if ($item->verify == 0 && $item->dni != NULL)
+                                                {{-- <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600"><i data-feather='pencil'></i></a> --}}
+                                                <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning" data-toggle="tooltip" data-placement="left" title="Verificar KYC"><i data-feather='edit'></i></a>
+                                            @else
+                                                <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver todos los datos del usuario"><i data-feather='eye'></i></a>
+                                            @endif
+                                        </td>
                                         </button>
                                    </tr>
 
