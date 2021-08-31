@@ -21,6 +21,11 @@ class Contract extends Model
         return $this->belongsTo('App\Models\OrdenPurchases', 'orden_purchases_id');
     }
 
+    public function user()
+    {
+        return $this->getOrden->user;
+    }
+
     public function contractExpiration()
     {
         $this->created_at = Carbon::now();

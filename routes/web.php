@@ -11,7 +11,7 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\liquidationController;
 use App\Http\Controllers\walletController;
-
+use App\Http\Controllers\UtilityController;
 
 
 /*
@@ -40,8 +40,10 @@ Route::group(['prefix' => 'contratos'], function () {
     Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
     Route::get('/user', [ContractsController::class, 'contratosUser'])->name('contract.user');
     Route::get('/inversion', [ContractsController::class, 'inversion'])->name('contract.inversion');
+    Route::get('/inversion-data', [ContractsController::class, 'dataInversion'])->name('data.inversion');
     Route::get('/utilidades', [ContractsController::class, 'utilidades'])->name('contract.utilidades');
     Route::get('/testCoin', [ContractsController::class, 'testCoin'])->name('contract.testCoin');
+    Route::post('/payUtility', [ContractsController::class, 'payUtility'])->name('payUtility');
 });
 
 Route::group(['prefix' => 'shop'], function () {
@@ -54,6 +56,9 @@ Route::group(['prefix' => 'shop'], function () {
 
 Route::group(['prefix' => 'reports'], function () {
     Route::get('/purchase', [ReportController::class, 'indexPedidos'])->name('reports.pedidos');
+    Route::get('/purchases', [ReportController::class, 'indexOrders'])->name('reports.index');
+    Route::get('/show-contrato{id}', [ReportController::class, 'indexShow'])->name('reports.show-contrato');
+ 
 });
 
 Route::group(['prefix' => 'solicitud'], function () {
@@ -77,6 +82,10 @@ Route::prefix('ticket')->middleware(['auth'])->group(function(){
     Route::get('list-admin', [TicketController::class,'indexAdmin'])->name('ticket.list-admin');
 });
 
+Route::group(['prefix' => 'utilidad'], function () {
+    Route::get('/', [UtilityController::class, 'index'])->name('utility.index');
+});
+
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
@@ -90,11 +99,11 @@ Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.sho
 });
 
   //Rutas para las liquidaciones realizadas
-  Route::prefix('settlement')->group(function(){
+  Route::prefix('liquidations')->group(function(){
      //Vista de liquidaciones de Capital
-     Route::get('/capital',[LiquidationController::class,'index'])->name('settlement.index');
+     Route::get('/capital',[LiquidationController::class,'index'])->name('liquidations.index');
     //Vista de liquidaciones de Comision
-     Route::get('/commissions',[LiquidationController::class,'commissions'])->name('settlement.history');
+     Route::get('/commissions',[LiquidationController::class,'commissions'])->name('liquidations.history');
 
 
 });

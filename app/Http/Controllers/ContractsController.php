@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Datatables;
 use App\Models\contract;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use App\Models\OrdenPurchases;
 use Hexters\CoinPayment\CoinPayment;
+use App\Models\Log_utility;
+use App\Models\Wallet;
+use DB;
+use App\Models\Utility;
 
 class contractsController extends Controller
 {
@@ -27,8 +32,7 @@ class contractsController extends Controller
 
     public function index()
     {
-        $contratos = $this->contratos();
-        return view('contract.index', compact('contratos'));
+        return view('contract.index');
     }
     /**
      * Permite guardar las nuevas contratos generadas
@@ -119,7 +123,7 @@ class contractsController extends Controller
     public function contratos()
     {
         try{
-            $contratos = Contract::all();
+            $contratos = Contract::where('status', 1)->orderBy('id', 'desc')->get();
             return $contratos;
         } catch (\Throwable $th) {
             Log::error('Dashboard - getContrato -> Error: '.$th);
@@ -148,6 +152,118 @@ class contractsController extends Controller
      */
     public function utilidades()
     {
-        return view('contract.utilidades');
+        $utilitys = Utility::orderBy('id', 'desc')->get();
+
+        return view('contract.utilidades', compact('utilitys'));
+    }
+
+    public function payUtility(Request $request)
+    {
+        $validate = $request->validate([
+            'porcentaje' => 'required',
+            'mes' => 'required'
+        ]);
+
+        try {
+            if ($validate){
+                DB::beginTransaction();
+                $porcentaje = $request->porcentaje / 100;
+                $ids = [];
+                $gain = 0;
+                $contratos = Contract::where('status', 1)->get();
+            
+                foreach($contratos as $contrato){
+                    
+                    $wallet = null;
+                    $previoues_capital = $contrato->capital;
+                    if($contrato->type_interes == "lineal"){
+                        $wallet = new Wallet;
+                        $wallet->user_id = $contrato->user()->id;
+                        $wallet->amount = $contrato->capital * $porcentaje;
+                        $wallet->percentage = $porcentaje;
+                        $wallet->descripcion = "Utilidad mensual";
+                        $wallet->tipo_transaction = 1;
+                        $wallet->save();
+
+                        $gain+= $contrato->capital * $porcentaje;
+                    }else{
+                        $gain+= $contrato->capital * $porcentaje;
+                        $contrato->capital += $contrato->capital * $porcentaje;
+                        $contrato->save();
+                    }
+                    $current_capital = $contrato->capital;
+
+                    $utility = new Log_utility;
+                    $utility->contract_id = $contrato->id;
+                    $utility->wallet_id = $wallet != null ? $wallet->id : null;
+                    $utility->percentage = $porcentaje;
+                    $utility->month = $request->mes;
+                    $utility->year = Carbon::now()->format('Y');
+                    $utility->previoues_capital = $previoues_capital;
+                    $utility->current_capital = $current_capital;
+                    $utility->save();
+                    
+                    $ids[] = $utility->id;
+                    
+                }
+
+                $utilidad = new Utility;
+                $utilidad->gain = $gain;
+                $utilidad->percentage = $porcentaje;
+                $utilidad->month = $request->mes;
+                $utilidad->save();
+
+                $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
+            }
+            DB::commit();
+            return back()->with('success', 'Utilidad pagada exitosamente');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            Log::error('contractsController - payUtility -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+    /**
+     * Datatable dinámico (ServerSide) que se muestra en audit.rangos 
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function dataInversion(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $this->contratos();
+            return Datatables::of($data)
+                ->addColumn('id', function($data){
+                    return $data->id;
+                })
+                ->addColumn('nombre', function($data){
+                    return $data->getOrden->user->name;
+                })
+                ->addColumn('documento', function($data){
+                    return $data->getOrden->user->dni;
+                })
+                ->addColumn('correo', function($data){
+                    return $data->getOrden->user->email;
+                })
+                ->addColumn('fecha', function($data){
+                    return $data->created_at->format('Y/m/d');
+                })
+                ->addColumn('accion', function($data){
+                    return '<div class="d-flex">
+                        <a href="'. route('users.show-user', $data->getOrden->user->id) .'" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Perfil">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                        <button class="btn btn-success"  data-toggle="tooltip" data-placement="right" title="Aprobar">
+                            <i class="fa fa-check-square"></i>
+                        </button>
+                    </div>';
+                })
+                ->rawColumns(['accion'])
+                ->make(true);
+        }
     }
 }
