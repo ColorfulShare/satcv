@@ -52,5 +52,3 @@
 
 @endsection
 
-{{-- CONFIGURACIÓN DE DATATABLE --}}
-@include('panels.datatables-config');
