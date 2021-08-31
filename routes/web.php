@@ -12,7 +12,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\liquidationController;
 use App\Http\Controllers\walletController;
 use App\Http\Controllers\UtilityController;
-
+use App\Http\Controllers\RetirosController;
+use App\Http\Controllers\DoubleAutenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +86,14 @@ Route::prefix('ticket')->middleware(['auth'])->group(function(){
 Route::group(['prefix' => 'utilidad'], function () {
     Route::get('/', [UtilityController::class, 'index'])->name('utility.index');
 });
+
+Route::group(['prefix' => 'retiros'], function () {
+    Route::get('/retirar', [RetirosController::class, 'retirar'])->name('retiros.retirar');
+});
+
+// 2fact
+Route::get('/2fact', [DoubleAutenticationController::class, 'index'])->name('2fact');
+Route::post('/2fact', [DoubleAutenticationController::class, 'checkCodeLogin'])->name('2fact.post');
 
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
