@@ -37,14 +37,14 @@
       "url": "reports/purchases",
       "name": "Ordenes",
       "icon": "shopping-cart",
-      "slug": "reports.index"
+      "slug": "reports.pedidos"
     },
     
-     {
+    {
       "url": "user/list-user",
       "name": "Usuarios",
       "icon": "users",
-      "slug": ""
+      "slug": "users.list-user"
     },
     {
       "name": "Retiros",

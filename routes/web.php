@@ -11,7 +11,7 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\liquidationController;
 use App\Http\Controllers\walletController;
-
+use App\Http\Controllers\UtilityController;
 
 
 /*
@@ -43,6 +43,7 @@ Route::group(['prefix' => 'contratos'], function () {
     Route::get('/inversion-data', [ContractsController::class, 'dataInversion'])->name('data.inversion');
     Route::get('/utilidades', [ContractsController::class, 'utilidades'])->name('contract.utilidades');
     Route::get('/testCoin', [ContractsController::class, 'testCoin'])->name('contract.testCoin');
+    Route::post('/payUtility', [ContractsController::class, 'payUtility'])->name('payUtility');
 });
 
 Route::group(['prefix' => 'shop'], function () {
@@ -79,6 +80,10 @@ Route::prefix('ticket')->middleware(['auth'])->group(function(){
     Route::get('edit-admin/{id}', [TicketController::class,'editAdmin'])->name('ticket.edit-admin');
     Route::patch('update-admin/{id}', [TicketController::class,'updateAdmin'])->name('ticket.update-admin');
     Route::get('list-admin', [TicketController::class,'indexAdmin'])->name('ticket.list-admin');
+});
+
+Route::group(['prefix' => 'utilidad'], function () {
+    Route::get('/', [UtilityController::class, 'index'])->name('utility.index');
 });
 
 // locale Route
