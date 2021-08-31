@@ -37,14 +37,14 @@
       "url": "reports/purchase",
       "name": "Ordenes",
       "icon": "shopping-cart",
-      "slug": "app-email"
+      "slug": "reports.pedidos"
     },
     
-     {
+    {
       "url": "user/list-user",
       "name": "Usuarios",
       "icon": "users",
-      "slug": ""
+      "slug": "users.list-user"
     },
     {
       "name": "Retiros",

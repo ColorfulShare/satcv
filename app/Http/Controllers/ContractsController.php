@@ -11,6 +11,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use App\Models\OrdenPurchases;
 use Hexters\CoinPayment\CoinPayment;
+use App\Models\Log_utility;
+use App\Models\Wallet;
+use DB;
+use App\Models\Utility;
 
 class contractsController extends Controller
 {
@@ -148,6 +152,75 @@ class contractsController extends Controller
      */
     public function utilidades()
     {
-        return view('contract.utilidades');
+        $utilitys = Utility::orderBy('id', 'desc')->get();
+
+        return view('contract.utilidades', compact('utilitys'));
+    }
+
+    public function payUtility(Request $request)
+    {
+        $validate = $request->validate([
+            'porcentaje' => 'required',
+            'mes' => 'required'
+        ]);
+
+        try {
+            if ($validate){
+                DB::beginTransaction();
+                $porcentaje = $request->porcentaje / 100;
+                $ids = [];
+                $gain = 0;
+                $contratos = Contract::where('status', 1)->get();
+            
+                foreach($contratos as $contrato){
+                    
+                    $wallet = null;
+                    $previoues_capital = $contrato->capital;
+                    if($contrato->type_interes == "lineal"){
+                        $wallet = new Wallet;
+                        $wallet->user_id = $contrato->user()->id;
+                        $wallet->amount = $contrato->capital * $porcentaje;
+                        $wallet->percentage = $porcentaje;
+                        $wallet->descripcion = "Utilidad mensual";
+                        $wallet->tipo_transaction = 1;
+                        $wallet->save();
+
+                        $gain+= $contrato->capital * $porcentaje;
+                    }else{
+                        $gain+= $contrato->capital * $porcentaje;
+                        $contrato->capital += $contrato->capital * $porcentaje;
+                        $contrato->save();
+                    }
+                    $current_capital = $contrato->capital;
+
+                    $utility = new Log_utility;
+                    $utility->contract_id = $contrato->id;
+                    $utility->wallet_id = $wallet != null ? $wallet->id : null;
+                    $utility->percentage = $porcentaje;
+                    $utility->month = $request->mes;
+                    $utility->year = Carbon::now()->format('Y');
+                    $utility->previoues_capital = $previoues_capital;
+                    $utility->current_capital = $current_capital;
+                    $utility->save();
+                    
+                    $ids[] = $utility->id;
+                    
+                }
+
+                $utilidad = new Utility;
+                $utilidad->gain = $gain;
+                $utilidad->percentage = $porcentaje;
+                $utilidad->month = $request->mes;
+                $utilidad->save();
+
+                $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
+            }
+            DB::commit();
+            return back()->with('success', 'Utilidad pagada exitosamente');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            Log::error('contractsController - payUtility -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 }
