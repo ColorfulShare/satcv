@@ -13,7 +13,7 @@
                     <h3>Utilidades</h3>
                 </div>
                 <div class="table-responsive">
-                    <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
+                    <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100" id="tableUtility">
                         <thead class="">
 
                             <tr class="text-center">
@@ -89,3 +89,6 @@
     </div>
 </div>
 @endsection
+
+{{-- CONFIGURACIÓN DE DATATABLE --}}
+@include('panels.datatables-config');

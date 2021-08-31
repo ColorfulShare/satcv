@@ -43,27 +43,29 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->updateProfilePhoto($input['photo']);
         }
 
-        if (isset($input['photo_dni'])) {
-            $file = $input['photo_dni'];
-            $nombre = time() . $file->getClientOriginalName();
-            $ruta = 'photo_dni/' . $user->id . '/' . $nombre;
-            $user->photo_dni = $ruta;
-            $file->storeAs('photo_dni/'.$user->id, $nombre);
-        }
+        dd($input['photo_dni']);
+
+        // if (isset($input['photo_dni'])) {
+        //     $file = $input['photo_dni'];
+        //     $nombre = time() . $file->getClientOriginalName();
+        //     $ruta = 'photo_dni/' . $user->id . '/' . $nombre;
+        //     $user->photo_dni = $ruta;
+        //     $file->storeAs('photo_dni/'.$user->id, $nombre);
+        // }
         
         if (isset($input['photo_dni'])) {
             $file = $input['photo_dni'];
             $nombre = time() . $file->getClientOriginalName();
             $ruta = 'photo_dni/' . $user->id . '/' . $nombre;
             $user->photo_dni = $ruta;
-            $file->storeAs('photo_dni/'.$user->id, $nombre);
+            $file->storeAs('public/photo_dni/'.$user->id, $nombre);
         }
         if (isset($input['photo_document'])) {
             $file = $input['photo_document'];
             $nombre = time() . $file->getClientOriginalName();
             $ruta = 'photo_document/' . $user->id . '/' . $nombre;
             $user->photo_document = $ruta;
-            $file->storeAs('photo_document/'.$user->id, $nombre);
+            $file->storeAs('public/photo_document/'.$user->id, $nombre);
         }
 
         if ($input['email'] !== $user->email &&
