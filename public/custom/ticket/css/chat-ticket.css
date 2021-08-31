@@ -87,8 +87,17 @@
   background: #fff;
 }
 
-.chat-application .chat-app-window .start-chat-area, .chat-application .chat-app-window .user-chats {
-  background-color: #F2F0F7;
-  background-repeat: repeat;
-  background-size: 210px;
+.chat-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  height: 65px;
+  background-color: #FFF;
+  padding: 0 1rem;
+  border-bottom: 1px solid #d1d1d1;
 }

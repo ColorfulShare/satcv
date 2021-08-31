@@ -2,6 +2,10 @@
 
 @section('title', 'Revisar ticket')
 
+@push('custom_css')
+<link rel="stylesheet" href="{{ asset('custom/ticket/css/chat-ticket.css') }}" />
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-12">
@@ -42,14 +46,13 @@
                                                 <div class="chat chat-left">
                                                     <div class="chat-avatar">
                                                         <span class="avatar box-shadow-1 cursor-pointer">
-                                                            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}"
+                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
                                                                 alt="avatar" height="36" width="36">
                                                         </span>
                                                     </div>
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>Hola!. ¿Cómo podemos ayudar? 😄</p>
-                                                            <small class=" text-secondary">admin@btc.com</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -64,7 +67,7 @@
                                                             <img src="{{asset('storage/photo/'.Auth::user()->photoDB)}}"
                                                                 alt="avatar" height="36" width="36">
                                                             @else
-                                                            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}"
+                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
                                                                 alt="avatar" height="36" width="36">
                                                             @endif
                                                         </span>
@@ -72,8 +75,6 @@
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>{{ $item->message }}</p>
-                                                            <small
-                                                                class=" text-secondary">{{ $item->getUser->email}}</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -82,14 +83,13 @@
                                                 <div class="chat chat-left">
                                                     <div class="chat-avatar">
                                                         <span class="avatar box-shadow-1 cursor-pointer">
-                                                            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}"
+                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
                                                                 alt="avatar" height="36" width="36">
                                                         </span>
                                                     </div>
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>{{ $item->message }}</p>
-                                                            <small class=" text-secondary">admin@btc.com</small>
                                                         </div>
                                                     </div>
                                                 </div>

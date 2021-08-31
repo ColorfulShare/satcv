@@ -28,6 +28,19 @@ $configData = Helper::applClasses();
 
   {{-- JS PROCESADO POR WEBPACK --}}
 <script src="{{ asset(mix('js/app.js')) }}" defer></script>
+
+<style>
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #8B81EF;
+}
+</style>
 </head>
 
 
