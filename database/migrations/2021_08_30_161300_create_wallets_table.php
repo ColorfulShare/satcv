@@ -21,7 +21,7 @@ class CreateWalletsTable extends Migration
             $table->double('percentage');
             $table->string('descripcion');
             $table->tinyInteger('status')->default(0)->comment('0 - En espera, 1 - Pagado (liquidado), 2 - Cancelado');
-            $table->tinyInteger('tipo_transaction')->default(0)->comment('0 - comision, 1 - utilidad');
+            $table->tinyInteger('tipo_transaction')->default(0)->comment('0 - comision, 1 - interes_lineal');
             $table->timestamps();
         });
     }

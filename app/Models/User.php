@@ -68,4 +68,15 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasManyThrough('App\Models\Contract', 'App\Models\OrdenPurchases');
     }
+
+    public function wallets()
+    {
+        return $this->hasMany('App\Models\Wallet', 'user_id');
+    }
+
+    public function saldoDisponible()
+    {
+        return number_format($this->wallets->where('status', 0)->where('tipo_transaction', 1)->sum('amount'), 2);
+        
+    }
 }
