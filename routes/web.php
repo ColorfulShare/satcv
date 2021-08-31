@@ -70,7 +70,7 @@ Route::prefix('ticket')->middleware(['auth'])->group(function(){
 
     // Para el usuario
     Route::get('create', [TicketController::class,'create'])->name('ticket.create');
-    Route::post('store', [TicketController::class,'storeUser'])->name('ticket.store'); 
+    Route::post('store', [TicketController::class,'store'])->name('ticket.store'); 
     Route::get('edit-user/{id}', [TicketController::class,'editUser'])->name('ticket.edit-user');
     Route::patch('update-user/{id}', [TicketController::class,'updateUser'])->name('ticket.update-user');
     Route::get('list-user', [TicketController::class,'indexUser'])->name('ticket.list-user');

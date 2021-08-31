@@ -7,7 +7,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h6 class="card-title">Creacion de Ticket</h6>
+                <h6 class="card-title">Crear Ticket</h6>
             </div>
             <div class="card-content">
                 <div class="card-body">

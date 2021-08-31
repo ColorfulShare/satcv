@@ -12,8 +12,6 @@
                         <h2 class="card-title">Atendiendo el Ticket #{{ $ticket->id }}</h2>
                         <h2 class="card-title">Usuario: <span class="text-primary">{{ $ticket->getUser->name}}</span></h2>
                     </div>
-                    <form action="{{route('ticket.update-admin', $ticket->id)}}" method="POST">
-                        @csrf
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-group">
@@ -41,7 +39,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12" id="load_chat">
                                 <div class="form-group">
                                     <label class="form-label" for="note"><b>Chat con el usuario</b></label>
                                     <section class="chat-app-window border border-primary rounded">
@@ -122,10 +120,54 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    var token = $('meta[name="csrf-token"]').attr('content')
+
+    $(document).on('click', '.btn_msj', function () {
+
+        if ($('#message').val() == null || $('#message').val() == '') {
+            toastr.error("El mensaje es requerido", '', {
+                "timeOut": 3000
+            })
+        } else {
+
+            let item = {}
+            var this_button = $(this)
+            item['_method'] = 'PATCH';
+            $.ajax({
+                method: "POST",
+                url: "{{ route('ticket.update-admin', $ticket->id) }}",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    message: $('#message').val(),
+                    "_method": 'PATCH'
+                }
+            }).done(function (data) {
+                // console.log(data);
+                this_button.addClass('disabled').addClass('is-loading');
+                $("#load_chat").load("{{ route('ticket.edit-admin', $ticket->id) }} #load_chat");
+                setTimeout(() => {
+                    toastr.success("El mensaje a sido enviado", '', {
+                        "timeOut": 3000
+                    })
+                    this_button.removeAttr('disabled');
+                    this_button.removeClass('disabled').removeClass('is-loading');
+                }, 1000)
+            }).fail(function (xhr, status, error) {
+                toastr.error("Hubo un error al enviar el mensaje", '', {
+                    "timeOut": 3000
+                })
+            });
+
+        }
+    });
+
+</script>
