@@ -24,8 +24,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'string', 'max:255'],
-            'birth' => ['required', 'date'],
+            'dni' => ['nullable', 'string', 'max:255'],
+            'birth' => ['nullable', 'date'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'phone' => ['nullable', 'string', 'max:255'],
             'mobile_phone' => ['nullable', 'string', 'max:255'],
@@ -43,7 +43,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->updateProfilePhoto($input['photo']);
         }
 
-        dd($input['photo_dni']);
+        // dd($input['photo_dni']);
 
         // if (isset($input['photo_dni'])) {
         //     $file = $input['photo_dni'];
