@@ -2,6 +2,10 @@
 
 @section('title', 'Editar ticket')
 
+@push('custom_css')
+<link rel="stylesheet" href="{{ asset('custom/ticket/css/chat-ticket.css') }}" />
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-12">
@@ -15,7 +19,8 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="form-label" for="issue"><b>Asunto del ticket</b></label>
-                                <input class="form-control rounded border-primary" type="text" name="issue" value="{{ $ticket->issue }}" />
+                                <input class="form-control rounded border-primary" type="text" name="issue"
+                                    value="{{ $ticket->issue }}" />
                             </div>
                         </div>
                         <div class="col-6">
@@ -32,6 +37,20 @@
                             <div class="form-group">
                                 <label class="form-label" for="message"><b>Chat con el administrador</b></label>
                                 <section class="chat-app-window rounded border-primary">
+
+                                    <div class="chat-navbar">
+                                        <header class="chat-header">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar avatar-border user-profile-toggle m-0 me-1">
+                                                    <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                        alt="avatar" height="36" width="36">
+                                                    <span class="avatar-status-online"></span>
+                                                </div>
+                                                <h6 class="ml-1 mb-0">Equipo de Bitcoin Ecuador</h6>
+                                            </div>
+                                        </header>
+                                    </div>
+
                                     <div class="active-chat">
                                         <div class="user-chats ps ps--active-y">
 
@@ -40,14 +59,13 @@
                                                 <div class="chat chat-left">
                                                     <div class="chat-avatar">
                                                         <span class="avatar box-shadow-1 cursor-pointer">
-                                                            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}"
+                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
                                                                 alt="avatar" height="36" width="36">
                                                         </span>
                                                     </div>
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>Hola!. ¿Cómo podemos ayudar? 😄</p>
-                                                            <small class=" text-secondary">admin@btc.com</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -62,7 +80,7 @@
                                                             <img src="{{asset('storage/photo/'.Auth::user()->photoDB)}}"
                                                                 alt="avatar" height="36" width="36">
                                                             @else
-                                                            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}"
+                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
                                                                 alt="avatar" height="36" width="36">
                                                             @endif
                                                         </span>
@@ -70,8 +88,6 @@
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>{{ $item->message }}</p>
-                                                            <small
-                                                                class=" text-secondary">{{ $item->getUser->email}}</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -80,14 +96,13 @@
                                                 <div class="chat chat-left">
                                                     <div class="chat-avatar">
                                                         <span class="avatar box-shadow-1 cursor-pointer">
-                                                            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}"
+                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
                                                                 alt="avatar" height="36" width="36">
                                                         </span>
                                                     </div>
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>{{ $item->message }}</p>
-                                                            <small class=" text-secondary">admin@btc.com</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -99,12 +114,17 @@
                                     </div>
                                 </section>
                                 <br>
-                                <span class="text-danger text-bold-600">Aqui podra escribir el mensaje para el admin</span>
-                                <textarea class="form-control border border-primary rounded chat-window-message" type="text" name="message" id="message" required rows="3"></textarea>
+                                <span class="text-danger text-bold-600">Aqui podra escribir el mensaje para el
+                                    admin</span>
+                                <textarea class="form-control border border-primary rounded chat-window-message"
+                                    type="text" name="message" id="message" required rows="3"></textarea>
                             </div>
                             <div class="col-12 d-flex flex-row-reverse">
-                                <button type="submit" class="btn btn-primary waves-effect waves-light btn_msj ml-1">Actualizar Ticket</button>
-                                <a href="{{ route('ticket.list-user') }}" class="btn btn-outline-danger waves-effect waves-light mr-1">Cancelar</a>
+                                <button type="submit"
+                                    class="btn btn-primary waves-effect waves-light btn_msj ml-1">Actualizar
+                                    Ticket</button>
+                                <a href="{{ route('ticket.list-user') }}"
+                                    class="btn btn-outline-danger waves-effect waves-light mr-1">Cancelar</a>
                             </div>
                         </div>
                     </div>

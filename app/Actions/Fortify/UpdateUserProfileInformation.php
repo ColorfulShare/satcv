@@ -35,37 +35,33 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'city' => ['nullable', 'string', 'max:255'],
             'department' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-            'photo_dni' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-            'photo_document' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'photo_dni' => ['nullable', 'max:1024'],
+            'photo_document' => ['nullable', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
         }
 
-        dd($input['photo_dni']);
-
-        // if (isset($input['photo_dni'])) {
-        //     $file = $input['photo_dni'];
-        //     $nombre = time() . $file->getClientOriginalName();
-        //     $ruta = 'photo_dni/' . $user->id . '/' . $nombre;
-        //     $user->photo_dni = $ruta;
-        //     $file->storeAs('photo_dni/'.$user->id, $nombre);
-        // }
+        // dd($input['photo_dni']);        
         
         if (isset($input['photo_dni'])) {
-            $file = $input['photo_dni'];
-            $nombre = time() . $file->getClientOriginalName();
-            $ruta = 'photo_dni/' . $user->id . '/' . $nombre;
-            $user->photo_dni = $ruta;
-            $file->storeAs('public/photo_dni/'.$user->id, $nombre);
+            if(!is_string($input['photo_dni'])){
+                $file = $input['photo_dni'];
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'photo_dni/' . $user->id . '/' . $nombre;
+                $user->photo_dni = $ruta;
+                $file->storeAs('public/photo_dni/'.$user->id, $nombre);
+            }
         }
         if (isset($input['photo_document'])) {
-            $file = $input['photo_document'];
-            $nombre = time() . $file->getClientOriginalName();
-            $ruta = 'photo_document/' . $user->id . '/' . $nombre;
-            $user->photo_document = $ruta;
-            $file->storeAs('public/photo_document/'.$user->id, $nombre);
+            if(!is_string($input['photo_document'])){
+                $file = $input['photo_document'];
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'photo_document/' . $user->id . '/' . $nombre;
+                $user->photo_document = $ruta;
+                $file->storeAs('public/photo_document/'.$user->id, $nombre);
+            }
         }
 
         if ($input['email'] !== $user->email &&
@@ -88,6 +84,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'department' => $input['department'],
             ])->save();
         }
+
+        return route('dashboard');
     }
 
     /**

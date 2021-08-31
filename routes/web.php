@@ -12,7 +12,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\liquidationController;
 use App\Http\Controllers\walletController;
 use App\Http\Controllers\UtilityController;
-
+use App\Http\Controllers\RetirosController;
+use App\Http\Controllers\DoubleAutenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +71,7 @@ Route::prefix('ticket')->middleware(['auth'])->group(function(){
 
     // Para el usuario
     Route::get('create', [TicketController::class,'create'])->name('ticket.create');
-    Route::post('store', [TicketController::class,'storeUser'])->name('ticket.store'); 
+    Route::post('store', [TicketController::class,'store'])->name('ticket.store'); 
     Route::get('edit-user/{id}', [TicketController::class,'editUser'])->name('ticket.edit-user');
     Route::patch('update-user/{id}', [TicketController::class,'updateUser'])->name('ticket.update-user');
     Route::get('list-user', [TicketController::class,'indexUser'])->name('ticket.list-user');
@@ -86,15 +87,23 @@ Route::group(['prefix' => 'utilidad'], function () {
     Route::get('/', [UtilityController::class, 'index'])->name('utility.index');
 });
 
+Route::group(['prefix' => 'retiros'], function () {
+    Route::get('/retirar', [RetirosController::class, 'retirar'])->name('retiros.retirar');
+});
+
+// 2fact
+Route::get('/2fact', [DoubleAutenticationController::class, 'index'])->name('2fact');
+Route::post('/2fact', [DoubleAutenticationController::class, 'checkCodeLogin'])->name('2fact.post');
+
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
 //rutas para la lista de usuarios
  Route::prefix('user')->group(function(){
 
-Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
+    Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
 
-Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.show-user');
+    Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.show-user');
 
 });
 

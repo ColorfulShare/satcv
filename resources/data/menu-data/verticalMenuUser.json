@@ -39,6 +39,12 @@
       "slug": "/retiros",
       "submenu": [
         {
+          "url": "retiros/retirar",
+          "name": "retirar",
+          "icon": "circle",
+          "slug": "retiros.retirar"
+        },
+        {
           "url": "payments",
           "name": "Retiros Realizados",
           "icon": "circle",
