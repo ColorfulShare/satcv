@@ -43,8 +43,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->updateProfilePhoto($input['photo']);
         }
 
-        dd($input['photo_dni']);
-
         // if (isset($input['photo_dni'])) {
         //     $file = $input['photo_dni'];
         //     $nombre = time() . $file->getClientOriginalName();
