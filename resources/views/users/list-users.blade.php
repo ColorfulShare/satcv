@@ -45,15 +45,13 @@
                                         <td>Eliminado</td>
                                         @endif
                                    
-                                        <td><a href="{{ route('users.show-user',$item->id) }}" class="btn btn-outline-primary text-bold-600"><i data-feather='eye'></i></a></td>
-
-        
+                                        <td><a href="{{ route('users.show-user',$item->id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Contrato"><i data-feather='eye'></i></a></td>
                                         </button>
                                    </tr>
 
                                            
                            
-                                  @endforeach
+                                @endforeach
                           
                     
                           </tbody>

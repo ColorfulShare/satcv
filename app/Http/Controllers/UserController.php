@@ -13,7 +13,7 @@ class UserController extends Controller
         $user = User::all();
 
  
-    return view('users.componenteUsers.admin.list-users') 
+    return view('users.list-users') 
     ->with('user',$user);
   }
 
@@ -22,7 +22,7 @@ class UserController extends Controller
   $user = user::find($id);
  
 
- return view('users.componenteUsers.admin.show-user')
+ return view('users.show-user')
  ->with('user', $user);
 
    }
