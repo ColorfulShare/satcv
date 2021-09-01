@@ -1,6 +1,7 @@
 {{-- Vendor Scripts --}}
     <script src="{{ asset('vendors/js/vendors.min.js') }}"></script>
     <script src="{{ asset('vendors/js/ui/prism.min.js') }}"></script>
+    <script src="{{ asset('vendors/js/charts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('vendors/js/tables/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('vendors/js/tables/datatable/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('vendors/js/extensions/toastr.min.js') }}"></script>
