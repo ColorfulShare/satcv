@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use PragmaRX\Google2FA\Google2FA;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use BaconQrCode\Renderer\Image\Png;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Writer as BaconQrCodeWriter;
 use Illuminate\Contracts\Session\Session;
 
@@ -56,10 +58,10 @@ class DoubleAutenticationController extends Controller
      */
     public function createUserUrlQR($user)
     {
-        $renderer = new Png();
-        $renderer->setWidth(200);
-        $renderer->setHeight(200);
-        $bacon = new BaconQrCodeWriter($renderer);
+        $bacon = new BaconQrCodeWriter(new ImageRenderer(
+            new RendererStyle(200),
+            new ImagickImageBackEnd()
+        ));
 
         $data = $bacon->writeString(
             (new Google2FA)->getQRCodeUrl(
