@@ -2,9 +2,7 @@
 
 @section('title', 'Revisar ticket')
 
-@push('custom_css')
 <link rel="stylesheet" href="{{ asset('custom/ticket/css/chat-ticket.css') }}" />
-@endpush
 
 @section('content')
 <div class="row">
@@ -53,7 +51,7 @@
                                         <header class="chat-header">
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar avatar-border user-profile-toggle m-0 me-1">
-                                                    <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                    <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                         alt="avatar" height="36" width="36">
                                                     <span class="avatar-status-busy"></span>
                                                     @if (Auth::user()->status == 1)
@@ -74,7 +72,7 @@
                                                 <div class="chat">
                                                     <div class="chat-avatar">
                                                         <span class="avatar box-shadow-1 cursor-pointer">
-                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                            <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                                 alt="avatar" height="36" width="36">
                                                         </span>
                                                     </div>
@@ -95,7 +93,7 @@
                                                             <img src="{{asset('storage/photo/'.Auth::user()->photoDB)}}"
                                                                 alt="avatar" height="36" width="36">
                                                             @else
-                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                            <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                                 alt="avatar" height="36" width="36">
                                                             @endif
                                                         </span>
@@ -111,7 +109,7 @@
                                                 <div class="chat">
                                                     <div class="chat-avatar">
                                                         <span class="avatar box-shadow-1 cursor-pointer">
-                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                            <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                                 alt="avatar" height="36" width="36">
                                                         </span>
                                                     </div>
@@ -155,11 +153,11 @@
 
     $(document).on('click', '.btn_msj', function () {
 
-        if ($('#message').val() == null || $('#message').val() == '') {
-            toastr.error("El mensaje es requerido", '', {
-                "timeOut": 3000
-            })
-        } else {
+        // if ($('#message').val() == null || $('#message').val() == '') {
+        //     toastr.error("El mensaje es requerido", '', {
+        //         "timeOut": 3000
+        //     })
+        // } else {
 
             let item = {}
             var this_button = $(this)
@@ -169,6 +167,8 @@
                 url: "{{ route('ticket.update-admin', $ticket->id) }}",
                 data: {
                     "_token": "{{ csrf_token() }}",
+                    issue: $('#issue').val(),
+                    priority: $('#priority').val(),
                     message: $('#message').val(),
                     "_method": 'PATCH'
                 }
@@ -189,7 +189,7 @@
                 })
             });
 
-        }
+        // }
     });
 
 </script>
