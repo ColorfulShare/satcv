@@ -105,6 +105,9 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
     Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.show-user');
 
+    Route::get('verificar/{id}',[UserController::class,'verifyUser'])->name('verify-user');
+    Route::get('rechazar/{id}',[UserController::class,'denyUser'])->name('deny-user');
+
 });
 
   //Rutas para las liquidaciones realizadas

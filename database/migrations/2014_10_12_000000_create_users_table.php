@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->longtext('dni')->nullable();
             $table->string('email')->unique();
             $table->string('password');
+            $table->enum('verify', [0, 1, 2])->default(0)->comment('permite saber si un usuario esta verificado o no');
             $table->date('birth')->nullable(); 
             $table->date('dni_expedition')->nullable(); 
             $table->string('phone')->nullable();      

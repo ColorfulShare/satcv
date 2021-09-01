@@ -21,6 +21,7 @@
                                     <th>ID</th>
                                     <th>Email</th>
                                     <th>Estado</th>
+                                    <th>KYC</th>
                                     <th>Accion</th>
                                 </tr>
                             </thead>
@@ -38,15 +39,23 @@
                                         @elseif($item->status == '2')
                                         <td>Suspendido</td>
                                         @elseif($item->status == '3')
-                                        <td>Bloquiado</td>
+                                        <td>Bloqueado</td>
                                         @elseif($item->status == '4')
                                         <td>Caducado</td>
                                         @elseif($item->status == '5')
                                         <td>Eliminado</td>
                                         @endif
+
+                                        @if ($item->verify == '0')
+                                            <td>Pendiente</td>
+                                        @elseif($item->verify == '1')
+                                            <td>Verificado</td>
+                                        @elseif($item->verify == '2')
+                                            <td>Rechazado</td>
+                                        @endif
                                    
                                         <td>
-                                            @if ($item->verify == 0 && $item->dni != NULL)
+                                            @if ($item->verify == '0' && $item->dni != NULL)
                                                 {{-- <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600"><i data-feather='pencil'></i></a> --}}
                                                 <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning" data-toggle="tooltip" data-placement="left" title="Verificar KYC"><i data-feather='edit'></i></a>
                                             @else
