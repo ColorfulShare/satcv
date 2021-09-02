@@ -2,9 +2,7 @@
 
 @section('title', 'Revisar ticket')
 
-@push('custom_css')
 <link rel="stylesheet" href="{{ asset('custom/ticket/css/chat-ticket.css') }}" />
-@endpush
 
 @section('content')
 <div class="row">
@@ -46,13 +44,14 @@
                                                 <div class="chat chat-left">
                                                     <div class="chat-avatar">
                                                         <span class="avatar box-shadow-1 cursor-pointer">
-                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                            <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                                 alt="avatar" height="36" width="36">
                                                         </span>
                                                     </div>
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>Hola!. ¿Cómo podemos ayudar? 😄</p>
+                                                            <small>{{date('d-M-Y - h:i:s', strtotime($ticket->created_at))}}</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -67,7 +66,7 @@
                                                             <img src="{{asset('storage/photo/'.Auth::user()->photoDB)}}"
                                                                 alt="avatar" height="36" width="36">
                                                             @else
-                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                            <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                                 alt="avatar" height="36" width="36">
                                                             @endif
                                                         </span>
@@ -75,6 +74,7 @@
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>{{ $item->message }}</p>
+                                                            <small>{{date('d-M-Y - h:i:s', strtotime($item->created_at))}}</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -83,13 +83,14 @@
                                                 <div class="chat chat-left">
                                                     <div class="chat-avatar">
                                                         <span class="avatar box-shadow-1 cursor-pointer">
-                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                            <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                                 alt="avatar" height="36" width="36">
                                                         </span>
                                                     </div>
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>{{ $item->message }}</p>
+                                                            <small>{{date('d-M-Y - h:i:s', strtotime($item->created_at))}}</small>
                                                         </div>
                                                     </div>
                                                 </div>

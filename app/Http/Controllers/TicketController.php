@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Models\TicketMessage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,16 +18,27 @@ class TicketController extends Controller
      */
     public function indexUser()
     {
-        try {
+        // try {
 
             $ticket = Ticket::where('user', Auth::id())->get();
 
-            return view('tickets.user.list-user')->with('ticket', $ticket);
+            $ticket =  DB::select('select * from tickets where user = :id', ['id' => Auth::id()]);
+
+            // $time_msj =  TicketMessage::all()->where('user', Auth::id());
+
+            // $mo = [];
+            // // dd($time_msj);
+            // foreach($time_msj as $item){
+            // array_push($mo, $item->user);
+            // }
+
+            return view('tickets.user.list-user')
+            ->with('ticket', $ticket);
         
-        } catch (\Throwable $th) {
-            Log::error('indexUser -> Error: '.$th);
-            abort(403, "Ocurrio un error, contacte con el administrador");
-        }
+        // } catch (\Throwable $th) {
+        //     Log::error('indexUser -> Error: '.$th);
+        //     abort(403, "Ocurrio un error, contacte con el administrador");
+        // }
     }
 
     /**
@@ -169,13 +181,15 @@ class TicketController extends Controller
             $ticket->save();
 
             // crea un nuevo mensaje para el admin
-            TicketMessage::create([
-                'user' => Auth::id(),
-                'admin' => '1',
-                'ticket' => $ticket->id,
-                'type' => '0',
-                'message' => $request->message,
-            ]);
+            if($request->message == true){
+                TicketMessage::create([
+                    'user' => Auth::id(),
+                    'admin' => '1',
+                    'ticket' => $ticket->id,
+                    'type' => '0',
+                    'message' => $request->message,
+                ]);
+            }
 
             return redirect()->back()->with('success', 'Ticket Editado');
 
@@ -228,6 +242,7 @@ class TicketController extends Controller
             $ticket->save();
 
             // crea un nuevo mensaje para el user
+            if($request->message == true){
             TicketMessage::create([
                 'user' => $ticket->user,
                 'admin' => Auth::id(),
@@ -235,6 +250,7 @@ class TicketController extends Controller
                 'type' => '1',
                 'message' => $request->message,
             ]);
+            }
 
             return redirect()->back()->with('success', 'Ticket Editado');
 

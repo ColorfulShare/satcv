@@ -2,9 +2,7 @@
 
 @section('title', 'Editar ticket')
 
-@push('custom_css')
 <link rel="stylesheet" href="{{ asset('custom/ticket/css/chat-ticket.css') }}" />
-@endpush
 
 @section('content')
 <div class="row">
@@ -19,14 +17,14 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="form-label" for="issue"><b>Asunto del ticket</b></label>
-                                <input class="form-control rounded border-primary" type="text" name="issue"
+                                <input class="form-control rounded border-primary" id="issue" type="text" name="issue"
                                     value="{{ $ticket->issue }}" />
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="form-label" for="priority">Prioridad del Ticket</label>
-                                <select name="priority" class="custom-select rounded border-primary">
+                                <select name="priority" class="custom-select rounded border-primary" id="priority">
                                     <option value="0" @if($ticket->priority == '0') selected @endif>Alto</option>
                                     <option value="1" @if($ticket->priority == '1') selected @endif>Medio</option>
                                     <option value="2" @if($ticket->priority == '2') selected @endif>Bajo</option>
@@ -42,7 +40,7 @@
                                         <header class="chat-header">
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar avatar-border user-profile-toggle m-0 me-1">
-                                                    <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                    <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                         alt="avatar" height="36" width="36">
                                                     <span class="avatar-status-online"></span>
                                                 </div>
@@ -59,13 +57,14 @@
                                                 <div class="chat chat-left">
                                                     <div class="chat-avatar">
                                                         <span class="avatar box-shadow-1 cursor-pointer">
-                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                            <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                                 alt="avatar" height="36" width="36">
                                                         </span>
                                                     </div>
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>Hola!. ¿Cómo podemos ayudar? 😄</p>
+                                                            <small>{{date('d-M-Y - h:i:s', strtotime($ticket->created_at))}}</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -80,7 +79,7 @@
                                                             <img src="{{asset('storage/photo/'.Auth::user()->photoDB)}}"
                                                                 alt="avatar" height="36" width="36">
                                                             @else
-                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                            <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                                 alt="avatar" height="36" width="36">
                                                             @endif
                                                         </span>
@@ -88,6 +87,7 @@
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>{{ $item->message }}</p>
+                                                            <small>{{date('d-M-Y - h:i:s', strtotime($item->created_at))}}</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,20 +96,21 @@
                                                 <div class="chat chat-left">
                                                     <div class="chat-avatar">
                                                         <span class="avatar box-shadow-1 cursor-pointer">
-                                                            <img src="https://www.focusedu.org/wp-content/uploads/2018/12/circled-user-male-skin-type-1-2.png"
+                                                            <img src="{{ asset('custom/ticket/img/user.png') }}"
                                                                 alt="avatar" height="36" width="36">
                                                         </span>
                                                     </div>
                                                     <div class="chat-body">
                                                         <div class="chat-content">
                                                             <p>{{ $item->message }}</p>
+                                                            <small>{{ $item->created_at }}</small>
+                                                            <small>{{date('d-M-Y - h:i:s', strtotime($item->created_at))}}</small>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 @endif
                                                 @endforeach
                                             </div>
-
                                         </div>
                                     </div>
                                 </section>
@@ -117,7 +118,7 @@
                                 <span class="text-danger text-bold-600">Aqui podra escribir el mensaje para el
                                     admin</span>
                                 <textarea class="form-control border border-primary rounded chat-window-message"
-                                    type="text" name="message" id="message" required rows="3"></textarea>
+                                    type="text" name="message" id="message" rows="3"></textarea>
                             </div>
                             <div class="col-12 d-flex flex-row-reverse">
                                 <button type="submit"
@@ -141,11 +142,11 @@
 
     $(document).on('click', '.btn_msj', function () {
 
-        if ($('#message').val() == null || $('#message').val() == '') {
-            toastr.error("El mensaje es requerido", '', {
-                "timeOut": 3000
-            })
-        } else {
+        // if ($('#message').val() == null || $('#message').val() == '') {
+        //     toastr.error("El mensaje es requerido", '', {
+        //         "timeOut": 3000
+        //     })
+        // } else {
 
             let item = {}
             var this_button = $(this)
@@ -155,6 +156,8 @@
                 url: "{{ route('ticket.update-user', $ticket->id) }}",
                 data: {
                     "_token": "{{ csrf_token() }}",
+                    issue: $('#issue').val(),
+                    priority: $('#priority').val(),
                     message: $('#message').val(),
                     "_method": 'PATCH'
                 }
@@ -163,7 +166,7 @@
                 this_button.addClass('disabled').addClass('is-loading');
                 $("#load_chat").load("{{ route('ticket.edit-user', $ticket->id) }} #load_chat");
                 setTimeout(() => {
-                    toastr.success("El mensaje a sido enviado", '', {
+                    toastr.success("El ticket a sido actualizado", '', {
                         "timeOut": 3000
                     })
                     this_button.removeAttr('disabled');
@@ -175,7 +178,6 @@
                 })
             });
 
-        }
+        // }
     });
-
 </script>

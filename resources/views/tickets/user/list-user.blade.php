@@ -18,7 +18,7 @@
                                 <th>ID</th>
                                 <th>Estado</th>
                                 <th>Prioridad</th>
-                                {{-- <th>tiempo</th> --}}
+                                {{-- <th>Ultima Respuesta</th> --}}
                                 <th>Fecha de creacion</th>
                                 <th>Accion</th>
                             </tr>
@@ -43,10 +43,11 @@
                                 @endif
 
                                 {{-- @if ($time_msj != 'NULL') 
-                                    <td>{{$time_msj}}</td>
+                                <td>{{$time_msj}}</td>
                                 @else
                                 <td>Esperando Respuesta</td>
                                 @endif --}}
+
                                 <td>{{date('d-M-Y', strtotime($item->created_at))}}</td>
 
                                 @if ($item->status == '0')
