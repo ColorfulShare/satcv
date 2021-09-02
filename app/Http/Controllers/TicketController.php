@@ -18,27 +18,24 @@ class TicketController extends Controller
      */
     public function indexUser()
     {
-        // try {
+        try {
 
             $ticket = Ticket::where('user', Auth::id())->get();
 
-            $ticket =  DB::select('select * from tickets where user = :id', ['id' => Auth::id()]);
+            $ticket_array = $ticket->toArray();
 
-            // $time_msj =  TicketMessage::all()->where('user', Auth::id());
+            $time_msj =  TicketMessage::where('ticket', $ticket_array)->get();
 
-            // $mo = [];
-            // // dd($time_msj);
-            // foreach($time_msj as $item){
-            // array_push($mo, $item->user);
-            // }
+            dd(collect($ticket_array->id));
 
             return view('tickets.user.list-user')
+            ->with('time_msj', $time_msj)
             ->with('ticket', $ticket);
         
-        // } catch (\Throwable $th) {
-        //     Log::error('indexUser -> Error: '.$th);
-        //     abort(403, "Ocurrio un error, contacte con el administrador");
-        // }
+        } catch (\Throwable $th) {
+            Log::error('indexUser -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 
     /**

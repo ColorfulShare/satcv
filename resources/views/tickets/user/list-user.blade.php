@@ -18,7 +18,7 @@
                                 <th>ID</th>
                                 <th>Estado</th>
                                 <th>Prioridad</th>
-                                {{-- <th>Ultima Respuesta</th> --}}
+                                <th>Ultima Respuesta</th>
                                 <th>Fecha de creacion</th>
                                 <th>Accion</th>
                             </tr>
@@ -42,16 +42,16 @@
                                 <td><h4>Bajo</h4></td>
                                 @endif
 
-                                {{-- @if ($time_msj != 'NULL') 
-                                <td>{{$time_msj}}</td>
+                                @if ($time_msj->type == '1') 
+                                <td>{{date('d-M-Y - h:i:s', strtotime($time_msj->created_at))}} (UTC)</td>
                                 @else
                                 <td>Esperando Respuesta</td>
-                                @endif --}}
+                                @endif
 
                                 <td>{{date('d-M-Y', strtotime($item->created_at))}}</td>
 
                                 @if ($item->status == '0')
-                                <td><a href="{{ route('ticket.edit-user',$item->id) }}" class="btn btn-primary">Editar</a></td>
+                                <td><a href="{{ route('ticket.edit-user',$item->id) }}" class="btn btn-primary">Ver Ticket</a></td>
                                 @else
                                 <td><a href="{{ route('ticket.show-user',$item->id) }}" class="btn btn-secondary">Revisar</a></td>
                                 @endif
