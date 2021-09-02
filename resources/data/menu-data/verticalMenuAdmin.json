@@ -39,7 +39,12 @@
       "icon": "shopping-cart",
       "slug": "reports.pedidos"
     },
-    
+    {
+      "url": "reports",
+      "name": "Informes",
+      "icon": "file-text",
+      "slug": "reports"
+    },
     {
       "url": "user/list-user",
       "name": "Usuarios",

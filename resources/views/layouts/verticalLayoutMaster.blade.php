@@ -70,22 +70,22 @@
         });
       }
     })
-
-    @if (session('success'))  
+    @if(session('success'))
+    console.log('dentro de success');  
         toastr['success']('{{ session('success') }}', '¡Exitoso!', {
                 closeButton: true,
                 tapToDismiss: false
             });
     @endif
 
-    @if (session('danger'))
-        toastr['danger']('{{ session('danger') }}', 'Error', {
+    @if(session('danger'))
+        toastr['error']('{{ session('danger') }}', 'Error', {
                 closeButton: true,
                 tapToDismiss: false
             });
     @endif
 
-    @if (session('warning'))
+    @if(session('warning'))
         toastr['warning']('{{ session('warning') }}', 'Advertenecia', {
                 closeButton: true,
                 tapToDismiss: false

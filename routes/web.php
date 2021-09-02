@@ -56,6 +56,7 @@ Route::group(['prefix' => 'shop'], function () {
 });
 
 Route::group(['prefix' => 'reports'], function () {
+    Route::get('/', [ReportController::class, 'index'])->name('reports.pedidos');
     Route::get('/purchase', [ReportController::class, 'indexPedidos'])->name('reports.pedidos');
     Route::get('/purchases', [ReportController::class, 'indexOrders'])->name('reports.index');
     Route::get('/show-contrato{id}', [ReportController::class, 'indexShow'])->name('reports.show-contrato');
@@ -107,7 +108,8 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
     Route::get('verificar/{id}',[UserController::class,'verifyUser'])->name('verify-user');
     Route::get('rechazar/{id}',[UserController::class,'denyUser'])->name('deny-user');
-
+    
+    Route::get('two_factor_challenge',[UserController::class,'two_factor_challenge'])->name('user.two_factor_challenge');
 });
 
   //Rutas para las liquidaciones realizadas
