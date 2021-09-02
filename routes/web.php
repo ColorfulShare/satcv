@@ -107,7 +107,8 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
     Route::get('verificar/{id}',[UserController::class,'verifyUser'])->name('verify-user');
     Route::get('rechazar/{id}',[UserController::class,'denyUser'])->name('deny-user');
-
+    
+    Route::get('two_factor_challenge',[UserController::class,'two_factor_challenge'])->name('user.two_factor_challenge');
 });
 
   //Rutas para las liquidaciones realizadas
