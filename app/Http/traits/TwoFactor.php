@@ -30,8 +30,6 @@ trait TwoFactor{
         if(($user->two_factor_code_email == $code)){
             $result = true;
         }
-
-        $user->resetTwoFactorCode();
         return $result;
     }
 }

@@ -30,7 +30,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'QR_code',
         'activar_2fact',
-        'two_factor_code_email'
+        'two_factor_code_email',
+        'two_factor_expires_at'
     ];
 
     /**
@@ -114,7 +115,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function MailTwoFactorCode()
     {
         $this->generateTwoFactorCode();
-        
+        $this->notify(new TwoFactorCode);
+        return true;
         if($this->notify(new TwoFactorCode)){
             return true;
         }else{

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\TwoFactor;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Wallet;
 
 class RetirosController extends Controller
 {
@@ -37,9 +38,20 @@ class RetirosController extends Controller
                 $user = User::find(Auth::id());
 
                 if($this->checkCode($user, $request->authenticator) && $this->checkCodeMail($user, $request->codigo_correo)){
-                    if(Carbon::parse($user->two_factor_expires_at)->lt(now())){
+
+                    if(Carbon::parse($user->two_factor_expires_at)->lt(Carbon::now())){
+                        $user->resetTwoFactorCode();
                         return back()->with('danger','El código de dos factores ha expirado. Ingrese nuevamente.');
                     }
+
+                    $wallet = Wallet::where([
+                        ['user_id', '=', $user->id],
+                        ['status', '=', 0],
+                        ['tipo_transaction', '=', 1]
+                    ])->update(['status' => 1]);
+
+                    $user->resetTwoFactorCode();
+                    
                     return back()->with('success', 'Monto retirado con exito');
                 }else{
                     return back()->with('danger', 'Código incorrecto');
