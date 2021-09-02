@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\TwoFactorCode;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -16,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
-    use TwoFactorAuthenticatable;
+    //use TwoFactorAuthenticatable;
     /**
      * The attributes that are mass assignable.
      *
@@ -89,16 +90,36 @@ class User extends Authenticatable implements MustVerifyEmail
     public function generateTwoFactorCode()
     {
         $this->timestamps = false;
-        $this->two_factor_code = rand(100000, 999999);
+        $this->two_factor_code_email = rand(100000, 999999);
         $this->two_factor_expires_at = now()->addMinutes(10);
-        $this->save();
+        if($this->save()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function resetTwoFactorCode()
     {
         $this->timestamps = false;
-        $this->two_factor_code = null;
+        $this->two_factor_code_email = null;
         $this->two_factor_expires_at = null;
-        $this->save();
+        if($this->save()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function MailTwoFactorCode()
+    {
+        $this->generateTwoFactorCode();
+        
+        if($this->notify(new TwoFactorCode)){
+            return true;
+        }else{
+            return false;
+        }
+        
     }
 }

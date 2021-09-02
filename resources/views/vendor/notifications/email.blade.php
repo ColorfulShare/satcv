@@ -6,13 +6,14 @@
 @if ($level === 'error')
 # @lang('Whoops!')
 @else
-# @lang('Restablecer contraseña de BitcoinEcuador !')
+# @lang('Hello!')
 @endif
 @endif
 
 {{-- Intro Lines --}}
 @foreach ($introLines as $line)
-Recibió este correo electrónico porque recibimos una solicitud de restablecimiento de contraseña para su cuenta.
+{{ $line }}
+
 @endforeach
 
 {{-- Action Button --}}
@@ -33,25 +34,25 @@ Recibió este correo electrónico porque recibimos una solicitud de restablecimi
 @endisset
 
 {{-- Outro Lines --}}
-{{-- @foreach ($outroLines as $line) --}}
-Este enlace de restablecimiento de contraseña caducará en 60 minutos. 
-Si no solicitó un restablecimiento de contraseña, no es necesario realizar ninguna otra acción.
-{{-- @endforeach --}}
+@foreach ($outroLines as $line)
+{{ $line }}
+
+@endforeach
 
 {{-- Salutation --}}
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-@lang('Jonh admin'),<br>
-Equipo Bitcoin Ecuador 
+@lang('Saludos'),<br>
+{{ config('app.name') }}
 @endif
 
 {{-- Subcopy --}}
 @isset($actionText)
 @slot('subcopy')
 @lang(
-    "Si tiene problemas para hacer clic en el botón: Restablecer contraseña, copie y pegue la URL a continuación".
-    'en su navegador web:',
+    "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
+    'into your web browser:',
     [
         'actionText' => $actionText,
     ]

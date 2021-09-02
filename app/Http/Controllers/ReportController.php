@@ -26,20 +26,6 @@ class ReportController extends Controller
     
         return view('reports.pedido', compact('ordenes'));
     }
-
-    /**
-     * lleva a la vista de informen de pedidos
-     *
-     * @return void
-     */
-    public function indexPedidos()
-    {
-    
-      $ordenes = OrdenPurchases::where([['user_id', '=', Auth::user()->id]])->get();
-
-    
-        return view('reports.pedido', compact('ordenes'));
-    }
   
     public function indexOrders()
     {
