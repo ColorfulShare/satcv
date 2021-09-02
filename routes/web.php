@@ -14,6 +14,7 @@ use App\Http\Controllers\walletController;
 use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\RetirosController;
 use App\Http\Controllers\DoubleAutenticationController;
+use App\Http\Controllers\Auth\TwoFactorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +58,6 @@ Route::group(['prefix' => 'shop'], function () {
 
 Route::group(['prefix' => 'reports'], function () {
     Route::get('/', [ReportController::class, 'index'])->name('reports.pedidos');
-    Route::get('/purchase', [ReportController::class, 'indexPedidos'])->name('reports.pedidos');
     Route::get('/purchases', [ReportController::class, 'indexOrders'])->name('reports.index');
     Route::get('/show-contrato{id}', [ReportController::class, 'indexShow'])->name('reports.show-contrato');
  
@@ -90,6 +90,7 @@ Route::group(['prefix' => 'utilidad'], function () {
 
 Route::group(['prefix' => 'retiros'], function () {
     Route::get('/retirar', [RetirosController::class, 'retirar'])->name('retiros.retirar');
+    Route::post('/retirar', [RetirosController::class, 'retiro'])->name('retiro');
 });
 
 // 2fact
@@ -112,12 +113,12 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
     Route::get('two_factor_challenge',[UserController::class,'two_factor_challenge'])->name('user.two_factor_challenge');
 });
 
-  //Rutas para las liquidaciones realizadas
-  Route::prefix('liquidations')->group(function(){
-     //Vista de liquidaciones de Capital
-     Route::get('/capital',[LiquidationController::class,'index'])->name('liquidations.index');
-    //Vista de liquidaciones de Comision
-     Route::get('/commissions',[LiquidationController::class,'commissions'])->name('liquidations.history');
+//Rutas para las liquidaciones realizadas
+Route::prefix('liquidations')->group(function(){
+    //Vista de liquidaciones de Capital
+    Route::get('/capital',[LiquidationController::class,'index'])->name('liquidations.index');
+//Vista de liquidaciones de Comision
+    Route::get('/commissions',[LiquidationController::class,'commissions'])->name('liquidations.history');
 
 
 });
@@ -128,6 +129,9 @@ Route::prefix('payments')->group(function (){
   Route::get('/', [WalletController::class,'payments'])->name('payments.index');
 
  });
+
+ Route::get('verify/resend', [TwoFactorController::class, 'resend'])->name('verify.resend');
+ Route::resource('verify', TwoFactorController::class)->only('index', 'store');
 
 
 

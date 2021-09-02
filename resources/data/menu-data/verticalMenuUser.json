@@ -14,7 +14,7 @@
       "slug": "contract.user"
     },
     {
-      "url": "reports/purchase",
+      "url": "reports",
       "name": "Ordenes",
       "icon": "shopping-cart",
       "slug": "app-email"

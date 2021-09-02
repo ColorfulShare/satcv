@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ContractsController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,4 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'contratos'], function () {
     Route::post('/remove', [ContractsController::class, 'removeContract'])->name('contract.remove');
+});
+
+Route::group(['prefix' => 'user'], function () {
+    Route::post('/sendMailFactorCode', [UserController::class, 'sendMailFactorCode'])->name('sendMailFactorCode');
 });

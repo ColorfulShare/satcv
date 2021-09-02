@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\TwoFactorCode;
 
 class UserController extends Controller
 {
@@ -55,4 +57,18 @@ class UserController extends Controller
     {
         return view('profile.two-factor-authentication-form');
     }
+
+    public function sendMailFactorCode(Request $request)
+    {
+        
+        $user = User::find($request->user);
+    
+        if($user->MailTwoFactorCode()){
+            return response()->json(['success' => true, 'message' => 'Código de verificacion enviado al correo exitosamente']);
+        }else{
+            return response()->json(['success' => false, 'message' => 'Error al enviar el código de verificacion.']);
+        }
+            
+    }
+    
 }
