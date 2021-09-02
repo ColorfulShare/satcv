@@ -7,33 +7,17 @@
 </style>
 
 @section('content')
-<!-- BEGIN: Content-->
-<div class="auth-wrapper auth-v2">
-        <div class="auth-inner row m-0">
-
-        
-        <!-- Left bg-->
-        <div class="d-none d-lg-flex col-lg-8 align-items-center legazy_bg">
-            <div class="align-items-center justify-content-center">
-                <div class= "row justify-content-center">
-                    <div class="col-auto">
-                         <img src="{{ asset('assets/img/legazy_pro/logo.svg') }}" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Login-->
-        <div class="d-flex col-lg-4 align-items-center auth-bg p-lg-4">
-            
+<div class="card">
+    <div class="card-content">
+        <div class="card-body card-dashboard">
             <div class="row">
-                <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-5 px-xl-2">
                     <h2 class="card-title fw-bold mb-1">Verificar 2Fact</h2>
                     <form class="auth-login-form mt-2" action="{{ route('2fact.post') }}" method="POST">
                         @csrf
                         @if (!empty($urlQr))
-                        <div class="mb-1">
-                            <img src="{{$urlQr}}" alt="codigo qr google">
+                        <div class="mb-1 text-center">
+                            <img src="{{$urlQr}}" alt="codigo qr google" class="d-inline">
                         </div>
                         @endif
                         <div class="mb-1">
@@ -46,13 +30,37 @@
                     {{-- <p class="text-center mt-2"><span>¿Nuevo en la plataforma?</span><a
                             href="{{ route('register') }}"><span>&nbsp;<b>Crea una cuenta</b></span></a></p> --}}
                 </div>
-            </div>
+                <div class="col-12 col-sm-8 col-md-6 col-lg-7 px-xl-2">
+                    <h2>Agregue seguridad adicional a su cuenta mediante la autenticación de dos factores.</h2>
 
+                    @if ($user->activar_2fact)
+                        {{ __('Ha habilitado la autenticación de dos factores.') }}
+                    @else
+                        {{ __('No ha habilitado la autenticación de dos factores.') }}
+                    @endif
+
+                    <div class="mt-3 max-w-xl text-sm text-gray-600">
+                        <p>
+                            {{ __('Cuando la autenticación de dos factores está habilitada, se le solicitará un token aleatorio seguro durante la autenticación. Puede recuperar este token de la aplicación Google Authenticator de su teléfono.') }}
+                        </p>
+                    </div>
+
+                    @if ($user->activar_2fact)
+                        @if ($urlQr)
+                            <div class="mt-4 max-w-xl text-sm text-gray-600">
+                                <p class="font-semibold">
+                                    {{ __('Two factor authentication is now enabled. Scan the following QR code using your phone\'s authenticator application.') }}
+                                </p>
+                            </div>
+
+                        @endif
+                    @endif
+                </div>
+            </div>
         </div>
-        <!-- /Login-->
     </div>
 </div>
-<!-- END: Content-->
+     
 @endsection
 
 @push('page_js')

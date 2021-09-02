@@ -22,8 +22,9 @@ class DoubleAutenticationController extends Controller
      */
     public function index()
     {
-        $urlQr = $this->verificar2fact(Auth::id());
-        return view('auth.fact2', compact('urlQr'));
+        $user = Auth::user();
+        $urlQr = $this->verificar2fact($user->id);
+        return view('auth.fact2', compact('urlQr', 'user'));
     }
 
     /**
@@ -37,12 +38,14 @@ class DoubleAutenticationController extends Controller
         $check2Fact = User::where([
             ['id', '=', $iduser],
             ['token_google', '!=', null],
+            ['activar_2fact', '=', '1'],
         ])->first();
+        
         $result = '';
         if ($check2Fact == null) {
             User::where('id', '=', $iduser)->update([
                 'token_google' => (new Google2FA)->generateSecretKey(),
-                'activar_2fact' => 1
+                //'activar_2fact' => "1"
             ]);
             $user = User::find($iduser);
             $result = $this->createUserUrlQR($user);
@@ -69,8 +72,11 @@ class DoubleAutenticationController extends Controller
                 $user->email,
                 $user->token_google
             ), 'utf-8');
+        $code = 'data:image/png;base64,' . base64_encode($data);
+        
+        $user->update(['QR_code' => $code]);
 
-        return 'data:image/png;base64,' . base64_encode($data);
+        return $code;
     }
 
     /**
@@ -85,12 +91,14 @@ class DoubleAutenticationController extends Controller
             'code' => 'required|numeric'
         ]);
         if ($validate) {
+            
             if ($this->checkCode(Auth::id(), $request->code)) {
                 session(['2fact' => 1]);
-                return redirect()->route('home');
+                Auth::user()->update(['activar_2fact' => '1']);
+                return redirect()->route('dashboard')->with('success', 'Verificación correcta');
             }
         
-            return redirect()->back()->withErrors(['error'=> 'Código de verificación incorrecto']);
+            return back()->with('danger', 'Código de verificación incorrecto');
         }
     }
 

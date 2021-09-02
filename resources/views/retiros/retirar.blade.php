@@ -16,8 +16,7 @@
             </div>
             <!-- Vertical modal -->
             <div class="vertical-modal-ex">
-                <button type="button" class="btn btn-outline-primary float-right" data-toggle="modal"
-                    data-target="#exampleModalCenter">
+                <button type="button" class="btn btn-outline-primary float-right" id="invertir">
                     Invertir
                 </button>
                 <!-- Modal -->
@@ -34,15 +33,19 @@
                             <form action="" method="POST" target="_blank">
                                 @csrf
                                 <div class="modal-body">
-
+                                    
                                     <div class="mb-1">
                                         <label for="wallet" class="form-label">Billetera:</label>
                                         <input type="text" min="500" class="form-control" id="wallet" name="wallet">
                                     </div>
-
+        
                                     <div class="mb-1">
                                         <label for="codigo_correo" class="form-label">Código de correo:</label>
-                                        <input type="text" min="500" class="form-control" id="codigo_correo" name="codigo_correo">
+
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="código de correo" name="codigo_correo" id="codigo_correo">
+                                            <button class="btn btn-outline-primary" type="button" id="button-addon2">Enviar</button>
+                                        </div>
                                     </div>
 
                                     <div class="mb-1">
@@ -95,6 +98,25 @@
 
 @push('custom_js')
     <script>
+        let invertir = document.querySelector('#invertir');
 
+        invertir.addEventListener("click", function( event ) {
+
+            @if($user->activar_2fact == 0)
+                toastr['error']('Necessita la verificación de dos factores para poder retirar', 'Error', {
+                    closeButton: true,
+                    tapToDismiss: false
+                })
+            @else    
+                let myModal = new bootstrap.Modal(document.getElementById('exampleModalCenter'), {
+                    keyboard: false
+                })
+
+                myModal.show();
+            @endif
+            
+        }, false);
+
+        
     </script>
 @endpush

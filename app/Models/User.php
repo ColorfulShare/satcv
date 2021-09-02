@@ -27,6 +27,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'lastname',
         'password',
+        'QR_code',
+        'activar_2fact',
+        'two_factor_code_email'
     ];
 
     /**
@@ -41,6 +44,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'two_factor_secret',
     ];
 
+    protected $dates = [
+        'two_factor_expires_at'
+    ];
     /**
      * The attributes that should be cast to native types.
      *
@@ -78,5 +84,21 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return number_format($this->wallets->where('status', 0)->where('tipo_transaction', 1)->sum('amount'), 2);
         
+    }
+
+    public function generateTwoFactorCode()
+    {
+        $this->timestamps = false;
+        $this->two_factor_code = rand(100000, 999999);
+        $this->two_factor_expires_at = now()->addMinutes(10);
+        $this->save();
+    }
+
+    public function resetTwoFactorCode()
+    {
+        $this->timestamps = false;
+        $this->two_factor_code = null;
+        $this->two_factor_expires_at = null;
+        $this->save();
     }
 }
