@@ -7,7 +7,10 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
 
+    }
     public function listUser()
     {
         $user = User::all();
@@ -48,5 +51,8 @@ class UserController extends Controller
             ->with('warning', 'Se ha rechazado la solicitud del usuario de manera exitosa');    
     }
 
-
+    public function two_factor_challenge()
+    {
+        return view('profile.two-factor-authentication-form');
+    }
 }

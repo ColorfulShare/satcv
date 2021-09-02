@@ -222,6 +222,6 @@ class TiendaController extends Controller
         $user->status = '1';
         $user->save();
 
-        return redirect()->back()->with('msj-success', 'Orden actualizada exitosamente');
+        return back()->with('success', 'Orden actualizada exitosamente');
     }
 }

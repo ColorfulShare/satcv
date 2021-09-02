@@ -172,6 +172,12 @@
                 @else
                 <h5 class="text-danger font-weight-bolder text-center">Usuario No Verificado</h5>
                 @endif
+                
+                @if(Auth::user()->activar_2fact == 0)
+                    <div class="text-center">
+                        <a class="btn btn-primary" href="{{route('2fact')}}">Activar google authenticator</a>
+                    </div>
+                @endif
                 @if(count($contratos)>0)
 				<div class="row justify-content-center my-2">
 					<div class="form-group col-8">
