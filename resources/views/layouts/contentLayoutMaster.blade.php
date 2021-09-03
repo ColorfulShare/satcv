@@ -38,7 +38,7 @@ $configData = Helper::applClasses();
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #8B81EF;
+  background-color: #00e600;
 }
 </style>
 </head>
