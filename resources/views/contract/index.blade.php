@@ -33,12 +33,6 @@
 
 
 </div>
-
-@endsection
-
-{{-- CONFIGURACIÓN DE DATATABLE --}}
-@include('panels.datatables-config'); 
-
 <!-- Modal -->
 <div class="modal fade" id="form-pdf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -72,3 +66,8 @@
           })
       })
   </script>
+@endsection
+
+{{-- CONFIGURACIÓN DE DATATABLE --}}
+@include('panels.datatables-config'); 
+
