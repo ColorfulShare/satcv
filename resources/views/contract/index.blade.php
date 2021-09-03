@@ -24,22 +24,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach($contratos as $contrato)
-                                <tr class="text-center bg-purple-alt2">
-                                    <td>{{$contrato->id}}</td>
-                                    <td>{{$contrato->getOrden->user->name}}</td>
-                                    <td>{{$contrato->getOrden->user->dni}}</td>
-                                    <td>{{$contrato->getOrden->user->email}}</td>
-                                    <td>{{$contrato->created_at->format('Y/m/d')}}</td>
-                                    <td>
-                                        <div class="d-flex">
-                                            <a href="{{ route('users.show-user', $contrato->getOrden->user->id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Perfil"><i class="fa fa-eye"></i></a>
-                                            <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato"><i class="fa fa-paper-plane"></i></button>
-                                            <button class="btn btn-success"  data-toggle="tooltip" data-placement="right" title="Aprobar"><i class="fa fa-check-square"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach --}}
                             </tbody>
                         </table>
                     </div>
@@ -52,3 +36,39 @@
 
 @endsection
 
+{{-- CONFIGURACIÓN DE DATATABLE --}}
+@include('panels.datatables-config'); 
+
+<!-- Modal -->
+<div class="modal fade" id="form-pdf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Subir PDF</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{{ route('contract.pdf') }}" method="POST" enctype="multipart/form-data">
+        <div class="modal-body">
+                @csrf
+                <input type="hidden" id="idContract" name="idContract">
+                <input type="file" name="urlpdf" accept="application/pdf" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Subir archivo</button>
+            </div>
+        </form>
+        </div>
+    </div>
+  </div>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function(){
+          $('#form-pdf').on('show.bs.modal', function(e) {    
+              var id = $(e.relatedTarget).data().id;
+              $("#idContract").val(id);
+          })
+      })
+  </script>

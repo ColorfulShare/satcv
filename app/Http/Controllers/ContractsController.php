@@ -126,7 +126,7 @@ class contractsController extends Controller
             $contratos = Contract::where('status', 1)->orderBy('id', 'desc')->get();
             return $contratos;
         } catch (\Throwable $th) {
-            Log::error('Dashboard - getContrato -> Error: '.$th);
+            Log::error('ContractsController::contratos -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
@@ -257,13 +257,42 @@ class contractsController extends Controller
                         <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato">
                             <i class="fa fa-paper-plane"></i>
                         </button>
-                        <button class="btn btn-success"  data-toggle="tooltip" data-placement="right" title="Aprobar">
+                        <button type="button"class="btn btn-success" data-id='. $data->id.' title="Aprobar" data-toggle="modal" data-target="#form-pdf">
                             <i class="fa fa-check-square"></i>
                         </button>
                     </div>';
                 })
                 ->rawColumns(['accion'])
                 ->make(true);
+        }
+    }
+
+    /**
+     * Formulario para subir PDF
+     *
+     */
+    public function formPdf(Request $request)
+    {
+        try{
+            $validate = $request->validate([
+                'idContract' => 'required',
+                'urlpdf' => ['nullable', 'max:4096']
+            ]);
+            
+            if($validate){      
+                $file = $request->urlpdf;
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'pdf-contract/' . $request->idContract . '/' . $nombre;
+                $contrato = contract::find($request->idContract);
+                $contrato->url_pdf = $ruta;
+                $contrato->save();
+                $file->storeAs('public/pdf-contract/'.$request->idContract, $nombre);
+                return redirect()->back()->with('success', 'PDF Guardado Exitosamente');
+            }   
+
+        } catch (\Throwable $th) {
+            Log::error('ContractsController::formPdf -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 }

@@ -132,7 +132,7 @@
             </div>
         </div>
 
-        <div class="col-lg-7 col-md-12 col-sm-12">
+        {{-- <div class="col-lg-7 col-md-12 col-sm-12">
             <div class="card card-light">
 
                 <div class="d-flex flex-column">
@@ -142,7 +142,57 @@
                     <div id="bar-negative"></div>
                 </div>
             </div>
+        </div> --}}
+
+        <!-- Revenue Report Card -->
+    <div class="col-lg-7 col-md-12 col-sm-12">
+        <div class="card card-revenue-budget">
+          <div class="row mx-0">
+            <div class="col-md-8 col-12 revenue-report-wrapper">
+              <div class="d-sm-flex justify-content-between align-items-center mb-3">
+                <h4 class="card-title mb-50 mb-sm-0">Rendimiento</h4>
+                <div class="d-flex align-items-center">
+                  <div class="d-flex align-items-center mr-2">
+                    <span class="bullet bullet-primary font-small-3 mr-50 cursor-pointer"></span>
+                    <span>Earning</span>
+                  </div>
+                  <div class="d-flex align-items-center ml-75">
+                    <span class="bullet bullet-warning font-small-3 mr-50 cursor-pointer"></span>
+                    <span>Expense</span>
+                  </div>
+                </div>
+              </div>
+              <div id="revenue-report-chart"></div>
+            </div>
+            <div class="col-md-4 col-12 budget-wrapper">
+              <div class="btn-group">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm dropdown-toggle budget-dropdown"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  2020
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="javascript:void(0);">2020</a>
+                  <a class="dropdown-item" href="javascript:void(0);">2019</a>
+                  <a class="dropdown-item" href="javascript:void(0);">2018</a>
+                </div>
+              </div>
+              <h2 class="mb-25">$25,852</h2>
+              <div class="d-flex justify-content-center">
+                <span class="font-weight-bolder mr-25">Budget:</span>
+                <span>56,800</span>
+              </div>
+              <div id="budget-chart"></div>
+              <button type="button" class="btn btn-primary">Increase Budget</button>
+            </div>
+          </div>
         </div>
+      </div>
+      <!--/ Revenue Report Card -->
 
         <div class="col-lg-4 col-md-12 col-sm-12">
            
@@ -357,89 +407,77 @@
     })
 
 
-
-
-
-
-
-
-
-    
-      
-    var options = {
-          series: [{
-          name: 'Ganancia',
-          data: [0.4, 0.65, 0.76, 0.88, 1.5, 0.65, 0.76, 0.88]
-        },
-        {
-          name: 'Inversión',
-          data: [-0.8, -1.05, -1.06, -1.18, -1.4, -1.05, -1.06, -1.18]
+  //------------ Revenue Report Chart ------------
+  //----------------------------------------------
+  var $revenueReportChart = document.querySelector('#revenue-report-chart');
+  var $textMutedColor = '#b9b9c3';
+  var revenueReportChartOptions;
+  var revenueReportChart;
+  revenueReportChartOptions = {
+    chart: {
+      height: 230,
+      stacked: true,
+      type: 'bar',
+      toolbar: { show: false }
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '17%',
+        endingShape: 'rounded'
+      },
+      distributed: true
+    },
+    colors: [window.colors.solid.primary, window.colors.solid.warning],
+    series: [
+      {
+        name: 'Earning',
+        data: [95, 177, 284, 256, 105, 63, 168, 218, 72]
+      },
+      {
+        name: 'Expense',
+        data: [-145, -80, -60, -180, -100, -60, -85, -75, -100]
+      }
+    ],
+    dataLabels: {
+      enabled: false
+    },
+    legend: {
+      show: false
+    },
+    grid: {
+      padding: {
+        top: -20,
+        bottom: -10
+      },
+      yaxis: {
+        lines: { show: false }
+      }
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      labels: {
+        style: {
+          colors: $textMutedColor,
+          fontSize: '0.86rem'
         }
-        ],
-          chart: {
-          type: 'bar',
-          height: 300,
-          stacked: true
-        },
-        colors: ['#00e600', '#ffa361'],
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '20%',
-          },
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          width: 1,
-          colors: ["#fff"]
-        },
-        
-        grid: {
-          xaxis: {
-            lines: {
-              show: false
-            }
-          }
-        },
-        yaxis: {
-          min: -2,
-          max: 2,
-          title: {
-            // text: 'Age',
-          },
-        },
-        tooltip: {
-          shared: false,
-          x: {
-            formatter: function (val) {
-              return val
-            }
-          },
-          y: {
-            formatter: function (val) {
-              return Math.abs(val) + "%"
-            }
-          }
-        },
-        title: {
-          text: ''
-        },
-        xaxis: {
-          title: {
-            text: 'Percent'
-          },
-          labels: {
-            formatter: function (val) {
-              return Math.abs(Math.round(val)) + "%"
-            }
-          }
-        },
-        };
-
-        var chart = new ApexCharts(document.querySelector("#bar-negative"), options);
-        chart.render();
-    
+      },
+      axisTicks: {
+        show: false
+      },
+      axisBorder: {
+        show: false
+      }
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: $textMutedColor,
+          fontSize: '0.86rem'
+        }
+      }
+    }
+  };
+  revenueReportChart = new ApexCharts($revenueReportChart, revenueReportChartOptions);
+  revenueReportChart.render();
 </script>
 @endsection
