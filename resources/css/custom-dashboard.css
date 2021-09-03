@@ -15,7 +15,7 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 4px solid rgb(130, 130, 130);
+    border: 2px solid rgba(130, 130, 130, 0.268);
     position: absolute;
     top: 0;
     left: 0;

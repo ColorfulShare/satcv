@@ -25,9 +25,9 @@ $configData = Helper::applClasses();
 
   {{-- Include core + vendor Styles --}}
   @include('panels/styles')
+  
 
-  {{-- JS PROCESADO POR WEBPACK --}}
-<script src="{{ asset(mix('js/app.js')) }}" defer></script>
+{{-- <script src="{{ asset('js/core/app-menu.js') }}" defer></script> --}}
 
 <style>
 ::-webkit-scrollbar {
