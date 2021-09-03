@@ -16,6 +16,8 @@ use App\Models\Log_utility;
 use App\Models\Wallet;
 use DB;
 use App\Models\Utility;
+use App\Models\SolicitudRetiro;
+use App\Models\Liquidation;
 
 class contractsController extends Controller
 {
@@ -63,12 +65,38 @@ class contractsController extends Controller
 
     public function removeContract(Request $request)
     {
-        $contract = Contract::findOrFail($request->contratoId);
-        $contract->status = 2;
-        $contract->capital = $contract->capital - ($contract->capital * 0.25 );
-        $contract->save();
+        try{
+            DB::beginTransaction();
+            $solicitud = SolicitudRetiro::find($request->solicitudId);
+            $capital = $solicitud->amount - ($solicitud->amount * 0.25);
 
-        return response()->json(true);
+            $contract = Contract::findOrFail($request->contratoId);
+            $contract->capital -= $capital;
+            if($contract->capital <= 0){
+                $contract->status = 2;
+            }
+
+            $contract->save();
+
+            $solicitud->update(['status' => 1, 'wallet' => $request->wallet]);
+            
+            Liquidation::create([
+                'user_id' => $contract->user()->id,
+                'amount' => $solicitud->amount,
+                'total_amount' => $capital,
+                'feed' => $solicitud->amount * 0.25,
+                'wallet_used' => $request->wallet,
+                'status' => 0,
+                'type' => 0
+            ]);
+
+            DB::commit();
+            return response()->json(true);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            Log::error('contractsController - removeContract -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }   
 
     public function testCoin()

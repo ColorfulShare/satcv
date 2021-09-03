@@ -22,7 +22,7 @@ class CreateLiquidationsTable extends Migration
             $table->double('feed');
             $table->string('hash')->nullable();
             $table->string('wallet_used')->nullable();
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(0)->comment('0 - En Espera, 1 - Aprobada, 2 - Rechazada');
             $table->tinyInteger('type')->comment('0 - solicitud , 1 - rendimientos');
 
             $table->timestamps();
