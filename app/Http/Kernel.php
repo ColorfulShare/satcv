@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'google_authenticator' => \App\Http\Middleware\DoubleAutentication::class,
-        'TwoFactorMail' => App\Http\MiddlewareTwoFactorMail::class
+        'TwoFactorMail' => App\Http\MiddlewareTwoFactorMail::class,
+        'primerosCincoDias' => \App\Http\Middleware\primerosCincoDias::class,
     ];
 }

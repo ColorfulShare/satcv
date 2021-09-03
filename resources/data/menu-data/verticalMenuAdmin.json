@@ -52,6 +52,19 @@
       "slug": "users.list-user"
     },
     {
+      "name": "Solicitud",
+      "icon": "home",
+      "slug": "",
+      "submenu": [
+        {
+          "url": "solicitud/retiros",
+          "name": "Retiro",
+          "icon": "circle",
+          "slug": "dashboard-analytics"
+        }
+      ]
+    },
+    {
       "name": "Retiros",
       "icon": "credit-card",
       "slug": "/retiros",
