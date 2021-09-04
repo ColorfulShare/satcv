@@ -42,8 +42,8 @@
                                 <td><h4>Bajo</h4></td>
                                 @endif
 
-                                @if ($time_msj->type == '1') 
-                                <td>{{date('d-M-Y - h:i:s', strtotime($time_msj->created_at))}} (UTC)</td>
+                                @if ($item->getMsj($item->id)->type == '1') 
+                                <td>{{date('d-M-Y - h:i:s', strtotime($item->getMsj($item->id)->created_at))}} (UTC)</td>
                                 @else
                                 <td>Esperando Respuesta</td>
                                 @endif
