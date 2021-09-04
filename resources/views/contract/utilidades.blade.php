@@ -28,7 +28,7 @@
                             @php
                             setlocale(LC_ALL, 'es');
                             @endphp
-                            @foreach ($utilitys as $utility)
+                            @foreach ($utilities as $utility)
                             
                             <tr class="text-center">
                                 <td>{{$utility->id}}</td>

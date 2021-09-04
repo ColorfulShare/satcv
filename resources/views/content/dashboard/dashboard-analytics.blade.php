@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-8 d-flex flex-column">
                             <h4 class="mb-1 text-dark texto-card-1">Bienvenido {{Auth::user()->name}}</h4>
-                            <h1 class="mb-1 text-primary texto-card-2 font-weight-bolder">N°.3541</h1>
+                            <h1 class="mb-1 text-primary texto-card-2 font-weight-bolder">N°. <span id="idContrato"></span></h1>
 
                             <div class="text-left">
                                 <div class="form-group">
@@ -151,137 +151,53 @@
 
 
     <div class="row match-height justify-content-center">
-        {{-- <div class="col-12">
-            <div class="card-body">
-                <div class="profile-image-wrapper">
-                    <div class="profile-image text-center">
-                        <div class="avatar my-2">
-                            @if (Auth::user()->profile_photo_path != NULL)
-                                <img width="110px" src="{{ Auth::user()->profile_photo_url }}"
-        alt="{{ Auth::user()->name }}">
-        @else
-        <img width="110px" src="https://ui-avatars.com/api/?background=random&name={{ Auth::user()->name }}"
-            alt="{{ Auth::user()->name }}">
-        @endif
-    </div>
-    </div>
-    </div>
-    <h3 class="text-center">{{Auth::user()->name}}</h3>
-    <h6 class="text-muted font-weight-bolder text-center">Bitcoin Ecuador ID #<span>{{ Auth::user()->id }}</span></h6>
-    @if(Auth::user()->email_verified_at != null)
-    <h5 class="text-success font-weight-bolder text-center">Usuario Verificado</h5>
-    @else
-    <h5 class="text-danger font-weight-bolder text-center">Usuario No Verificado</h5>
-    @endif
 
-    @if(Auth::user()->activar_2fact == 0)
-    <div class="text-center">
-        <a class="btn btn-primary" href="{{route('2fact')}}">Activar google authenticator</a>
-    </div>
-    @endif
-    @if(count($contratos)>0)
-    <div class="row justify-content-center my-2">
-        <div class="form-group col-8">
-            <label for="selectContract" class="d-flex justify-content-center">Seleccione un contrato para su
-                información</label>
-            <select class="form-control fa" id="selectContract">
-                <option>-- Seleccione un contrato --</option>
-                @foreach($contratos as $contrato)
-                <option value="{{$contrato->id}}">Contrato #: {{$contrato->id}} /
-                    {{$contrato->created_at->format('Y/m/d')}}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-
-
-    <hr class="mb-2">
-
-    <div class="d-flex justify-content-around align-items-center">
-        <div class="text-center">
-            <i class="fa fa-briefcase fa-3x"></i>
-            <h6 class="text-muted font-weight-bolder">Inversión</h6>
-            <h3 class="mb-0" id="contratoInversion">0</h3>
-        </div>
-        <div class="text-center">
-            <i class="fa fa-wallet fa-3x"></i>
-            <h6 class="text-muted font-weight-bolder">Saldo Capital</h6>
-            <h3 class="mb-0" id="contratoSaldoCapital">0</h3>
-        </div>
-        <div class="text-center">
-            <i class="fa fa-chart-line fa-3x"></i>
-            <h6 class="text-muted font-weight-bolder">Productividad</h6>
-            <h3 class="mb-0" id="contratoProductividad">0</h3>
-        </div>
-        <div class="text-center">
-            <i class="fa fa-money-bill fa-3x"></i>
-            <h6 class="text-muted font-weight-bolder">Retirado</h6>
-            <h3 class="mb-0" id="contratoRetirado">0</h3>
-        </div>
-    </div>
-    @else
-    <div class="row justify-content-center my-2">
-        <div class="form-group col-8">
-            <h6 class="mb-0 h2 text-center">Aún no hay contratos</h6>
-        </div>
-    </div>
-    @endif
-    </div>
-    </div> --}}
-
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header p-1">
-                <div class="head-label">
-                    <h6 class="mb-0 h2">Historico de porcentaje de Rendimiento</h6>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header p-1">
+                    <div class="head-label">
+                        <h6 class="mb-0 h2">Historico de porcentaje de Rendimiento</h6>
+                    </div>
                 </div>
-            </div>
-            <div class="card-content">
-                <div class="card-body card-dashboard">
-                    <div class="table-responsive">
-                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
-                            <thead class="">
+                <div class="card-content">
+                    <div class="card-body card-dashboard">
+                        <div class="table-responsive">
+                            <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped comuntable">
+                                <thead class="">
 
-                                <tr class="text-center bg-purple-alt2">
-                                    <th>Fecha</th>
-                                    <th>Mes</th>
-                                    <th>Monto</th>
-                                    <th>%</th>
-                                </tr>
+                                    <tr class="text-center bg-purple-alt2">
+                                        <th>Id</th>
+                                        <th>Mes</th>
+                                        <th>%</th>
+                                    </tr>
 
-                            </thead>
-                            <tbody class="text-center">
-                                <tr>
-                                    <td>2021-08-26</td>
-                                    <td>Abril</td>
-                                    <td>200</td>
-                                    <td>10%</td>
-                                </tr>
-                                <tr>
-                                    <td>2021-08-26</td>
-                                    <td>Mayo</td>
-                                    <td>200</td>
-                                    <td>10%</td>
-                                </tr>
-                                <tr>
-                                    <td>2021-08-26</td>
-                                    <td>Junio</td>
-                                    <td>200</td>
-                                    <td>10%</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="text-center">
+                                    @php
+                                    setlocale(LC_ALL, 'es');
+                                    @endphp
+                                    @foreach ($utilities as $utility)
+                                    
+                                    <tr class="text-center">
+                                        <td>{{$utility->id}}</td>
+                                        <td class="text-capitalize">{{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}</td>
+                                        <td>{{$utility->percentage * 100}} %</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
 
 </section>
 @endsection
 
-
+{{-- CONFIGURACIÓN DE DATATABLE --}}
+@include('panels.datatables-config');
 
 @section('vendor-script')
 <!-- vendor files -->
@@ -294,6 +210,7 @@
         //-------------- SELECT DINÁMICO --------------
         //----------------------------------------------
         let selectContract = document.querySelector("#selectContract");
+        let idContrato = document.querySelector('#idContrato');
         let contratoInversion = document.querySelector("#contratoInversion");
         let contratoSaldoCapital = document.querySelector("#contratoSaldoCapital");
         let contratoProductividad = document.querySelector("#contratoProductividad");
@@ -316,6 +233,7 @@
                         .then(response => response.text())
                         .then(resultText => (
                             data = JSON.parse(resultText),
+                            idContrato.innerHTML = data.id,
                             contratoInversion.innerHTML = data.invested,
                             contratoSaldoCapital.innerHTML = data.capital,
                             contratoProductividad.innerHTML = data.gain,
@@ -325,6 +243,7 @@
                             console.log(error);
                         });
                 } else {
+                    idContrato.innerHTML = "";
                     contratoInversion.innerHTML = 0;
                     contratoSaldoCapital.innerHTML = 0;
                     contratoProductividad.innerHTML = 0;
@@ -333,9 +252,9 @@
             });
         }
 
-        
 
-        
+
+
         var $revenueReportChart = document.querySelector('#revenue-report-chart');
         var $budgetChart = document.querySelector('#budget-chart');
         var $goalOverviewChart = document.querySelector('#goal-overview-radial-bar-chart');

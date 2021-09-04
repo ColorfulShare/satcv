@@ -7,6 +7,7 @@ class DashboardController extends Controller
 {
 
   public $contratos;
+  public $utilities;
   /**
      * Lleva a a la vista del dashboard
      */
@@ -15,8 +16,8 @@ class DashboardController extends Controller
     $pageConfigs = ['pageHeader' => false];
     $this->contratos = new contractsController;
     $contratos = $this->contratos->contratos();
-
-    return view('/content/dashboard/dashboard-analytics', ['pageConfigs' => $pageConfigs, 'contratos' => $contratos]);
+    $utilities = $this->contratos->getUtilities();
+    return view('/content/dashboard/dashboard-analytics', compact('pageConfigs', 'contratos', 'utilities'));
   }
 
 

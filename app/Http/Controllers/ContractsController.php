@@ -150,12 +150,13 @@ class contractsController extends Controller
      */
     public function contratos()
     {
+        // dd( $contratos);
         try{
             $user = auth()->user();
             if($user->admin == 1){
-                $contratos = Contract::orderBy('id', 'desc')->get();
+                $contratos = Contract::orderBy('id', 'asc')->get();
             }else{
-                $contratos = $user->contracts;
+                $contratos = $user->contracts->sortBy('id');
             }
             return $contratos;
         } catch (\Throwable $th) {
@@ -185,9 +186,14 @@ class contractsController extends Controller
      */
     public function utilidades()
     {
-        $utilitys = Utility::orderBy('id', 'desc')->get();
+        $utilities = $this->getUtilities();
+        return view('contract.utilidades', compact('utilities'));
+    }
 
-        return view('contract.utilidades', compact('utilitys'));
+    public function getUtilities()
+    {
+        $utilities = Utility::orderBy('id', 'desc')->get();
+        return $utilities;
     }
 
     public function payUtility(Request $request)
