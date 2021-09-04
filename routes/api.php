@@ -16,7 +16,7 @@ use App\Http\Controllers\SolicitudController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/getContrato/{id}', [DashboardController::class, 'getContrato'])->name('get.contrato');
+Route::get('/getContrato/{id}', [ContractsController::class, 'getContrato'])->name('get.contrato');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

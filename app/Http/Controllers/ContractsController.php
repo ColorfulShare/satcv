@@ -151,7 +151,12 @@ class contractsController extends Controller
     public function contratos()
     {
         try{
-            $contratos = Contract::where('status', 1)->orderBy('id', 'desc')->get();
+            $user = auth()->user();
+            if($user->admin == 1){
+                $contratos = Contract::orderBy('id', 'desc')->get();
+            }else{
+                $contratos = $user->contracts;
+            }
             return $contratos;
         } catch (\Throwable $th) {
             Log::error('ContractsController::contratos -> Error: '.$th);
@@ -300,6 +305,24 @@ class contractsController extends Controller
                 ->rawColumns(['accion'])
                 ->make(true);
         }
+    }
+
+
+
+      /**
+     * Retorna el contrato según el id que se le pase
+     *
+     * @return json
+     */
+    public function getContrato($id)
+    {
+            try{
+                $contrato = Contract::find($id);
+                return response()->json($contrato);
+            } catch (\Throwable $th) {
+            Log::error('ContractsController::getContrato -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+            }
     }
 
     /**
