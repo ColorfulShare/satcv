@@ -19,12 +19,6 @@
           "slug": "contract.index"
         },
         {
-          "url": "/contratos/inversion",
-          "name": "Inversiones",
-          "icon": "circle",
-          "slug": "contract.inversion"
-        },
-        {
           "url": "/contratos/utilidades",
           "name": "Utilidades",
           "icon": "circle",

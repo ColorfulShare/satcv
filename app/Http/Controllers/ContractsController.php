@@ -259,26 +259,33 @@ class contractsController extends Controller
      */
     public function dataInversion(Request $request)
     {
+
         if ($request->ajax()) {
             $data = $this->contratos();
             return Datatables::of($data)
                 ->addColumn('id', function($data){
                     return $data->id;
                 })
-                ->addColumn('nombre', function($data){
-                    return $data->getOrden->user->name;
-                })
-                ->addColumn('documento', function($data){
-                    return $data->getOrden->user->dni;
-                })
-                ->addColumn('correo', function($data){
-                    return $data->getOrden->user->email;
-                })
                 ->addColumn('fecha', function($data){
                     return $data->created_at->format('Y/m/d');
                 })
+                ->addColumn('monto', function($data){
+                    return $data->getOrden->amount;
+                })
+                ->addColumn('capital', function($data){
+                    return $data->capital;
+                })
+                ->addColumn('productividad', function($data){
+                    return $data->gain;
+                })
+                ->addColumn('retirado', function($data){
+                    return $data->gain;
+                })
+                ->addColumn('vencimiento', function($data){
+                    return $data->contractExpiration()->format('Y/m/d');
+                })
                 ->addColumn('accion', function($data){
-                    return '<div class="d-flex">
+                    return '<div class="d-flex justify-content-center">
                         <a href="'. route('users.show-user', $data->getOrden->user->id) .'" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Perfil">
                             <i class="fa fa-eye"></i>
                         </a>
