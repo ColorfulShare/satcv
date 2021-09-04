@@ -8,39 +8,46 @@
 $configData = Helper::applClasses();
 @endphp
 
-<html lang="@if(session()->has('locale')){{session()->get('locale')}}@else{{$configData['defaultLanguage']}}@endif" data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}" class="loading {{ ($configData['theme'] === 'light') ? '' : $configData['layoutTheme']}}" @if($configData['theme'] === 'dark') data-layout="dark-layout" @endif>
+<html lang="@if(session()->has('locale')){{session()->get('locale')}}@else{{$configData['defaultLanguage']}}@endif"
+    data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}"
+    class="loading {{ ($configData['theme'] === 'light') ? '' : $configData['layoutTheme']}}"
+    @if($configData['theme']==='dark' ) data-layout="dark-layout" @endif>
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>@yield('title') - bitcoin Ecuador</title>
-  <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo/favicon.ico')}}">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
-  
-  {{-- CSS PROCESADO POR WEBPACK --}}
-  <link rel="stylesheet" href="{{asset(mix('css/app.css'))}}">
+    <title>@yield('title') - bitcoin Ecuador</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo/favicon.ico')}}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+        rel="stylesheet">
 
-  {{-- Include core + vendor Styles --}}
-  @include('panels/styles')
-  
+    {{-- CSS PROCESADO POR WEBPACK --}}
+    <link rel="stylesheet" href="{{asset(mix('css/app.css'))}}">
 
-{{-- <script src="{{ asset('js/core/app-menu.js') }}" defer></script> --}}
+    {{-- Include core + vendor Styles --}}
+    @include('panels/styles')
 
-<style>
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #00e600;
-}
-</style>
+
+    {{-- <script src="{{ asset('js/core/app-menu.js') }}" defer></script> --}}
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-color: #00e600;
+        }
+
+    </style>
 </head>
 
 

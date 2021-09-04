@@ -23,7 +23,8 @@
                     <div class="row">
                         <div class="col-8 d-flex flex-column">
                             <h4 class="mb-1 text-dark texto-card-1">Bienvenido {{Auth::user()->name}}</h4>
-                            <h1 class="mb-1 text-primary texto-card-2 font-weight-bolder">N°. <span id="idContrato"></span></h1>
+                            <h1 class="mb-1 text-primary texto-card-2 font-weight-bolder">N°. <span
+                                    id="idContrato"></span></h1>
 
                             <div class="text-left">
                                 <div class="form-group">
@@ -162,7 +163,8 @@
                 <div class="card-content">
                     <div class="card-body card-dashboard">
                         <div class="table-responsive">
-                            <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped comuntable">
+                            <table
+                                class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped comuntable">
                                 <thead class="">
 
                                     <tr class="text-center bg-purple-alt2">
@@ -177,10 +179,12 @@
                                     setlocale(LC_ALL, 'es');
                                     @endphp
                                     @foreach ($utilities as $utility)
-                                    
+
                                     <tr class="text-center">
                                         <td>{{$utility->id}}</td>
-                                        <td class="text-capitalize">{{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}</td>
+                                        <td class="text-capitalize">
+                                            {{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}
+                                        </td>
                                         <td>{{$utility->percentage * 100}} %</td>
                                     </tr>
                                     @endforeach
