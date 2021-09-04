@@ -15,19 +15,11 @@
                             <div class="form-body">
                                <h5>Detalles de Contrato</h5>
                                            
-
-                             <div class="row">
-                                <div class="col-12">
-                                   <div class="form-group">
-                                       <label>Orden N#</label>
-                                       <input type="email" readonly id="email" class="form-control" value="{{ $contrato->orden_purchases_id }}" name="email">
-                                    </div>
-                                </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                        <label>Inversion</label>
                                        <input type="email" readonly id="email" class="form-control"
-                                                        value="{{ $contrato->invested }}" name="email">
+                                       value="{{ $contrato->invested }}" name="email">
                                      </div>
                                 </div>
                                 <div class="col-12">
