@@ -39,17 +39,23 @@
       "slug": "/retiros",
       "submenu": [
         {
+          "url": "payments",
+          "name": "Historial de Retiros",
+          "icon": "circle",
+          "slug": "payments.index"
+        },
+        {
           "url": "retiros/retirar",
-          "name": "retirar",
+          "name": "Retiro de Ganancias",
           "icon": "circle",
           "slug": "retiros.retirar"
         },
         {
-          "url": "payments",
-          "name": "Retiros Realizados",
+          "url": "solicitud/retiro",
+          "name": "Retiro de Capital",
           "icon": "circle",
-          "slug": "payments.index"
-        }
+          "slug": "dashboard-analytics"
+        }        
       ]
     },
     {
