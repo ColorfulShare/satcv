@@ -44,6 +44,7 @@ Route::group(['prefix' => 'contratos'], function () {
     Route::get('/user', [ContractsController::class, 'contratosUser'])->name('contract.user');
     Route::get('/inversion', [ContractsController::class, 'inversion'])->name('contract.inversion');
     Route::get('/inversion-data', [ContractsController::class, 'dataInversion'])->name('data.inversion');
+    Route::post('/form-pdf', [ContractsController::class, 'formPdf'])->name('contract.pdf');
     Route::get('/utilidades', [ContractsController::class, 'utilidades'])->name('contract.utilidades');
     Route::get('/testCoin', [ContractsController::class, 'testCoin'])->name('contract.testCoin');
     Route::post('/payUtility', [ContractsController::class, 'payUtility'])->name('payUtility');
@@ -65,7 +66,8 @@ Route::group(['prefix' => 'reports'], function () {
 });
 
 Route::group(['prefix' => 'solicitud'], function () {
-    Route::get('/retiro', [SolicitudController::class, 'index_retiros'])->name('solicitud.retiros');
+    Route::get('/retiro', [SolicitudController::class, 'index_retiros'])->name('solicitud.retiros')->middleware('primerosCincoDias');
+    Route::get('/retiros', [SolicitudController::class, 'index_solicitudes'])->name('solicitud.remove');
 });
 
 //Ruta de los Tickets

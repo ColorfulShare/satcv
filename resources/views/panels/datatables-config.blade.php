@@ -14,17 +14,22 @@
         ajax: '{{ route('data.inversion') }}',
         columns: [
                     { data: 'id', name: 'id' },
-                    { data: 'nombre', name: 'nombre' },
-                    { data: 'documento', name: 'documento' },
-                    { data: 'correo', name: 'correo' },
                     { data: 'fecha', name: 'fecha' },
+                    { data: 'monto', name: 'monto' },
+                    { data: 'capital', name: 'capital' },
+                    { data: 'productividad', name: 'productividad' },
+                    { data: 'retirado', name: 'retirado' },
+                    { data: 'vencimiento', name: 'vencimiento' },
                     { data: 'accion', name: 'accion', orderable: false, searchable: false},
                 ],
-            responsive: true,
-            order: [[ 0, "desc" ]],
-            searching: true,
-            bLengthChange: true,
-            pageLength: 10,
+        columnDefs: [
+                        {className: "dt-center text-center", "targets": "_all"}
+                    ],
+        responsive: true,
+        order: [[ 0, "desc" ]],
+        searching: true,
+        bLengthChange: true,
+        pageLength: 10,
     });
 
     $('#tableUtility').DataTable({

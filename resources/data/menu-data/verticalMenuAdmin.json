@@ -19,12 +19,6 @@
           "slug": "contract.index"
         },
         {
-          "url": "/contratos/inversion",
-          "name": "Inversiones",
-          "icon": "circle",
-          "slug": "contract.inversion"
-        },
-        {
           "url": "/contratos/utilidades",
           "name": "Utilidades",
           "icon": "circle",
@@ -50,6 +44,19 @@
       "name": "Usuarios",
       "icon": "users",
       "slug": "users.list-user"
+    },
+    {
+      "name": "Solicitud",
+      "icon": "home",
+      "slug": "",
+      "submenu": [
+        {
+          "url": "solicitud/retiros",
+          "name": "Retiro",
+          "icon": "circle",
+          "slug": "dashboard-analytics"
+        }
+      ]
     },
     {
       "name": "Retiros",

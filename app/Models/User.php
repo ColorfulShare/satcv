@@ -67,6 +67,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
+    public function fullName()
+    {
+        return $this->name .' '.$this->lastname;
+    }
+
     public function ordenes()
     {
         return $this->hasMany('App\Models\OrdenPurchases', 'user_id');

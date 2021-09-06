@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Datatables;
-use App\Models\contract;
+use App\Models\Contract;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -16,8 +16,10 @@ use App\Models\Log_utility;
 use App\Models\Wallet;
 use DB;
 use App\Models\Utility;
+use App\Models\SolicitudRetiro;
+use App\Models\Liquidation;
 
-class contractsController extends Controller
+class ContractsController extends Controller
 {
     /**
      * Lleva a a la vista de las inversiones
@@ -33,6 +35,13 @@ class contractsController extends Controller
     public function index()
     {
         return view('contract.index');
+    }
+
+    public function show($id)
+    {
+        $Contract = Contract::find($id);
+        
+        return view('contract.show');
     }
     /**
      * Permite guardar las nuevas contratos generadas
@@ -56,19 +65,45 @@ class contractsController extends Controller
             Contract::create($data);
     
         } catch (\Throwable $th) {
-            Log::error('contractsController - saveContrato -> Error: '.$th);
+            Log::error('ContractsController - saveContrato -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
     public function removeContract(Request $request)
     {
-        $contract = Contract::findOrFail($request->contratoId);
-        $contract->status = 2;
-        $contract->capital = $contract->capital - ($contract->capital * 0.25 );
-        $contract->save();
+        try{
+            DB::beginTransaction();
+            $solicitud = SolicitudRetiro::find($request->solicitudId);
+            $capital = $solicitud->amount - ($solicitud->amount * 0.25);
 
-        return response()->json(true);
+            $Contract = Contract::findOrFail($request->contratoId);
+            $Contract->capital -= $capital;
+            if($Contract->capital <= 0){
+                $Contract->status = 2;
+            }
+
+            $Contract->save();
+
+            $solicitud->update(['status' => 1, 'wallet' => $request->wallet]);
+            
+            Liquidation::create([
+                'user_id' => $Contract->user()->id,
+                'amount' => $solicitud->amount,
+                'total_amount' => $capital,
+                'feed' => $solicitud->amount * 0.25,
+                'wallet_used' => $request->wallet,
+                'status' => 0,
+                'type' => 0
+            ]);
+
+            DB::commit();
+            return response()->json(true);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            Log::error('ContractsController - removeContract -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }   
 
     public function testCoin()
@@ -122,11 +157,17 @@ class contractsController extends Controller
      */
     public function contratos()
     {
+        // dd( $contratos);
         try{
-            $contratos = Contract::where('status', 1)->orderBy('id', 'desc')->get();
+            $user = auth()->user();
+            if($user->admin == 1){
+                $contratos = Contract::orderBy('id', 'asc')->get();
+            }else{
+                $contratos = $user->Contracts->sortBy('id');
+            }
             return $contratos;
         } catch (\Throwable $th) {
-            Log::error('Dashboard - getContrato -> Error: '.$th);
+            Log::error('ContractsController::contratos -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
@@ -152,9 +193,14 @@ class contractsController extends Controller
      */
     public function utilidades()
     {
-        $utilitys = Utility::orderBy('id', 'desc')->get();
+        $utilities = $this->getUtilities();
+        return view('contract.utilidades', compact('utilities'));
+    }
 
-        return view('contract.utilidades', compact('utilitys'));
+    public function getUtilities()
+    {
+        $utilities = Utility::orderBy('id', 'desc')->get();
+        return $utilities;
     }
 
     public function payUtility(Request $request)
@@ -194,7 +240,7 @@ class contractsController extends Controller
                     $current_capital = $contrato->capital;
 
                     $utility = new Log_utility;
-                    $utility->contract_id = $contrato->id;
+                    $utility->Contract_id = $contrato->id;
                     $utility->wallet_id = $wallet != null ? $wallet->id : null;
                     $utility->percentage = $porcentaje;
                     $utility->month = $request->mes;
@@ -219,7 +265,7 @@ class contractsController extends Controller
             return back()->with('success', 'Utilidad pagada exitosamente');
         } catch (\Throwable $th) {
             DB::rollback();
-            Log::error('contractsController - payUtility -> Error: '.$th);
+            Log::error('ContractsController - payUtility -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
@@ -231,39 +277,93 @@ class contractsController extends Controller
      */
     public function dataInversion(Request $request)
     {
+
         if ($request->ajax()) {
             $data = $this->contratos();
             return Datatables::of($data)
                 ->addColumn('id', function($data){
                     return $data->id;
                 })
-                ->addColumn('nombre', function($data){
-                    return $data->getOrden->user->name;
-                })
-                ->addColumn('documento', function($data){
-                    return $data->getOrden->user->dni;
-                })
-                ->addColumn('correo', function($data){
-                    return $data->getOrden->user->email;
-                })
                 ->addColumn('fecha', function($data){
                     return $data->created_at->format('Y/m/d');
                 })
+                ->addColumn('monto', function($data){
+                    return $data->getOrden->amount;
+                })
+                ->addColumn('capital', function($data){
+                    return $data->capital;
+                })
+                ->addColumn('productividad', function($data){
+                    return $data->gain;
+                })
+                ->addColumn('retirado', function($data){
+                    return $data->gain;
+                })
+                ->addColumn('vencimiento', function($data){
+                    return $data->ContractExpiration()->format('Y/m/d');
+                })
                 ->addColumn('accion', function($data){
-                    return '<div class="d-flex">
+                    return '<div class="d-flex justify-content-center">
                         <a href="'. route('users.show-user', $data->getOrden->user->id) .'" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Perfil">
                             <i class="fa fa-eye"></i>
                         </a>
                         <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato">
                             <i class="fa fa-paper-plane"></i>
                         </button>
-                        <button class="btn btn-success"  data-toggle="tooltip" data-placement="right" title="Aprobar">
+                        <button type="button"class="btn btn-success" data-id='. $data->id.' title="Aprobar" data-toggle="modal" data-target="#form-pdf">
                             <i class="fa fa-check-square"></i>
                         </button>
                     </div>';
                 })
                 ->rawColumns(['accion'])
                 ->make(true);
+        }
+    }
+
+
+
+      /**
+     * Retorna el contrato según el id que se le pase
+     *
+     * @return json
+     */
+    public function getContrato($id)
+    {
+            try{
+                $contrato = Contract::find($id);
+                return response()->json($contrato);
+            } catch (\Throwable $th) {
+            Log::error('ContractsController::getContrato -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+            }
+    }
+
+    /**
+     * Formulario para subir PDF
+     *
+     */
+    public function formPdf(Request $request)
+    {
+        try{
+            $validate = $request->validate([
+                'idContract' => 'required',
+                'urlpdf' => ['nullable', 'max:4096']
+            ]);
+            
+            if($validate){      
+                $file = $request->urlpdf;
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'pdf-Contract/' . $request->idContract . '/' . $nombre;
+                $contrato = Contract::find($request->idContract);
+                $contrato->url_pdf = $ruta;
+                $contrato->save();
+                $file->storeAs('public/pdf-Contract/'.$request->idContract, $nombre);
+                return redirect()->back()->with('success', 'PDF Guardado Exitosamente');
+            }   
+
+        } catch (\Throwable $th) {
+            Log::error('ContractsController::formPdf -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 }

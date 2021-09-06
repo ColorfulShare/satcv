@@ -42,8 +42,7 @@ class ReportController extends Controller
      $contrato = contract::find($id);
  
 
-         return view('reports.show-contrato')
-         ->with('contrato', $contrato);
+         return view('reports.show-contrato')->with('contrato', $contrato);
 
    }
 }

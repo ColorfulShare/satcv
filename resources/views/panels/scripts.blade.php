@@ -8,8 +8,9 @@
     <script src="{{ asset('vendors/js/extensions/sweetalert2.all.min.js') }}"></script>
 @yield('vendor-script')
 {{-- Theme Scripts --}}
-    <script src="{{ asset('js/core/app-menu.js') }}"></script>
+    <script src="{{ asset(mix('js/app.js')) }}" defer></script> 
     <script src="{{ asset('js/core/app.js') }}"></script>
+    <script src="{{ asset('js/core/app-menu.js') }}"></script>
     @if($configData['blankPage'] === false)
     <script src="{{ asset('js/scripts/customizer.js') }}"></script>
     @endif

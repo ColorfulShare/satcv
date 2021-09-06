@@ -24,10 +24,11 @@
                         <div class="col-8 d-flex flex-column">
                             <h4 class="mb-1 text-dark texto-card-1">Bienvenido {{Auth::user()->name}}</h4>
                             <h1 class="mb-1 text-primary texto-card-2 font-weight-bolder">N°. <span
-                                    id="idContrato"></span></h1>
+                                    id="idContrato">{{$contract->id}}</span></h1>
 
                             <div class="text-left">
                                 <div class="form-group">
+                                    {{--
                                     <label for="selectContract" class="d-flex justify-content-center">Cambiar
                                         contrato</label>
                                     <select class="form-control text-center" id="selectContract">
@@ -37,6 +38,7 @@
                                             {{$contrato->created_at->format('Y/m/d')}}</option>
                                         @endforeach
                                     </select>
+                                    --}}
                                 </div>
                             </div>
                         </div>
@@ -62,7 +64,7 @@
                                     <i class="fa fa-2x fa-chart-line bg-light rounded-circle p-1 text-info"></i>
                                 </div>
                                 <div class="pl-1">
-                                    <h3 class="my-0">$<span class="contratoInversion">0</span> </h3>
+                                    <h3 class="my-0">$<span id="contratoInversion">{{$contract->invested}}</span> </h3>
                                     <p><small class="small">Inversión</small></p>
                                 </div>
                             </div>
@@ -71,7 +73,7 @@
                                     <i class="fa fa-2x fa-dollar-sign bg-light rounded-circle p-1 text-success"></i>
                                 </div>
                                 <div class="pl-1">
-                                    <h3 class="my-0">$<span id="contratoSaldoCapital">0</span> </h3>
+                                    <h3 class="my-0">$<span id="contratoSaldoCapital">{$contract->capital}}</span> </h3>
                                     <p><small class="small">Saldo Capital</small></p>
                                 </div>
                             </div>
@@ -80,7 +82,7 @@
                                     <i class="fa fa-2x fa-chart-bar bg-light rounded-circle p-1 text-warning"></i>
                                 </div>
                                 <div class="pl-1">
-                                    <h3 class="my-0"><span class="contratoProductividad">0</span>%</h3>
+                                    <h3 class="my-0"><span id="contratoProductividad">0</span>%</h3>
                                     <p><small class="small">Productividad</small></p>
                                 </div>
                             </div>
@@ -113,11 +115,11 @@
                     <div class="row border-top text-center mx-0">
                         <div class="col-6 border-right py-1">
                             <p class="card-text text-muted mb-0">Saldo Invertido</p>
-                            <h3 class="font-weight-bolder mb-0">$<span class="contratoInversion">0</span></h3>
+                            <h3 class="font-weight-bolder mb-0">$200</h3>
                         </div>
                         <div class="col-6 py-1">
                             <p class="card-text text-muted mb-0">Ganancia</p>
-                            <h3 class="font-weight-bolder mb-0">$<span class="contratoProductividad">0</span></h3>
+                            <h3 class="font-weight-bolder mb-0">$567</h3>
                         </div>
                     </div>
                 </div>
@@ -137,7 +139,7 @@
                     </div>
                     <div class="col-md-5 col-12 budget-wrapper d-flex flex-column justify-content-center">
                         <div class="mb-1">
-                            <h2 class="h1 mb-50 mb-sm-0">$<span class="contratoProductividad">0</span></h2>
+                            <h2 class="h1 mb-50 mb-sm-0">$567</h2>
                             <h5>Ganancia</h5>
                         </div>
                         <div id="budget-chart"></div>
@@ -215,9 +217,9 @@
         //----------------------------------------------
         let selectContract = document.querySelector("#selectContract");
         let idContrato = document.querySelector('#idContrato');
-        let contratoInversion = document.querySelectorAll(".contratoInversion");
+        let contratoInversion = document.querySelector("#contratoInversion");
         let contratoSaldoCapital = document.querySelector("#contratoSaldoCapital");
-        let contratoProductividad = document.querySelectorAll(".contratoProductividad");
+        let contratoProductividad = document.querySelector("#contratoProductividad");
         let contratoRetirado = document.querySelector("#contratoRetirado");
 
         let url = 'api/getContrato/';
@@ -237,26 +239,20 @@
                         .then(response => response.text())
                         .then(resultText => (
                             data = JSON.parse(resultText),
-                            goalOverviewChart.updateOptions({
-                                series: [((data.gain/data.invested)*100).toFixed(2)],
-                            }),
                             idContrato.innerHTML = data.id,
-                            contratoInversion.forEach(i => i.innerHTML = data.invested),
+                            contratoInversion.innerHTML = data.invested,
                             contratoSaldoCapital.innerHTML = data.capital,
-                            contratoProductividad.forEach(i => i.innerHTML = data.gain),
+                            contratoProductividad.innerHTML = data.gain,
                             contratoRetirado.innerHTML = data.gain
                         ))
                         .catch(function (error) {
                             console.log(error);
                         });
                 } else {
-                    goalOverviewChart.updateOptions({
-                                series: [(0).toFixed(2)],
-                            }),
                     idContrato.innerHTML = "";
-                    contratoInversion.forEach(i => i.innerHTML = 0),
+                    contratoInversion.innerHTML = 0;
                     contratoSaldoCapital.innerHTML = 0;
-                    contratoProductividad.forEach(i => i.innerHTML = 0),
+                    contratoProductividad.innerHTML = 0;
                     contratoRetirado.innerHTML = 0;
                 }
             });
@@ -277,193 +273,185 @@
         var budgetChart;
         var goalOverviewChart;
 
-
-                //------------ Goal Overview Chart (INVERSION) ------------
-        //---------------------------------------------
-            goalOverviewChartOptions = {
-                chart: {
-                    width: '100%',
-                    type: 'radialBar',
-                    sparkline: {
-                        enabled: true
-                    },
-                    dropShadow: {
-                        enabled: true,
-                        blur: 3,
-                        left: 1,
-                        top: 1,
-                        opacity: 0.1
-                    }
-                },
-                colors: ['#00e600'],
-                plotOptions: {
-                    radialBar: {
-                        offsetY: -10,
-                        startAngle: -150,
-                        endAngle: 150,
-                        hollow: {
-                            size: '77%'
-                        },
-                        track: {
-                            background: '#8a8a8a61',
-                            strokeWidth: '50%'
-                        },
-                        dataLabels: {
-                            name: {
-                                show: false
-                            },
-                            value: {
-                                color: '#5e5873',
-                                fontSize: '2.86rem',
-                                fontWeight: '600'
-                            }
-                        }
-                    }
-                },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shade: 'dark',
-                        type: 'horizontal',
-                        shadeIntensity: 0.5,
-                        gradientToColors: [window.colors.solid.success],
-                        inverseColors: true,
-                        opacityFrom: 1,
-                        opacityTo: 1,
-                        stops: [0, 100]
-                    }
-                },
-                series: [(0).toFixed(2)],
-                stroke: {
-                    lineCap: 'round'
-                },
-                grid: {
-                    padding: {
-                        bottom: 30
-                    }
-                }
-            };
-            goalOverviewChart = new ApexCharts($goalOverviewChart, goalOverviewChartOptions);
-            goalOverviewChart.render();
-            console.log(goalOverviewChart)
-
-        //------------ Revenue Report Chart (RENDIMIENTO) ------------
+        //------------ Revenue Report Chart ------------
         //----------------------------------------------
-        function graficarRendimiento(){
-            revenueReportChartOptions = {
-                chart: {
-                    width: '100%',
-                    stacked: true,
-                    type: 'bar',
-                    toolbar: {
-                        show: false
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        columnWidth: '12%',
-                        endingShape: 'rounded'
-                    },
-                    distributed: true
-                },
-                colors: ['#00e600', window.colors.solid.warning],
-                series: [{
-                        name: 'Earning',
-                        data: [95, 177, 284, 256, 105, 63, 102, 320]
-                    },
-                    {
-                        name: 'Expense',
-                        data: [-145, -80, -60, -180, -100, -60, -75, -80]
-                    }
-                ],
-                dataLabels: {
-                    enabled: false
-                },
-                legend: {
+        revenueReportChartOptions = {
+            chart: {
+                width: '100%',
+                stacked: true,
+                type: 'bar',
+                toolbar: {
                     show: false
+                }
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '12%',
+                    endingShape: 'rounded'
                 },
-                grid: {
-                    padding: {
-                        top: -20,
-                        bottom: -10
-                    },
-                    yaxis: {
-                        lines: {
-                            show: false
-                        }
-                    }
+                distributed: true
+            },
+            colors: ['#00e600', window.colors.solid.warning],
+            series: [{
+                    name: 'Earning',
+                    data: [95, 177, 284, 256, 105, 63, 102, 320]
                 },
-                xaxis: {
-                    categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago'],
-                    labels: {
-                        style: {
-                            colors: '#b9b9c3',
-                            fontSize: '0.86rem',
-                        },
-                        show: false
-                    },
-                    axisTicks: {
-                        show: false
-                    },
-                    axisBorder: {
-                        show: false
-                    }
+                {
+                    name: 'Expense',
+                    data: [-145, -80, -60, -180, -100, -60, -75, -80]
+                }
+            ],
+            dataLabels: {
+                enabled: false
+            },
+            legend: {
+                show: false
+            },
+            grid: {
+                padding: {
+                    top: -20,
+                    bottom: -10
                 },
                 yaxis: {
-                    labels: {
-                        style: {
-                            colors: '#b9b9c3',
-                            fontSize: '0.86rem'
-                        },
+                    lines: {
                         show: false
                     }
                 }
-            };
-            revenueReportChart = new ApexCharts($revenueReportChart, revenueReportChartOptions);
-            revenueReportChart.render();
-        }
-        graficarRendimiento();
-        
+            },
+            xaxis: {
+                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago'],
+                labels: {
+                    style: {
+                        colors: '#b9b9c3',
+                        fontSize: '0.86rem',
+                    },
+                    show: false
+                },
+                axisTicks: {
+                    show: false
+                },
+                axisBorder: {
+                    show: false
+                }
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: '#b9b9c3',
+                        fontSize: '0.86rem'
+                    },
+                    show: false
+                }
+            }
+        };
+        revenueReportChart = new ApexCharts($revenueReportChart, revenueReportChartOptions);
+        revenueReportChart.render();
+
+
         //---------------- Budget Chart ----------------
         //----------------------------------------------
-        function graficarGanancia(){
-            budgetChartOptions = {
-                chart: {
-                    width: '100%',
-                    toolbar: {
-                        show: false
-                    },
-                    zoom: {
-                        enabled: false
-                    },
-                    type: 'line',
-                    sparkline: {
-                        enabled: true
-                    }
+        budgetChartOptions = {
+            chart: {
+                width: '100%',
+                toolbar: {
+                    show: false
                 },
-                stroke: {
-                    curve: 'smooth',
-                    dashArray: [0, 5],
-                    width: [2]
-                },
-                colors: ['#00e600', '#00e600'],
-                series: [{
-                        data: [61, 48, 69, 52, 60, 40, 79, 60, 59, 43, 62]
-                    },
-                    {
-                        data: [20, 10, 30, 15, 23, 0, 25, 15, 20, 5, 27]
-                    }
-                ],
-                tooltip: {
+                zoom: {
                     enabled: false
+                },
+                type: 'line',
+                sparkline: {
+                    enabled: true
                 }
-            };
-            budgetChart = new ApexCharts($budgetChart, budgetChartOptions);
-            budgetChart.render();
-        }
-        graficarGanancia();
+            },
+            stroke: {
+                curve: 'smooth',
+                dashArray: [0, 5],
+                width: [2]
+            },
+            colors: ['#00e600', '#00e600'],
+            series: [{
+                    data: [61, 48, 69, 52, 60, 40, 79, 60, 59, 43, 62]
+                },
+                {
+                    data: [20, 10, 30, 15, 23, 0, 25, 15, 20, 5, 27]
+                }
+            ],
+            tooltip: {
+                enabled: false
+            }
+        };
+        budgetChart = new ApexCharts($budgetChart, budgetChartOptions);
+        budgetChart.render();
 
 
+        //------------ Goal Overview Chart ------------
+        //---------------------------------------------
+        goalOverviewChartOptions = {
+            chart: {
+                width: '100%',
+                type: 'radialBar',
+                sparkline: {
+                    enabled: true
+                },
+                dropShadow: {
+                    enabled: true,
+                    blur: 3,
+                    left: 1,
+                    top: 1,
+                    opacity: 0.1
+                }
+            },
+            colors: ['#00e600'],
+            plotOptions: {
+                radialBar: {
+                    offsetY: -10,
+                    startAngle: -150,
+                    endAngle: 150,
+                    hollow: {
+                        size: '77%'
+                    },
+                    track: {
+                        background: '#8a8a8a61',
+                        strokeWidth: '50%'
+                    },
+                    dataLabels: {
+                        name: {
+                            show: false
+                        },
+                        value: {
+                            color: '#5e5873',
+                            fontSize: '2.86rem',
+                            fontWeight: '600'
+                        }
+                    }
+                }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    type: 'horizontal',
+                    shadeIntensity: 0.5,
+                    gradientToColors: [window.colors.solid.success],
+                    inverseColors: true,
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100]
+                }
+            },
+            series: [83],
+            stroke: {
+                lineCap: 'round'
+            },
+            grid: {
+                padding: {
+                    bottom: 30
+                }
+            }
+        };
+        goalOverviewChart = new ApexCharts($goalOverviewChart, goalOverviewChartOptions);
+        goalOverviewChart.render();
     });
 
 </script>

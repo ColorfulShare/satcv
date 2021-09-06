@@ -39,3 +39,9 @@
 {{-- user custom styles --}}
 <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
 
+<style>
+    .swal2-input[type=number]{
+        max-width: 100% !important;
+    }
+</style>
+
