@@ -35,10 +35,13 @@
                                             <td>{{$orden->amount}}</td>
                                             <td>
                                                 <button type="button"
-                                                data-toggle="modal"
-                                                data-target="#ModalStatus{{$orden->id}}"
-                                                class="@if ($orden->status == '0') btn btn-info text-white text-bold-600  @elseif($orden->status == '1') btn btn-success text-white text-bold-600 @elseif($orden->status >= '2') btn btn-danger text-white text-bold-600 @endif">{{$orden->status()}}
-                                                </button>
+                                                    @if (Auth::user()->admin == 1 && $orden->status == '0')
+                                                    data-toggle="modal"
+                                                    data-target="#ModalStatus{{$orden->id}}"
+                                                    @endif
+
+                                                    class="@if ($orden->status == '0') btn btn-info text-white text-bold-600  @elseif($orden->status == '1') btn btn-success text-white text-bold-600 @elseif($orden->status >= '2') btn btn-danger text-white text-bold-600 @endif">{{$orden->status()}}
+                                              </button>
                                             </td>
                                             <td>{{$orden->created_at->format('Y-m-d')}}</td>
                                         </tr>
