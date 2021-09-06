@@ -26,7 +26,11 @@
 
                              @foreach ($ordenes as $orden)
                                 <tr class="text-center">
-                                    <td> <a href="{{ $orden->urlOrder($orden->id) == null ? '#' : $orden->urlOrder($orden->id)->status_url}}" class="text-black" target="_blank">{{$orden->id}}</a></td>
+                                    @if ($orden->urlOrder($orden->id) == null)
+                                    <td>{{$orden->id}}</td>
+                                    @else
+                                    <td> <a href="{{ $orden->urlOrder($orden->id)->status_url}}" class="text-black" target="_blank">{{$orden->id}}</a></td>
+                                    @endif
                                     <td>{{$orden->transaction_id}}</td>
                                     <td>{{$orden->type_interes}}</td>
                                     <td>{{$orden->amount}}</td>
