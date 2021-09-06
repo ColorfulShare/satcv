@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Datatables;
-use App\Models\contract;
+use App\Models\Contract;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ use App\Models\Utility;
 use App\Models\SolicitudRetiro;
 use App\Models\Liquidation;
 
-class contractsController extends Controller
+class ContractsController extends Controller
 {
     /**
      * Lleva a a la vista de las inversiones
@@ -39,7 +39,7 @@ class contractsController extends Controller
 
     public function show($id)
     {
-        $contract = contract::find($id);
+        $Contract = Contract::find($id);
         
         return view('contract.show');
     }
@@ -65,7 +65,7 @@ class contractsController extends Controller
             Contract::create($data);
     
         } catch (\Throwable $th) {
-            Log::error('contractsController - saveContrato -> Error: '.$th);
+            Log::error('ContractsController - saveContrato -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
@@ -77,18 +77,18 @@ class contractsController extends Controller
             $solicitud = SolicitudRetiro::find($request->solicitudId);
             $capital = $solicitud->amount - ($solicitud->amount * 0.25);
 
-            $contract = Contract::findOrFail($request->contratoId);
-            $contract->capital -= $capital;
-            if($contract->capital <= 0){
-                $contract->status = 2;
+            $Contract = Contract::findOrFail($request->contratoId);
+            $Contract->capital -= $capital;
+            if($Contract->capital <= 0){
+                $Contract->status = 2;
             }
 
-            $contract->save();
+            $Contract->save();
 
             $solicitud->update(['status' => 1, 'wallet' => $request->wallet]);
             
             Liquidation::create([
-                'user_id' => $contract->user()->id,
+                'user_id' => $Contract->user()->id,
                 'amount' => $solicitud->amount,
                 'total_amount' => $capital,
                 'feed' => $solicitud->amount * 0.25,
@@ -101,7 +101,7 @@ class contractsController extends Controller
             return response()->json(true);
         } catch (\Throwable $th) {
             DB::rollback();
-            Log::error('contractsController - removeContract -> Error: '.$th);
+            Log::error('ContractsController - removeContract -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }   
@@ -163,7 +163,7 @@ class contractsController extends Controller
             if($user->admin == 1){
                 $contratos = Contract::orderBy('id', 'asc')->get();
             }else{
-                $contratos = $user->contracts->sortBy('id');
+                $contratos = $user->Contracts->sortBy('id');
             }
             return $contratos;
         } catch (\Throwable $th) {
@@ -240,7 +240,7 @@ class contractsController extends Controller
                     $current_capital = $contrato->capital;
 
                     $utility = new Log_utility;
-                    $utility->contract_id = $contrato->id;
+                    $utility->Contract_id = $contrato->id;
                     $utility->wallet_id = $wallet != null ? $wallet->id : null;
                     $utility->percentage = $porcentaje;
                     $utility->month = $request->mes;
@@ -265,7 +265,7 @@ class contractsController extends Controller
             return back()->with('success', 'Utilidad pagada exitosamente');
         } catch (\Throwable $th) {
             DB::rollback();
-            Log::error('contractsController - payUtility -> Error: '.$th);
+            Log::error('ContractsController - payUtility -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
@@ -300,7 +300,7 @@ class contractsController extends Controller
                     return $data->gain;
                 })
                 ->addColumn('vencimiento', function($data){
-                    return $data->contractExpiration()->format('Y/m/d');
+                    return $data->ContractExpiration()->format('Y/m/d');
                 })
                 ->addColumn('accion', function($data){
                     return '<div class="d-flex justify-content-center">
@@ -353,11 +353,11 @@ class contractsController extends Controller
             if($validate){      
                 $file = $request->urlpdf;
                 $nombre = time() . $file->getClientOriginalName();
-                $ruta = 'pdf-contract/' . $request->idContract . '/' . $nombre;
-                $contrato = contract::find($request->idContract);
+                $ruta = 'pdf-Contract/' . $request->idContract . '/' . $nombre;
+                $contrato = Contract::find($request->idContract);
                 $contrato->url_pdf = $ruta;
                 $contrato->save();
-                $file->storeAs('public/pdf-contract/'.$request->idContract, $nombre);
+                $file->storeAs('public/pdf-Contract/'.$request->idContract, $nombre);
                 return redirect()->back()->with('success', 'PDF Guardado Exitosamente');
             }   
 
