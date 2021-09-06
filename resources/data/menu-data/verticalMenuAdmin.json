@@ -26,12 +26,11 @@
         }
       ]
     },
-
     {
-      "url": "reports/purchases",
+      "url": "reports/purchase",
       "name": "Ordenes",
       "icon": "shopping-cart",
-      "slug": "reports.pedidos"
+      "slug": "reports.index"
     },
     {
       "url": "reports",

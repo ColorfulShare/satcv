@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 
+
 class ReportController extends Controller
 {
     //
@@ -27,15 +28,18 @@ class ReportController extends Controller
         return view('reports.pedido', compact('ordenes'));
     }
   
-    public function indexOrders()
+    public function indexPedidos()
     {
-
-    
-      $ordenes = OrdenPurchases::orderBy('id', 'desc')->get();
-               
-    
-        return view('reports.index', compact('ordenes'));
+        $user = auth()->user();
+        if($user->admin == 1){
+            $ordenes = OrdenPurchases::orderBy('id', 'desc')->get();
+        }else{
+            $ordenes = OrdenPurchases::orderBy('id', 'desc')->where('user_id', $user->id)->get();
     }
+
+
+        return view('reports.index', compact('ordenes'));
+}
 
     public function indexShow($id){
   

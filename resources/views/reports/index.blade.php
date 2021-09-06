@@ -20,7 +20,9 @@
                                         <th>Monto</th>
                                         <th>Estado</th>
                                         <th>Fecha de Creación</th>
+                                        @if(Auth::user()->admin == 1) 
                                         <th>Accion</th>
+                                       @endif
                                     </tr>
 
                                 </thead>
@@ -35,20 +37,23 @@
                                             <td>{{$orden->amount}}</td>
                                             <td>
                                                 <button type="button"
-                                                data-toggle="modal"
-                                                data-target="#ModalStatus{{$orden->id}}"
-                                                class="@if ($orden->status == '0') btn btn-info text-white text-bold-600  @elseif($orden->status == '1') btn btn-success text-white text-bold-600 @elseif($orden->status >= '2') btn btn-danger text-white text-bold-600 @endif">{{$orden->status()}}
-                                                </button>
+                                                    @if (Auth::user()->admin == 1 && $orden->status == '0')
+                                                    data-toggle="modal"
+                                                    data-target="#ModalStatus{{$orden->id}}"
+                                                    @endif
+
+                                                    class="@if ($orden->status == '0') btn btn-info text-white text-bold-600  @elseif($orden->status == '1') btn btn-success text-white text-bold-600 @elseif($orden->status >= '2') btn btn-danger text-white text-bold-600 @endif">{{$orden->status()}}
+                                              </button>
                                             </td>
                                             <td>{{$orden->created_at->format('Y-m-d')}}</td>
-                                            <td>
-                                              <div class="d-flex">
+                                            <td> @if(Auth::user()->admin == 1) 
+                                                  <div class="d-flex">
 
-                                                <a href="{{ route('reports.show-contrato', $orden) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Contrato"><i class="fa fa-eye"></i></a>
-                                                <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato"><i class="fa fa-paper-plane"></i></button>
-                                              </div>
+                                                    <a href="{{ route('reports.show-contrato', $orden) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Contrato"><i class="fa fa-eye"></i></a>
+                                                    <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato"><i class="fa fa-paper-plane"></i></button>
+                                                  </div>
+                                                @endif
                                             </td>
-                                        </tr>
                                         @if (Auth::user()->admin == 1 && $orden->status == '0')
                                             <!-- Modal -->
                                             <div class="modal fade" id="ModalStatus{{$orden->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
