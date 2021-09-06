@@ -30,7 +30,7 @@
         searching: true,
         bLengthChange: true,
         pageLength: 10,
-    });
+    })
 
     $('#tableUtility').DataTable({
         order: [[ 0, "desc" ]],

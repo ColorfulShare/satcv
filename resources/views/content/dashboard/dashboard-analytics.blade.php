@@ -7,11 +7,6 @@
 <link rel="stylesheet" href="{{ asset('vendors/css/extensions/toastr.min.css') }}">
 @endsection
 
-@section('page-style')
-<!-- Page css files -->
-<link rel="stylesheet" href="{{ asset('css/custom-dashboard.css')}}">
-@endsection
-
 @section('content')
 <!-- Dashboard Analytics Start -->
 <section id="dashboard-analytics">
@@ -201,7 +196,7 @@
 @endsection
 
 {{-- CONFIGURACIÓN DE DATATABLE --}}
-@include('panels.datatables-config');
+@include('panels.datatables-config')
 
 @section('vendor-script')
 <!-- vendor files -->
@@ -213,15 +208,15 @@
 
         //-------------- SELECT DINÁMICO --------------
         //----------------------------------------------
-        let selectContract = document.querySelector("#selectContract");
-        let idContrato = document.querySelector('#idContrato');
-        let contratoInversion = document.querySelectorAll(".contratoInversion");
-        let contratoSaldoCapital = document.querySelector("#contratoSaldoCapital");
-        let contratoProductividad = document.querySelectorAll(".contratoProductividad");
-        let contratoRetirado = document.querySelector("#contratoRetirado");
+        let selectContract = document.querySelector("#selectContract")
+        let idContrato = document.querySelector('#idContrato')
+        let contratoInversion = document.querySelectorAll(".contratoInversion")
+        let contratoSaldoCapital = document.querySelector("#contratoSaldoCapital")
+        let contratoProductividad = document.querySelectorAll(".contratoProductividad")
+        let contratoRetirado = document.querySelector("#contratoRetirado")
 
-        let url = 'api/getContrato/';
-        let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        let url = 'api/getContrato/'
+        let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         if (selectContract != null) {
             selectContract.addEventListener('change', function () {
                 if (selectContract.value > 0) {
@@ -345,7 +340,6 @@
             };
             goalOverviewChart = new ApexCharts($goalOverviewChart, goalOverviewChartOptions);
             goalOverviewChart.render();
-            console.log(goalOverviewChart)
 
         //------------ Revenue Report Chart (RENDIMIENTO) ------------
         //----------------------------------------------
