@@ -143,11 +143,11 @@
 
     $(document).on('click', '.btn_msj', function () {
 
-        if ($('#message').val() == null || $('#message').val() == '') {
-            toastr.error("El mensaje es requerido", '', {
-                "timeOut": 3000
-            })
-        } else {
+        // if ($('#message').val() == null || $('#message').val() == '') {
+        //     toastr.error("El mensaje es requerido", '', {
+        //         "timeOut": 3000
+        //     })
+        // } else {
 
             let item = {}
             var this_button = $(this)
@@ -179,6 +179,6 @@
                 })
             });
 
-        }
+        // }
     });
 </script>
