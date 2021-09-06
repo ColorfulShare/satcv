@@ -36,14 +36,6 @@ class contractsController extends Controller
     {
         return view('contract.index');
     }
-
-    public function show($id)
-    {
-        $contract = contract::find($id);
-        $utilities = Log_utility::where('contract_id', $id)->get();
-    
-        return view('contract.show', compact('contract', 'utilities'));
-    }
     /**
      * Permite guardar las nuevas contratos generadas
      *
@@ -226,6 +218,7 @@ class contractsController extends Controller
                     if($contrato->type_interes == "lineal"){
                         $wallet = new Wallet;
                         $wallet->user_id = $contrato->user()->id;
+                        $wallet->contract_id = $contrato->id;
                         $wallet->amount = $contrato->capital * $porcentaje;
                         $wallet->percentage = $porcentaje;
                         $wallet->descripcion = "Utilidad mensual";
@@ -233,6 +226,8 @@ class contractsController extends Controller
                         $wallet->save();
 
                         $gain+= $contrato->capital * $porcentaje;
+                        $contrato->gain += $contrato->capital * $porcentaje;
+                        $contrato->save();
                     }else{
                         $gain+= $contrato->capital * $porcentaje;
                         $contrato->capital += $contrato->capital * $porcentaje;

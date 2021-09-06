@@ -36,5 +36,20 @@ class Contract extends Model
     {
         return $this->contractExpiration()->diffInDays();
     }
+
+    public function wallets()
+    {
+        return $this->hasMany('App\Models\Wallet', 'contract_id');
+    }
+
+    public function retirado()
+    {
+        return $this->wallets->where('status', 1)->sum('amount');
+    }
+
+    public function productividad()
+    {
+        return ((($this->capital + $this->retirado() ) - $this->invested ) / $this->invested ) * 100;
+    }
     
 }
