@@ -36,6 +36,13 @@ class contractsController extends Controller
     {
         return view('contract.index');
     }
+
+    public function show($id)
+    {
+        $contract = contract::find($id);
+        
+        return view('contract.show');
+    }
     /**
      * Permite guardar las nuevas contratos generadas
      *

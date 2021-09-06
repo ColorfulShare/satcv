@@ -26,7 +26,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label class="form-label" for="status">Estado del Ticket</label>
-                                <select name="status" class="custom-select border border-primary rounded">
+                                <select name="status" id="status" class="custom-select border border-primary rounded">
                                     <option value="0" @if($ticket->status == '0') selected @endif>Abierto</option>
                                     <option value="1" @if($ticket->status == '1') selected @endif>Cerrado</option>
                                 </select>
@@ -35,7 +35,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="priority">Prioridad del Ticket</label>
-                                <select name="priority" class="custom-select border border-primary rounded">
+                                <select name="priority" id="priority" class="custom-select border border-primary rounded">
                                     <option value="0" @if($ticket->priority == '0') selected @endif>Alto</option>
                                     <option value="1" @if($ticket->priority == '1') selected @endif>Medio</option>
                                     <option value="2" @if($ticket->priority == '2') selected @endif>Bajo</option>
@@ -154,11 +154,11 @@
 
     $(document).on('click', '.btn_msj', function () {
 
-        if ($('#message').val() == null || $('#message').val() == '') {
-            toastr.error("El mensaje es requerido", '', {
-                "timeOut": 3000
-            })
-        } else {
+        // if ($('#message').val() == null || $('#message').val() == '') {
+        //     toastr.error("El mensaje es requerido", '', {
+        //         "timeOut": 3000
+        //     })
+        // } else {
 
             let item = {}
             var this_button = $(this)
@@ -168,7 +168,7 @@
                 url: "{{ route('ticket.update-admin', $ticket->id) }}",
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    issue: $('#issue').val(),
+                    status: $('#status').val(),
                     priority: $('#priority').val(),
                     message: $('#message').val(),
                     "_method": 'PATCH'
@@ -190,7 +190,7 @@
                 })
             });
 
-        }
+        // }
     });
 
 </script>
