@@ -112,7 +112,7 @@
                         </div>
                         <div class="col-6 py-1">
                             <p class="card-text text-muted mb-0">Ganancia</p>
-                            <h3 class="font-weight-bolder mb-0">$<span class="contratoProductividad">0</span></h3>
+                            <h3 class="font-weight-bolder mb-0">$<span class="contratoGanancia">0</span></h3>
                         </div>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                     </div>
                     <div class="col-md-5 col-12 budget-wrapper d-flex flex-column justify-content-center">
                         <div class="mb-1">
-                            <h2 class="h1 mb-50 mb-sm-0">$<span class="contratoProductividad">0</span></h2>
+                            <h2 class="h1 mb-50 mb-sm-0">$<span class="contratoGanancia">0</span></h2>
                             <h5>Ganancia</h5>
                         </div>
                         <div id="budget-chart"></div>
@@ -165,6 +165,7 @@
                                     <tr class="text-center bg-purple-alt2">
                                         <th>Id</th>
                                         <th>Mes</th>
+                                        <th>Monto</th>
                                         <th>%</th>
                                     </tr>
 
@@ -180,6 +181,7 @@
                                         <td class="text-capitalize">
                                             {{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}
                                         </td>
+                                        <td>{{$utility->gain}}</td>
                                         <td>{{$utility->percentage * 100}} %</td>
                                     </tr>
                                     @endforeach
@@ -213,10 +215,12 @@
         let contratoInversion = document.querySelectorAll(".contratoInversion")
         let contratoSaldoCapital = document.querySelector("#contratoSaldoCapital")
         let contratoProductividad = document.querySelectorAll(".contratoProductividad")
+        let contratoGanancia = document.querySelectorAll(".contratoGanancia")
         let contratoRetirado = document.querySelector("#contratoRetirado")
 
         let url = 'api/getContrato/'
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        let fechaActual;
         if (selectContract != null) {
             selectContract.addEventListener('change', function () {
                 if (selectContract.value > 0) {
@@ -232,14 +236,25 @@
                         .then(response => response.text())
                         .then(resultText => (
                             data = JSON.parse(resultText),
+                            console.log(data.utilidades),
                             goalOverviewChart.updateOptions({
-                                series: [((data.gain/data.invested)*100).toFixed(2)],
+                                series: [(data.dias).toFixed(2)],
                             }),
-                            idContrato.innerHTML = data.id,
-                            contratoInversion.forEach(i => i.innerHTML = data.invested),
-                            contratoSaldoCapital.innerHTML = data.capital,
-                            contratoProductividad.forEach(i => i.innerHTML = data.gain),
-                            contratoRetirado.innerHTML = data.gain
+                            budgetChart.updateOptions({
+                                series: [{
+                                        data: data.amount,
+                                    },
+                                    {
+                                        data: data.amount.map(num => num - 30),
+                                    }
+                                ],
+                            }),
+                            idContrato.innerHTML = data.contrato.id,
+                            contratoInversion.forEach(i => i.innerHTML = data.contrato.invested),
+                            contratoSaldoCapital.innerHTML = data.contrato.capital,
+                            contratoProductividad.forEach(i => i.innerHTML = data.productividad),
+                            contratoGanancia.forEach(i => i.innerHTML = data.contrato.gain),
+                            contratoRetirado.innerHTML = data.retirado
                         ))
                         .catch(function (error) {
                             console.log(error);
@@ -248,10 +263,20 @@
                     goalOverviewChart.updateOptions({
                                 series: [(0).toFixed(2)],
                             }),
+                    budgetChart.updateOptions({
+                        series: [{
+                                data: [0,0,0,0,0,0],
+                            },
+                            {
+                                data: [0,0,0,0,0,0],
+                            }
+                        ],
+                    }),
                     idContrato.innerHTML = "";
                     contratoInversion.forEach(i => i.innerHTML = 0),
                     contratoSaldoCapital.innerHTML = 0;
                     contratoProductividad.forEach(i => i.innerHTML = 0),
+                    contratoGanancia.forEach(i => i.innerHTML = 0),
                     contratoRetirado.innerHTML = 0;
                 }
             });
@@ -343,7 +368,6 @@
 
         //------------ Revenue Report Chart (RENDIMIENTO) ------------
         //----------------------------------------------
-        function graficarRendimiento(){
             revenueReportChartOptions = {
                 chart: {
                     width: '100%',
@@ -363,11 +387,11 @@
                 colors: ['#00e600', window.colors.solid.warning],
                 series: [{
                         name: 'Earning',
-                        data: [95, 177, 284, 256, 105, 63, 102, 320]
+                        data: [10, 10, 10, 10, 10, 10]
                     },
                     {
                         name: 'Expense',
-                        data: [-145, -80, -60, -180, -100, -60, -75, -80]
+                        data: [-10, -10, -10, -10, -10, -10]
                     }
                 ],
                 dataLabels: {
@@ -388,13 +412,13 @@
                     }
                 },
                 xaxis: {
-                    categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago'],
+                    categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
                     labels: {
                         style: {
                             colors: '#b9b9c3',
                             fontSize: '0.86rem',
                         },
-                        show: false
+                        show: true
                     },
                     axisTicks: {
                         show: false
@@ -409,18 +433,16 @@
                             colors: '#b9b9c3',
                             fontSize: '0.86rem'
                         },
-                        show: false
+                        show: true
                     }
                 }
             };
             revenueReportChart = new ApexCharts($revenueReportChart, revenueReportChartOptions);
             revenueReportChart.render();
-        }
-        graficarRendimiento();
+        
         
         //---------------- Budget Chart ----------------
         //----------------------------------------------
-        function graficarGanancia(){
             budgetChartOptions = {
                 chart: {
                     width: '100%',
@@ -442,10 +464,10 @@
                 },
                 colors: ['#00e600', '#00e600'],
                 series: [{
-                        data: [61, 48, 69, 52, 60, 40, 79, 60, 59, 43, 62]
+                        data: [0, 0, 0, 0, 0, 0]
                     },
                     {
-                        data: [20, 10, 30, 15, 23, 0, 25, 15, 20, 5, 27]
+                        data: [0, 0, 0, 0, 0, 0]
                     }
                 ],
                 tooltip: {
@@ -454,9 +476,6 @@
             };
             budgetChart = new ApexCharts($budgetChart, budgetChartOptions);
             budgetChart.render();
-        }
-        graficarGanancia();
-
 
     });
 
