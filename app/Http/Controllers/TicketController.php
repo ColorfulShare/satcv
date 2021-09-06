@@ -22,14 +22,7 @@ class TicketController extends Controller
 
             $ticket = Ticket::where('user', Auth::id())->get();
 
-            $ticket_array = $ticket->toArray();
-
-            $time_msj =  TicketMessage::where('ticket', $ticket_array)->get();
-
-            dd(collect($ticket_array->id));
-
             return view('tickets.user.list-user')
-            ->with('time_msj', $time_msj)
             ->with('ticket', $ticket);
         
         } catch (\Throwable $th) {
