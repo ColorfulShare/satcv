@@ -69,7 +69,7 @@
                                                                     <p>Hola!. ¿Cómo podemos ayudar? 😄</p>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> 
                                                     </div>
                                                 </div>
                                             </div>

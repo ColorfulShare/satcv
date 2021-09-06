@@ -136,17 +136,18 @@
 </div>
 @endsection
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('custom/ticket/js/jquery-3.6.0.min.js') }}"></script>
+
 <script>
     var token = $('meta[name="csrf-token"]').attr('content')
 
     $(document).on('click', '.btn_msj', function () {
 
-        // if ($('#message').val() == null || $('#message').val() == '') {
-        //     toastr.error("El mensaje es requerido", '', {
-        //         "timeOut": 3000
-        //     })
-        // } else {
+        if ($('#message').val() == null || $('#message').val() == '') {
+            toastr.error("El mensaje es requerido", '', {
+                "timeOut": 3000
+            })
+        } else {
 
             let item = {}
             var this_button = $(this)
@@ -178,6 +179,6 @@
                 })
             });
 
-        // }
+        }
     });
 </script>
