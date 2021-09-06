@@ -107,7 +107,7 @@
                         max: capital,
                         placeholder: 'Monto'
                     },
-                    text: "Como penalizacion se le quitara un 25% de lo invertido.",
+                    text: "se te debitara el 25% de tu solicitud de retiro",
                     icon: 'warning',
                     showCancelButton: true,
                     inputValidator: (value) => { 

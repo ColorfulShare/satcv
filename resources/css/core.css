@@ -16603,8 +16603,8 @@ input:focus ~ .bg-light {
   color: var(--primary);
 }
 .btn-outline-primary:hover:not(.disabled):not(:disabled) {
-  background-color: rgba(115, 103, 240, 0.04);
-  color: var(--primary);
+  background-color: var(--primary);
+  color: #fff;
 }
 .btn-outline-primary:not(:disabled):not(.disabled):active:focus {
   box-shadow: none;

@@ -69,6 +69,8 @@
                                 <th>Invertido</th>
                                 <th>Saldo Capital</th>
                                 <th>Ganancia</th>
+                                <th>Productividad</th>
+                                <th>Retirado</th>
                                 <th>Fecha</th>
                                 <th>Vencimiento</th>
                                 <th>Acción</th>
@@ -81,10 +83,12 @@
                                 <td>{{$contrato->invested}}</td>
                                 <td>{{$contrato->capital}}</td>
                                 <td>{{$contrato->gain}}</td>
+                                <td>{{$contrato->productividad()}}</td>
+                                <td>{{$contrato->retirado()}}</td>
                                 <td>{{$contrato->created_at->format('Y/m/d')}}</td>
                                 <td>{{$contrato->contractExpiration()->format('Y/m/d')}}</td>
                                 <td>
-                                    <a href="{{ route('reports.show-contrato', $contrato->orden_purchases_id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Contrato"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ route('dashboard', ['id' => $contrato->id]) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Contrato"><i class="fa fa-eye"></i></a>
                                 </td>
                             </tr>
                             @endforeach
