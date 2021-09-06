@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Datatables;
-use App\Models\Contract;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Models\User;
-use Illuminate\Support\Facades\Storage;
-use App\Models\OrdenPurchases;
-use Hexters\CoinPayment\CoinPayment;
-use App\Models\Log_utility;
-use App\Models\Wallet;
 use DB;
+use stdClass;
+use Datatables;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Wallet;
 use App\Models\Utility;
-use App\Models\SolicitudRetiro;
+use App\Models\Contract;
 use App\Models\Liquidation;
+use App\Models\Log_utility;
+use Illuminate\Http\Request;
+use App\Models\OrdenPurchases;
+use App\Models\SolicitudRetiro;
+use Illuminate\Support\Facades\Log;
+use Hexters\CoinPayment\CoinPayment;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ContractsController extends Controller
 {
@@ -325,13 +326,33 @@ class ContractsController extends Controller
      */
     public function getContrato($id)
     {
-            try{
+            // try{
+                $data = new stdClass();
                 $contrato = Contract::find($id);
-                return response()->json($contrato);
-            } catch (\Throwable $th) {
-            Log::error('ContractsController::getContrato -> Error: '.$th);
-            abort(403, "Ocurrio un error, contacte con el administrador");
-            }
+                if($contrato->productividad() != null){
+                    $productividad = $contrato->productividad();
+                }else{
+                    $productividad = 0;
+                }
+
+                if($contrato->retirado() != null){
+                    $retirado = $contrato->retirado();
+                }else{
+                    $retirado = 0;
+                }
+                
+                
+                $data->contrato = $contrato;
+                $data->productividad = $productividad;
+                $data->retirado = $retirado;
+                $data->dias = ($contrato->countDaysContract() / 365) * 100;
+                $data->utilidades = $contrato->wallets()->where('tipo_transaction', 1)->take(6)->get()->toArray();
+                $data->amount = array_column($data->utilidades, 'amount');
+                return response()->json($data);
+            // } catch (\Throwable $th) {
+            // Log::error('ContractsController::getContrato -> Error: '.$th);
+            // abort(403, "Ocurrio un error, contacte con el administrador");
+            // }
     }
 
     /**
