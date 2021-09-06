@@ -73,7 +73,7 @@
                                     <i class="fa fa-2x fa-dollar-sign bg-light rounded-circle p-1 text-success"></i>
                                 </div>
                                 <div class="pl-1">
-                                    <h3 class="my-0">$<span id="contratoSaldoCapital">{$contract->capital}}</span> </h3>
+                                    <h3 class="my-0">$<span id="contratoSaldoCapital">{{$contract->capital}}</span> </h3>
                                     <p><small class="small">Saldo Capital</small></p>
                                 </div>
                             </div>
@@ -115,11 +115,11 @@
                     <div class="row border-top text-center mx-0">
                         <div class="col-6 border-right py-1">
                             <p class="card-text text-muted mb-0">Saldo Invertido</p>
-                            <h3 class="font-weight-bolder mb-0">$200</h3>
+                            <h3 class="font-weight-bolder mb-0">${{$contract->invested}}</h3>
                         </div>
                         <div class="col-6 py-1">
                             <p class="card-text text-muted mb-0">Ganancia</p>
-                            <h3 class="font-weight-bolder mb-0">$567</h3>
+                            <h3 class="font-weight-bolder mb-0">${{$contract->gain}}</h3>
                         </div>
                     </div>
                 </div>
@@ -384,7 +384,7 @@
         budgetChart = new ApexCharts($budgetChart, budgetChartOptions);
         budgetChart.render();
 
-
+        let porcentaje = ({{$contract->gain}} / {{$contract->invested}}) * 100 
         //------------ Goal Overview Chart ------------
         //---------------------------------------------
         goalOverviewChartOptions = {
@@ -440,7 +440,7 @@
                     stops: [0, 100]
                 }
             },
-            series: [83],
+            series: [porcentaje],
             stroke: {
                 lineCap: 'round'
             },

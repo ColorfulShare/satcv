@@ -84,7 +84,7 @@
                                 <td>{{$contrato->created_at->format('Y/m/d')}}</td>
                                 <td>{{$contrato->contractExpiration()->format('Y/m/d')}}</td>
                                 <td>
-                                    <a href="{{ route('reports.show-contrato', $contrato->orden_purchases_id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Contrato"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ route('contract.show', ['id' => $contrato->id]) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Contrato"><i class="fa fa-eye"></i></a>
                                 </td>
                             </tr>
                             @endforeach

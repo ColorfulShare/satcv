@@ -40,8 +40,9 @@ class contractsController extends Controller
     public function show($id)
     {
         $contract = contract::find($id);
-        
-        return view('contract.show');
+        $utilities = Log_utility::where('contract_id', $id)->get();
+    
+        return view('contract.show', compact('contract', 'utilities'));
     }
     /**
      * Permite guardar las nuevas contratos generadas

@@ -40,6 +40,7 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middl
 
 Route::group(['prefix' => 'contratos'], function () {
     Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
+    Route::get('/show/{id}', [ContractsController::class, 'show'])->name('contract.show');
     Route::get('/user', [ContractsController::class, 'contratosUser'])->name('contract.user');
     Route::get('/inversion', [ContractsController::class, 'inversion'])->name('contract.inversion');
     Route::get('/inversion-data', [ContractsController::class, 'dataInversion'])->name('data.inversion');
