@@ -38,6 +38,7 @@
 
 {{-- user custom styles --}}
 <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/custom-css.css')}}">
 
 <style>
     .swal2-input[type=number]{

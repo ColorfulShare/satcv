@@ -20,9 +20,8 @@
 
                             <tr class="text-center">
                                 <th>Id</th>
-                                <th>ganancia</th>
-                                <th>Porcentaje</th>
-                                <th>mes</th>
+                                <th>Fecha de pago</th>
+                                <th>Porcentaje de rendimiento</th>
                             </tr>
 
                         </thead>
@@ -34,10 +33,12 @@
 
                             <tr class="text-center">
                                 <td>{{$utility->id}}</td>
-                                <td>{{$utility->gain}}</td>
+                                <td>{{$utility->created_at->format('Y-m-d')}}</td>
                                 <td>{{$utility->percentage * 100}} %</td>
+                                {{--
                                 <td>{{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}
                                 </td>
+                                --}}
                             </tr>
                             @endforeach
                         </tbody>
@@ -64,7 +65,7 @@
                     <div class="mb-3">
                         <label for="porcentaje" class="form-label">Porcentaje</label>
                         <input type="number" class="form-control" id="porcentaje" aria-describedby="porcentaje"
-                            name="porcentaje">
+                            name="porcentaje" step="any">
                         <div class="mb-3">
                             <label for="mes" class="form-label">Mes</label>
                             <select name="mes" id="mes" required class="form-control form-select">
@@ -95,4 +96,4 @@
 @endsection
 
 {{-- CONFIGURACIÓN DE DATATABLE --}}
-@include('panels.datatables-config');
+@include('panels.datatables-config')
