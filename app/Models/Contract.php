@@ -55,5 +55,14 @@ class Contract extends Model
     {
         return ((($this->capital + $this->retirado() ) - $this->invested ) / $this->invested ) * 100;
     }
+
+    public function estado()
+    {
+        if($this->status == 1){
+            return '<span class="badge bg-success">Activo</span>';
+        }else{
+            return '<span class="badge bg-danger">Culminado</span>';
+        }
+    }
     
 }

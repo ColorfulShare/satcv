@@ -3,7 +3,7 @@
     $('.comuntable').DataTable({
         order: [[ 0, "desc" ]],
         responsive: true,
-        searching: true,
+        searching: false,
         bLengthChange: true,
         pageLength: 10
     })

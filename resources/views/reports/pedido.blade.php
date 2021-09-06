@@ -14,12 +14,11 @@
 
                                 <tr class="text-center">                                
                                     <th>ID</th>
-                                    <th>Correo</th>
                                     <th>Transaccion</th>
                                     <th>Tipo de interes</th>
                                     <th>Monto</th>
                                     <th>Estado</th>
-                                    <th>Fecha de Creación</th>
+                                    <th>Fecha</th>
                                 </tr>
 
                             </thead>
@@ -28,8 +27,11 @@
                              @foreach ($ordenes as $orden)
                                 <tr class="text-center">
                                     <td>{{$orden->id}}</td>
-                                    <td>{{$orden->user->email}}</td>
-                                    <td>{{$orden->transaction_id}}</td>
+                                    <td>
+                                        @if(isset($orden->cointpayment))
+                                            <a href="{{$orden->cointpayment ?  $orden->coinpayment_alternativa_link() : ''}}" target="_blank">{{$orden->cointpayment->txn_id}}</a>
+                                        @endif
+                                    </td>
                                     <td>{{$orden->type_interes}}</td>
                                     <td>{{$orden->amount}}</td>
                                     <td>
