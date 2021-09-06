@@ -17,19 +17,19 @@
       "url": "reports",
       "name": "Ordenes",
       "icon": "shopping-cart",
-      "slug": "app-email"
+      "slug": "reports.pedidos"
     },
 
     {
       "name": "Solicitud",
       "icon": "home",
-      "slug": "",
+      "slug": "solicitud.retiros",
       "submenu": [
         {
           "url": "solicitud/retiro",
           "name": "Retiro",
           "icon": "circle",
-          "slug": "dashboard-analytics"
+          "slug": "2fact"
         }
       ]
     },
@@ -61,44 +61,16 @@
           "url": "ticket/create",
           "name": "Crear Ticket",
           "icon": "circle",
-          "slug": "app-invoice-list"
+          "slug": "ticket.create"
         },
         {
           "url": "ticket/list-user",
           "name": "Lista de Tickets",
           "icon": "circle",
-          "slug": "app-invoice-list"
-        }
-      ]
-    },
-    {
-      "navheader": "Examples",
-      "slug": ""
-    },
-    {
-      "url": "",
-      "name": "Email",
-      "icon": "mail",
-      "slug": "app-email"
-    },
-    {
-      "name": "Invoice",
-      "icon": "file-text",
-      "slug": "",
-      "submenu": [
-        {
-          "url": "",
-          "name": "List",
-          "icon": "circle",
-          "slug": "app-invoice-list"
-        },
-        {
-          "url": "",
-          "name": "List",
-          "icon": "circle",
-          "slug": "app-invoice-list"
+          "slug": "ticket.list-user"
         }
       ]
     }
+    
   ]
 }

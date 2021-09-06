@@ -7,11 +7,6 @@
 <link rel="stylesheet" href="{{ asset('vendors/css/extensions/toastr.min.css') }}">
 @endsection
 
-@section('page-style')
-<!-- Page css files -->
-<link rel="stylesheet" href="{{ asset('css/custom-dashboard.css')}}">
-@endsection
-
 @section('content')
 <!-- Dashboard Analytics Start -->
 <section id="dashboard-analytics">
