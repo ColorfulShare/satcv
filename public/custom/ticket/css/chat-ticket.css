@@ -10,7 +10,7 @@
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #8B81EF;
+  background-color: #00e600;
 }
 
 .chat-thread {
@@ -18,7 +18,7 @@
   list-style: none;
   overflow-y: scroll;
   overflow-x: hidden;
-  background-color: #F2F0F7;
+  background-color: #21a421;
   background-repeat: repeat;
   background-size: 210px;
   background-image: url('../img/bg-chat.svg') ;
@@ -45,7 +45,7 @@
 }
 
 .chat-app-window .user-chats .avatar img {
-  border: 2px solid #8B81EF
+  border: 2px solid #00e600
 }
 
 .chat-app-window .active-chat {
@@ -67,9 +67,10 @@
   padding: .7rem 1rem;
   margin: 0 1rem 10px 0;
   clear: both;
-  color: #FFF;
-  background-image: -webkit-linear-gradient(10deg,#7367F0,#9E95F5);
-  background-image: linear-gradient(80deg,#7367F0,#9E95F5);
+  color: #6E6B7B;
+  /* background-image: -webkit-linear-gradient(10deg,#21a421,#0fa70f);
+  background-image: linear-gradient(80deg,#21a421,#0fa70f); */
+  background: #fff;
   border-radius: .357rem;
   box-shadow: 0 4px 8px 0 rgb(34 41 47 / 12%);
   max-width: 75%;
