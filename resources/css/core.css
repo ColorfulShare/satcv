@@ -13527,7 +13527,7 @@ select:-webkit-autofill {
   font-size: smaller;
 }
 .header-navbar .navbar-container ul.navbar-nav li a.dropdown-user-link img {
-  box-shadow: 0 4px 8px 0 rgba(34, 41, 47, 0.12), 0 2px 4px 0 rgba(34, 41, 47, 0.08);
+  box-shadow: 0 4px 8px 0 rgb(0 255 19 / 35%), 0 2px 4px 0 rgb(40 196 58 / 8%);
 }
 .header-navbar .navbar-container ul.navbar-nav li a.menu-toggle i,
 .header-navbar .navbar-container ul.navbar-nav li a.menu-toggle svg {
@@ -13892,7 +13892,7 @@ select:-webkit-autofill {
   }
 }
 .card-congratulations {
-  background: linear-gradient(118deg, var(--primary), rgba(115, 103, 240, 0.7));
+  background: linear-gradient(118deg, var(--primary), var(--primary));
   color: #fff;
 }
 .card-congratulations .congratulations-img-left {
@@ -21213,8 +21213,8 @@ footer.footer-border {
   z-index: 1;
 }
 .main-menu.menu-light .navigation > li.active > a {
-  background: linear-gradient(118deg, var(--primary), rgba(115, 103, 240, 0.7));
-  box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7);
+  background: linear-gradient(118deg, var(--primary), var(--primary));
+  box-shadow: 0 0 10px 1px var(--primary);
   color: #fff;
   font-weight: 400;
   border-radius: 4px;
@@ -21269,8 +21269,8 @@ footer.footer-border {
   color: #787486;
 }
 .main-menu.menu-light .navigation > li ul .active {
-  background: linear-gradient(118deg, var(--primary), rgba(115, 103, 240, 0.7));
-  box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7);
+  background: linear-gradient(118deg, var(--primary), var(--primary));
+  box-shadow: 0 0 10px 1px var(--primary);
   border-radius: 4px;
   z-index: 1;
 }
@@ -21356,8 +21356,8 @@ footer.footer-border {
   z-index: 1;
 }
 .main-menu.menu-dark .navigation > li.active > a {
-  background: linear-gradient(118deg, var(--primary), rgba(115, 103, 240, 0.7));
-  box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7);
+  background: linear-gradient(118deg, var(--primary), var(--primary));
+  box-shadow: 0 0 10px 1px var(--primary);
   color: #fff;
   font-weight: 400;
   border-radius: 4px;
@@ -21412,8 +21412,8 @@ footer.footer-border {
   color: #e6e6e6;
 }
 .main-menu.menu-dark .navigation > li ul .active {
-  background: linear-gradient(118deg, var(--primary), rgba(115, 103, 240, 0.7));
-  box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7);
+  background: linear-gradient(118deg, var(--primary), var(--primary));
+  box-shadow: 0 0 10px 1px var(--primary);
   border-radius: 4px;
   z-index: 1;
 }
