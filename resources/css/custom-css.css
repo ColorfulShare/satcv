@@ -1,0 +1,31 @@
+.vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
+    width: 85px !important;
+}
+
+.main-menu.menu-light .navigation li a > * {
+    font-size: 0rem !important;
+}
+
+.vertical-layout.vertical-menu-modern.menu-expanded .main-menu .navigation li.has-sub > a:after{
+    display: none;
+}
+
+.vertical-layout.vertical-menu-modern.menu-expanded .main-menu:hover {
+    width: 260px !important;
+}
+.vertical-layout.vertical-menu-modern.menu-expanded .main-menu:hover .navigation li a > * {
+    font-size: 1.1rem !important;
+    transition: .3s;
+}
+.main-menu .navbar-header .navbar-brand span img{
+    width: 50px !important;
+}
+
+.vertical-layout.vertical-menu-modern.menu-expanded .main-menu:hover .navbar-header .navbar-brand span img {
+    width: 80px !important;
+    transition: .3s;
+}
+
+.vertical-layout.vertical-menu-modern.menu-expanded .main-menu:hover .navigation li.has-sub > a:after{
+    display: inline-block;
+}
