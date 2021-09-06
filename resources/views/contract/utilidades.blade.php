@@ -95,4 +95,4 @@
 @endsection
 
 {{-- CONFIGURACIÓN DE DATATABLE --}}
-@include('panels.datatables-config');
+@include('panels.datatables-config')
