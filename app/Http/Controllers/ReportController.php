@@ -21,10 +21,9 @@ class ReportController extends Controller
     public function index()
     {
     
-      $ordenes = OrdenPurchases::where([['user_id', '=', Auth::user()->id]])->get();
+      $ordenes = OrdenPurchases::where('user_id', '=', Auth::user()->id)->get();
 
-    
-        return view('reports.pedido', compact('ordenes'));
+      return view('reports.pedido', compact('ordenes'));
     }
   
     public function indexOrders()

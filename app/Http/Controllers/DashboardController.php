@@ -14,7 +14,7 @@ class DashboardController extends Controller
   public function index()
   {
     $pageConfigs = ['pageHeader' => false];
-    $this->contratos = new contractsController;
+    $this->contratos = new ContractsController;
     $contratos = $this->contratos->contratos();
     $utilities = $this->contratos->getUtilities();
     return view('/content/dashboard/dashboard-analytics', compact('pageConfigs', 'contratos', 'utilities'));

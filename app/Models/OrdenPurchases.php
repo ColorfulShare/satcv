@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DB;
+
 
 class OrdenPurchases extends Model
 {
@@ -44,6 +46,18 @@ class OrdenPurchases extends Model
             return "Aprobado";
         }elseif($this->status >= '2'){
             return "Cancelado";
+        }
+    }
+
+    public function urlOrder($id)
+    {
+        $url = DB::table('coinpayment_transactions')
+        ->select('status_url')
+        ->where('order_id', $id)
+        ->first();
+
+        if ($url != null) {
+            return $url;
         }
     }
 }
