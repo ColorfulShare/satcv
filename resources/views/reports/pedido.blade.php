@@ -26,12 +26,12 @@
 
                              @foreach ($ordenes as $orden)
                                 <tr class="text-center">
-                                    @if ($orden->urlOrder($orden->id) == null)
                                     <td>{{$orden->id}}</td>
-                                    @else
-                                    <td> <a href="{{ $orden->urlOrder($orden->id)->status_url}}" class="text-black" target="_blank">{{$orden->id}}</a></td>
-                                    @endif
-                                    <td>{{$orden->transaction_id}}</td>
+                                    <td>
+                                        @if(isset($orden->cointpayment))
+                                            <a href="{{$orden->cointpayment ?  $orden->coinpayment_alternativa_link() : ''}}" target="_blank">{{$orden->cointpayment->txn_id}}</a>
+                                        @endif
+                                    </td>
                                     <td>{{$orden->type_interes}}</td>
                                     <td>{{$orden->amount}}</td>
                                     <td>

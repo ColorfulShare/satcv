@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use DB;
-
 
 class OrdenPurchases extends Model
 {
@@ -37,7 +35,7 @@ class OrdenPurchases extends Model
     {
         return ($this->amount + $this->fee);
     }
-
+    
     public function status()
     {
         if ($this->status == '0'){
@@ -49,15 +47,13 @@ class OrdenPurchases extends Model
         }
     }
 
-    public function urlOrder($id)
+    public function cointpayment()
     {
-        $url = DB::table('coinpayment_transactions')
-        ->select('status_url')
-        ->where('order_id', $id)
-        ->first();
+        return $this->hasOne('Hexters\CoinPayment\Entities\CoinpaymentTransaction', 'order_id');
+    }
 
-        if ($url != null) {
-            return $url;
-        }
+    public function coinpayment_alternativa_link()
+    {
+        return $this->cointpayment->status_url;
     }
 }
