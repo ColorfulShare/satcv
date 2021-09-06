@@ -14,6 +14,7 @@ use App\Http\Controllers\walletController;
 use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\RetirosController;
 use App\Http\Controllers\DoubleAutenticationController;
+use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\Auth\TwoFactorController;
 
 /*
@@ -111,6 +112,10 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
     Route::get('rechazar/{id}',[UserController::class,'denyUser'])->name('deny-user');
     
     Route::get('two_factor_challenge',[UserController::class,'two_factor_challenge'])->name('user.two_factor_challenge');
+
+    Route::get('/impersonate/stop', 'ImpersonateController@stop')->name('impersonate.stop');
+    Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
+
 });
 
 //Rutas para las liquidaciones realizadas
