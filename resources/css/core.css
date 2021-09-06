@@ -16549,7 +16549,7 @@ input:focus ~ .bg-light {
 }
 .btn-primary:focus, .btn-primary:active, .btn-primary.active {
   color: #fff;
-  background-color: #5e50ee !important;
+  background-color: var(--primary) !important;
 }
 .btn-primary:hover:not(.disabled):not(:disabled) {
   box-shadow: 0 8px 25px -8px var(--primary);
