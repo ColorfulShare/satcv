@@ -13527,7 +13527,7 @@ select:-webkit-autofill {
   font-size: smaller;
 }
 .header-navbar .navbar-container ul.navbar-nav li a.dropdown-user-link img {
-  box-shadow: 0 4px 8px 0 rgba(34, 41, 47, 0.12), 0 2px 4px 0 rgba(34, 41, 47, 0.08);
+  box-shadow: 0 4px 8px 0 rgb(0 255 19 / 35%), 0 2px 4px 0 rgb(40 196 58 / 8%);
 }
 .header-navbar .navbar-container ul.navbar-nav li a.menu-toggle i,
 .header-navbar .navbar-container ul.navbar-nav li a.menu-toggle svg {
