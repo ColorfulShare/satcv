@@ -55,9 +55,9 @@ class Contract extends Model
     public function estado()
     {
         if($this->status == 1){
-            return '<span class="badge badge-dot mr-4 d-block text-left"><i class="bg-success"></i>Activo</span>';
+            return '<span class="badge bg-success">Activo</span>';
         }else{
-            return '<span class="badge badge-dot mr-4 d-block text-left"><i class="bg-danger"></i>Culminado</span>';
+            return '<span class="badge bg-danger">Culminado</span>';
         }
     }
     
