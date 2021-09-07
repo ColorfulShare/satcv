@@ -13,7 +13,7 @@ class Contract extends Model
 
     protected $fillable = [
         'orden_purchases_id','invested', 'gain', 'capital',
-        'status', 'type_interes'
+        'status', 'type_interes', 'firma_cliente'
     ];
 
     public function getOrden()
