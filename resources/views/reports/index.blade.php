@@ -20,9 +20,6 @@
                                         <th>Monto</th>
                                         <th>Estado</th>
                                         <th>Fecha de Creación</th>
-                                        @if(Auth::user()->admin == 1) 
-                                        <th>Accion</th>
-                                       @endif
                                     </tr>
 
                                 </thead>
@@ -32,7 +29,11 @@
                                         <tr class="text-center">
                                             <td>{{$orden->id}}</td>
                                             <td>{{$orden->user->email}}</td>
-                                            <td>{{$orden->transaction_id}}</td>
+                                            <td>
+                                                @if(isset($orden->cointpayment))
+                                                    <a href="{{$orden->cointpayment ?  $orden->coinpayment_alternativa_link() : ''}}" target="_blank">{{$orden->cointpayment->txn_id}}</a>
+                                                @endif
+                                            </td>
                                             <td>{{$orden->type_interes}}</td>
                                             <td>{{$orden->amount}}</td>
                                             <td>
@@ -46,14 +47,6 @@
                                               </button>
                                             </td>
                                             <td>{{$orden->created_at->format('Y-m-d')}}</td>
-                                             <td> @if(Auth::user()->admin == 1) 
-                                                  <div class="d-flex">
-
-                                                    <a href="{{ route('reports.show-contrato', $orden) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Contrato"><i class="fa fa-eye"></i></a>
-                                                    <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato"><i class="fa fa-paper-plane"></i></button>
-                                                  </div>
-                                                @endif
-                                            </td>
                                         </tr>
                                         @if (Auth::user()->admin == 1 && $orden->status == '0')
                                             <!-- Modal -->
