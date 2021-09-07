@@ -35,7 +35,7 @@ class OrdenPurchases extends Model
     {
         return ($this->amount + $this->fee);
     }
-
+    
     public function status()
     {
         if ($this->status == '0'){
@@ -45,5 +45,15 @@ class OrdenPurchases extends Model
         }elseif($this->status >= '2'){
             return "Cancelado";
         }
+    }
+
+    public function cointpayment()
+    {
+        return $this->hasOne('Hexters\CoinPayment\Entities\CoinpaymentTransaction', 'order_id');
+    }
+
+    public function coinpayment_alternativa_link()
+    {
+        return $this->cointpayment->status_url;
     }
 }

@@ -144,8 +144,8 @@ class TiendaController extends Controller
         $transaction['note'] = $data['descripcion'];
         $transaction['buyer_name'] = $data['name'];
         $transaction['buyer_email'] = $data['email'];
-        $transaction['redirect_url'] = url('/back_to_tarnsaction'); // When Transaction was comleted
-        $transaction['cancel_url'] = url('/back_to_tarnsaction'); // When user click cancel link
+        $transaction['redirect_url'] = url('/'); // When Transaction was comleted
+        $transaction['cancel_url'] = url('/'); // When user click cancel link
         $transaction['items'][] = [
         'itemDescription' => 'contrato',
         'itemPrice' => (FLOAT) $data['total'], // USD

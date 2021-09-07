@@ -36,6 +36,10 @@ class Contract extends Model
     {
         return $this->contractExpiration()->diffInDays();
     }
+    public function countDaysContract()
+    {
+        return $this->created_at->diffInDays();
+    }
 
     public function wallets()
     {
@@ -44,12 +48,21 @@ class Contract extends Model
 
     public function retirado()
     {
-        return $this->wallets->where('status', 1)->sum('amount');
+        return $this->wallets()->where('status', 1)->sum('amount');
     }
 
     public function productividad()
     {
         return ((($this->capital + $this->retirado() ) - $this->invested ) / $this->invested ) * 100;
+    }
+
+    public function estado()
+    {
+        if($this->status == 1){
+            return '<span class="badge bg-success">Activo</span>';
+        }else{
+            return '<span class="badge bg-danger">Culminado</span>';
+        }
     }
     
 }

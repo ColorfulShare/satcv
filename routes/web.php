@@ -60,7 +60,7 @@ Route::group(['prefix' => 'shop'], function () {
 
 Route::group(['prefix' => 'reports'], function () {
     Route::get('/', [ReportController::class, 'index'])->name('reports.pedidos');
-    Route::get('/purchases', [ReportController::class, 'indexOrders'])->name('reports.index');
+    Route::get('/purchase', [ReportController::class, 'indexPedidos'])->name('reports.index');
     Route::get('/show-contrato{id}', [ReportController::class, 'indexShow'])->name('reports.show-contrato');
  
 });
@@ -107,6 +107,8 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
  Route::prefix('user')->group(function(){
 
     Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
+
+    Route::get('/list-kyc',[UserController::class,'listKyc'])->name('users.list-kyc');
 
     Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.show-user');
 

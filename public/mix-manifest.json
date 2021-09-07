@@ -1,5 +1,12 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/css/custom-css.css": "/css/custom-css.css"
+    "/css/custom-css.css": "/css/custom-css.css",
+    "/images/logo/favicon.ico": "/images/logo/favicon.ico",
+    "/images/logo/favicon2.ico": "/images/logo/favicon2.ico",
+    "/images/logo/logo.png": "/images/logo/logo.png",
+    "/images/logo/logo.svg": "/images/logo/logo.svg",
+    "/images/logo/logo2.png": "/images/logo/logo2.png",
+    "/images/ico/favicon.ico": "/images/ico/favicon.ico",
+    "/images/ico/favicon2.ico": "/images/ico/favicon2.ico"
 }
