@@ -9,7 +9,7 @@
         <div class="card">
             <div class="card-body card-dashboard">
                 <div class="card-title">
-                    <h3>Contratos</h3>
+                    <h3>Inversión</h3>
                 </div>
                 <div class="table-responsive">
                     <table class="table w-100 nowrap scroll-horizontal-vertical table-striped comuntable">
@@ -33,10 +33,10 @@
                                 <td>{{$contrato->created_at->format('Y/m/d')}}</td>
                                 <td>{{$contrato->getOrden->user->email}}</td>
                                 <td>{{$contrato->getOrden->amount}}</td>
-                                <td>{{$contrato->capital}} %</td>
-                                <td>{{$contrato->productividad()}} %</td>
-                                <td>{{$contrato->retirado()}} %</td>
-                                <td>{{$contrato->ContractExpiration()->format('Y/m/d')}} %</td>
+                                <td>{{$contrato->capital}}</td>
+                                <td>{{$contrato->productividad()}}</td>
+                                <td>{{$contrato->retirado()}}</td>
+                                <td>{{$contrato->ContractExpiration()->format('Y/m/d')}}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
                                         <a href="{{route('dashboard')}}/?id={{$contrato->id}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Detalles">
