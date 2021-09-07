@@ -220,7 +220,7 @@
 
         let url = 'api/getContrato/'
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        let fechaActual;
+        let mesActual;
         if (selectContract != null) {
             selectContract.addEventListener('change', function () {
                 if (selectContract.value > 0) {
@@ -236,9 +236,20 @@
                         .then(response => response.text())
                         .then(resultText => (
                             data = JSON.parse(resultText),
-                            console.log(data.utilidades),
                             goalOverviewChart.updateOptions({
                                 series: [(data.dias).toFixed(2)],
+                            }),
+                            revenueReportChart.updateOptions({
+                                series: [{
+                                        data: data.positivo,
+                                    },
+                                    {
+                                        data: data.negativo,
+                                    }
+                                ],
+                                xaxis: {
+                                    categories: data.mes,
+                                },
                             }),
                             budgetChart.updateOptions({
                                 series: [{
@@ -261,8 +272,21 @@
                         });
                 } else {
                     goalOverviewChart.updateOptions({
-                                series: [(0).toFixed(2)],
-                            }),
+                        series: [(0).toFixed(2)],
+                    }),
+                    revenueReportChart.updateOptions({
+                        series: [{
+                                data: [0,0,0,0,0,0],
+                            },
+                            {
+                                data: [0,0,0,0,0,0],
+                            }
+                        ],
+                        xaxis: {
+                            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                        },
+                    }),
+                    
                     budgetChart.updateOptions({
                         series: [{
                                 data: [0,0,0,0,0,0],
@@ -272,6 +296,8 @@
                             }
                         ],
                     }),
+
+                    
                     idContrato.innerHTML = "";
                     contratoInversion.forEach(i => i.innerHTML = 0),
                     contratoSaldoCapital.innerHTML = 0;
@@ -387,11 +413,11 @@
                 colors: ['#00e600', window.colors.solid.warning],
                 series: [{
                         name: 'Earning',
-                        data: [10, 10, 10, 10, 10, 10]
+                        data: [0, 0, 0, 0, 0, 0]
                     },
                     {
                         name: 'Expense',
-                        data: [-10, -10, -10, -10, -10, -10]
+                        data: [-0, -0, -0, -0, -0, -0]
                     }
                 ],
                 dataLabels: {
