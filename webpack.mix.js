@@ -13,6 +13,8 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/custom-css.css', 'public/css')
+    .copy( 'resources/images/logo', 'public/images/logo', false )
+    .copy( 'resources/images/ico', 'public/images/ico', false )
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss'),

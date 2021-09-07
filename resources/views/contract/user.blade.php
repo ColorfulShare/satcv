@@ -30,7 +30,7 @@
                                     <div class="modal-body">
 
                                         <div class="mb-1">
-                                            <label for="monto" class="form-label">Monto:</label>
+                                            <label for="monto" class="form-label" style="font-size: 1em;">Cantidad a invertir:</label>
                                             <input type="number" min="500" class="form-control" id="monto" name="monto">
                                         </div>
 
@@ -52,7 +52,7 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                        <button type="submit" class="btn btn-primary"> Invertir</button>
                                     </div>
                                 </form>
                             </div>
@@ -71,6 +71,7 @@
                                 <th>Ganancia</th>
                                 <th>Productividad</th>
                                 <th>Retirado</th>
+                                <th>Estado</th>
                                 <th>Fecha</th>
                                 <th>Vencimiento</th>
                                 <th>Acción</th>
@@ -85,6 +86,7 @@
                                 <td>{{$contrato->gain}}</td>
                                 <td>{{$contrato->productividad()}}</td>
                                 <td>{{$contrato->retirado()}}</td>
+                                <td>{!!$contrato->estado()!!}</td>
                                 <td>{{$contrato->created_at->format('Y/m/d')}}</td>
                                 <td>{{$contrato->contractExpiration()->format('Y/m/d')}}</td>
                                 <td>
