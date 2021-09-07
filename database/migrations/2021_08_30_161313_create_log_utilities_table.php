@@ -19,8 +19,7 @@ class CreateLogUtilitiesTable extends Migration
             $table->foreignId('wallet_id')->nullable()->constrained('wallets');
             $table->foreignId('utility_id')->nullable()->constrained('utilities');
             $table->double('percentage');
-            $table->integer('month');
-            $table->integer('year');
+            $table->date('payment_date');
             $table->double('previoues_capital');
             $table->double('current_capital');
             $table->timestamps();

@@ -48,7 +48,7 @@ class Contract extends Model
 
     public function retirado()
     {
-        return $this->wallets()->where('status', 1)->sum('amount');
+        return $this->wallets->where('status', 1)->sum('amount');
     }
 
     public function productividad()

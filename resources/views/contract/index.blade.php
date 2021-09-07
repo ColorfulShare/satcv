@@ -17,7 +17,7 @@
                             <tr class="text-center bg-purple-alt2">
                                 <th>ID</th>
                                 <th>Fecha</th>
-                                <th>Monto</th>
+                                <th>Invertido</th>
                                 <th>Saldo Capital</th>
                                 <th>Productividad</th>
                                 <th>Retirado</th>

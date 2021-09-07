@@ -215,7 +215,6 @@ class ContractsController extends Controller
                 $contratos = Contract::where('status', 1)->get();
             
                 foreach($contratos as $contrato){
-                    setlocale(LC_ALL, 'es');
                     $wallet = null;
                     $previoues_capital = $contrato->capital;
                     if($contrato->type_interes == "lineal"){
@@ -225,7 +224,7 @@ class ContractsController extends Controller
                         $wallet->amount = $contrato->capital * $porcentaje;
                         $wallet->percentage = $porcentaje;
                         $wallet->descripcion = "Utilidad mensual";
-                        $wallet->month = ucfirst(strftime("%B", \Carbon\Carbon::createFromFormat('!m',$request->mes)->getTimestamp()));
+                        $wallet->payment_date = $request->mes;
                         $wallet->tipo_transaction = 1;
                         $wallet->save();
 
@@ -243,8 +242,7 @@ class ContractsController extends Controller
                     $utility->Contract_id = $contrato->id;
                     $utility->wallet_id = $wallet != null ? $wallet->id : null;
                     $utility->percentage = $porcentaje;
-                    $utility->month = $request->mes;
-                    $utility->year = Carbon::now()->format('Y');
+                    $utility->payment_date = $request->mes;
                     $utility->previoues_capital = $previoues_capital;
                     $utility->current_capital = $current_capital;
                     $utility->save();
@@ -256,7 +254,7 @@ class ContractsController extends Controller
                 $utilidad = new Utility;
                 $utilidad->gain = $gain;
                 $utilidad->percentage = $porcentaje;
-                $utilidad->month = $request->mes;
+                $utilidad->payment_date = $request->mes;
                 $utilidad->save();
 
                 $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
@@ -287,17 +285,17 @@ class ContractsController extends Controller
                 ->addColumn('fecha', function($data){
                     return $data->created_at->format('Y/m/d');
                 })
-                ->addColumn('monto', function($data){
-                    return $data->getOrden->amount;
+                ->addColumn('Invertido', function($data){
+                    return $data->invested;
                 })
                 ->addColumn('capital', function($data){
                     return $data->capital;
                 })
                 ->addColumn('productividad', function($data){
-                    return $data->gain;
+                    return $data->productividad();
                 })
                 ->addColumn('retirado', function($data){
-                    return $data->gain;
+                    return $data->retirado();
                 })
                 ->addColumn('vencimiento', function($data){
                     return $data->ContractExpiration()->format('Y/m/d');

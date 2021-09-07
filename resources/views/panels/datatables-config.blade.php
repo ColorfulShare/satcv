@@ -15,7 +15,7 @@
         columns: [
                     { data: 'id', name: 'id' },
                     { data: 'fecha', name: 'fecha' },
-                    { data: 'monto', name: 'monto' },
+                    { data: 'Invertido', name: 'Invertido' },
                     { data: 'capital', name: 'capital' },
                     { data: 'productividad', name: 'productividad' },
                     { data: 'retirado', name: 'retirado' },
