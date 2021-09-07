@@ -108,6 +108,8 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
     Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
 
+    Route::get('/list-kyc',[UserController::class,'listKyc'])->name('users.list-kyc');
+
     Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.show-user');
 
     Route::get('verificar/{id}',[UserController::class,'verifyUser'])->name('verify-user');

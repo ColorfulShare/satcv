@@ -22,6 +22,14 @@ class UserController extends Controller
             ->with('user', $user);
     }
 
+    public function listKyc()
+    {
+        $user = User::where('verify', '0')->get();
+
+        return view('users.list-kyc')
+            ->with('user', $user);
+    }
+
     public function showUser($id)
     {
 
@@ -42,6 +50,7 @@ class UserController extends Controller
         return redirect()->back()
             ->with('success', 'El usuario ha sido verificado de manera exitosa !!!');    
     }
+
     public function denyUser($id)
     {
         $user = user::find($id);
