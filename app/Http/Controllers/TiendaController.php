@@ -32,6 +32,7 @@ class TiendaController extends Controller
      */
     public function procesarOrden(Request $request)
     {
+        dd($request->all());
         $validate = $request->validate([
             'interes' => 'required',
             'monto' => 'required|numeric|min:500'
@@ -46,7 +47,8 @@ class TiendaController extends Controller
                     'user_id' => Auth::id(),
                     'amount' => $request->monto,
                     'fee' => $porcentaje,
-                    'type_interes' => $request->interes
+                    'type_interes' => $request->interes,
+                    'firma_cliente' => $request->imagen64
                 ];
 
                 $data['idorden'] = $this->saveOrden($data);
