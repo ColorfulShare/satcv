@@ -29,3 +29,7 @@
 .vertical-layout.vertical-menu-modern.menu-expanded .main-menu:hover .navigation li.has-sub > a:after{
     display: inline-block;
 }
+
+.contenedorwidth{
+    margin-left: 80px !important;
+}

@@ -7,6 +7,7 @@ return [
     "Dashboard" => "Dashboard",
     "contratos" => "contratos",
     "Contratos" => "Contratos",
+    "Inversión" => "Inversión",
     "inversion" => "inversion",
     "Informes" => "Informes",
     "Inversiones" => "Inversiones",

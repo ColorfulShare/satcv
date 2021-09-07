@@ -14,7 +14,7 @@
       "submenu": [
         {
           "url": "/contratos",
-          "name": "Contratos",
+          "name": "Inversión",
           "icon": "circle",
           "slug": "contract.index"
         },

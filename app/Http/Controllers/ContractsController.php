@@ -35,7 +35,8 @@ class ContractsController extends Controller
 
     public function index()
     {
-        return view('contract.index');
+        $contratos = $this->contratos();
+        return view('contract.index', compact('contratos'));
     }
     /**
      * Permite guardar las nuevas contratos generadas
@@ -258,57 +259,6 @@ class ContractsController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
-
-    /**
-     * Datatable dinámico (ServerSide) que se muestra en audit.rangos 
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function dataInversion(Request $request)
-    {
-
-        if ($request->ajax()) {
-            $data = $this->contratos();
-            return Datatables::of($data)
-                ->addColumn('id', function($data){
-                    return $data->id;
-                })
-                ->addColumn('fecha', function($data){
-                    return $data->created_at->format('Y/m/d');
-                })
-                ->addColumn('monto', function($data){
-                    return $data->getOrden->amount;
-                })
-                ->addColumn('capital', function($data){
-                    return $data->capital;
-                })
-                ->addColumn('productividad', function($data){
-                    return $data->gain;
-                })
-                ->addColumn('retirado', function($data){
-                    return $data->gain;
-                })
-                ->addColumn('vencimiento', function($data){
-                    return $data->ContractExpiration()->format('Y/m/d');
-                })
-                ->addColumn('accion', function($data){
-                    return '<div class="d-flex justify-content-center">
-                        <a href="'. route('users.show-user', $data->getOrden->user->id) .'" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Perfil">
-                            <i class="fa fa-eye"></i>
-                        </a>
-                        <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato">
-                            <i class="fa fa-paper-plane"></i>
-                        </button>
-                        <button type="button"class="btn btn-success" data-id='. $data->id.' title="Aprobar" data-toggle="modal" data-target="#form-pdf">
-                            <i class="fa fa-check-square"></i>
-                        </button>
-                    </div>';
-                })
-                ->rawColumns(['accion'])
-                ->make(true);
-        }
-    }
-
 
 
       /**

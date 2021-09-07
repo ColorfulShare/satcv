@@ -10,6 +10,12 @@
 @section('content')
 <!-- Dashboard Analytics Start -->
 <section id="dashboard-analytics">
+    @isset($id)
+        <a class="btn btn-danger" href="{{ URL::previous() }}">
+            <i class="fa fa-arrow-left"></i>
+            Regresar
+        </a>
+    @endisset
 
     <div class="row match-height justify-content-center">
         <div class="col-lg-4 col-md-12 col-sm-12">
