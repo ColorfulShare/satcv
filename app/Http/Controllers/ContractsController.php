@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Log;
 use Hexters\CoinPayment\CoinPayment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ContractsController extends Controller
 {
@@ -54,7 +55,8 @@ class ContractsController extends Controller
                 'orden_purchases_id' => $orden->id,
                 'invested' => $orden->amount,
                 'capital' => $orden->amount,
-                'type_interes' => $orden->type_interes
+                'type_interes' => $orden->type_interes,
+                'firma_cliente' => $orden->firma_cliente
             ];
             Contract::create($data);
     
@@ -398,5 +400,20 @@ class ContractsController extends Controller
             Log::error('ContractsController::formPdf -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
+    }
+
+    public function generatePdf($id)
+    {
+        $contract = Contract::findOrFail($id);
+        
+        $pdf = PDF::loadView('contract.pdf', compact('contract'));
+
+        //$pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->setPaper('A4', 'portrait');
+        
+        $html = $pdf->stream();
+        //$html = $pdf->download('reporte-socios-'. Carbon::now()->format('d/m/Y').'.pdf');
+
+        return $html;
     }
 }

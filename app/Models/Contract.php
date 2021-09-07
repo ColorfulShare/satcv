@@ -64,5 +64,10 @@ class Contract extends Model
             return '<span class="badge bg-danger">Culminado</span>';
         }
     }
+
+    public function firma_cliente()
+    {
+        
+    }
     
 }

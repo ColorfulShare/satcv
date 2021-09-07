@@ -48,6 +48,7 @@ Route::group(['prefix' => 'contratos'], function () {
     Route::get('/utilidades', [ContractsController::class, 'utilidades'])->name('contract.utilidades');
     Route::get('/testCoin', [ContractsController::class, 'testCoin'])->name('contract.testCoin');
     Route::post('/payUtility', [ContractsController::class, 'payUtility'])->name('payUtility');
+    Route::get('/generatePdf/{id}', [ContractsController::class, 'generatePdf'])->name('contract.generatePdf');
 });
 
 Route::group(['prefix' => 'shop'], function () {
