@@ -19,20 +19,6 @@
       "icon": "shopping-cart",
       "slug": "reports.pedidos"
     },
-
-    {
-      "name": "Solicitud",
-      "icon": "home",
-      "slug": "solicitud.retiros",
-      "submenu": [
-        {
-          "url": "solicitud/retiro",
-          "name": "Retiro",
-          "icon": "circle",
-          "slug": "2fact"
-        }
-      ]
-    },
     {
      "name": "Retiros",
       "icon": "credit-card",
