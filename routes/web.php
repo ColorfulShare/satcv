@@ -34,7 +34,7 @@ use App\Http\Controllers\Auth\TwoFactorController;
 // Auth::routes(['verify' => true]);
 
 // Main Page Route
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
+Route::get('/{id?}', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
 
 
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware(['auth']);
@@ -42,7 +42,6 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middl
 Route::group(['prefix' => 'contratos'], function () {
     Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
     Route::get('/user', [ContractsController::class, 'contratosUser'])->name('contract.user');
-    Route::get('/inversion', [ContractsController::class, 'inversion'])->name('contract.inversion');
     Route::get('/inversion-data', [ContractsController::class, 'dataInversion'])->name('data.inversion');
     Route::post('/form-pdf', [ContractsController::class, 'formPdf'])->name('contract.pdf');
     Route::get('/utilidades', [ContractsController::class, 'utilidades'])->name('contract.utilidades');

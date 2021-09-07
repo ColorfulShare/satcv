@@ -173,15 +173,6 @@ class ContractsController extends Controller
         return view('contract.user', compact('contratos'));
     }
 
-    /**
-     * Lleva a la vista de inversion
-     */
-    public function inversion()
-    {
-        $contratos = $this->contratos();
-        return view('contract.inversion', compact('contratos'));
-    }
-
      /**
      * Lleva a la vista de utilidades
      */
@@ -327,7 +318,7 @@ class ContractsController extends Controller
      */
     public function getContrato($id)
     {
-            // try{
+            try{
                 $data = new stdClass();
                 $contrato = Contract::find($id);
                 if($contrato->productividad() != null){
@@ -365,10 +356,10 @@ class ContractsController extends Controller
                 $data->negativo = $arraynegativo;
                 $data->mes = array_column($data->utilidades, 'month');
                 return response()->json($data);
-            // } catch (\Throwable $th) {
-            // Log::error('ContractsController::getContrato -> Error: '.$th);
-            // abort(403, "Ocurrio un error, contacte con el administrador");
-            // }
+            } catch (\Throwable $th) {
+            Log::error('ContractsController::getContrato -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+            }
     }
 
     /**
