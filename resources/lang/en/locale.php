@@ -208,7 +208,8 @@ return [
     "Retiros" => "Retiros",
     "Liquidaciones de Capital" => "Liquidaciones de Capital",
     "Liquidaciones de Comisiones" => "Liquidaciones de Comisiones",
-    "Retiros Realizados" => "Retiros Realizados"
+    "Retiros Realizados" => "Retiros Realizados",
+    "KYC" => "KYC",
 
 
 ];

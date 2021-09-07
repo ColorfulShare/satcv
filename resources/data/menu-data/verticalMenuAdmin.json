@@ -45,6 +45,12 @@
       "slug": "users.list-user"
     },
     {
+      "url": "user/list-kyc",
+      "name": "KYC",
+      "icon": "sidebar",
+      "slug": "users.list-kyc"
+    },
+    {
       "name": "Solicitud",
       "icon": "home",
       "slug": "",
