@@ -8,6 +8,11 @@
     <script src="{{ asset('vendors/js/extensions/sweetalert2.all.min.js') }}"></script>
 @yield('vendor-script')
 {{-- Theme Scripts --}}
+<script>
+    const window_csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const window_url = {url("/")};
+
+</script>
     <script src="{{ asset(mix('js/app.js')) }}" defer></script> 
     <script src="{{ asset('js/core/app.js') }}"></script>
     <script src="{{ asset('js/core/app-menu.js') }}"></script>

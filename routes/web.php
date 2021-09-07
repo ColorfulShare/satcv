@@ -34,7 +34,7 @@ use App\Http\Controllers\Auth\TwoFactorController;
 // Auth::routes(['verify' => true]);
 
 // Main Page Route
-Route::get('/{id?}', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
 
 
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware(['auth']);

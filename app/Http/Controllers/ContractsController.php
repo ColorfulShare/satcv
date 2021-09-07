@@ -343,6 +343,8 @@ class ContractsController extends Controller
                 $data->utilidades = $utilities;
                 $data->amount = array_column($data->utilidades, 'amount');
                 $data->percentage = array_column($data->utilidades, 'percentage');
+                $arraypositivo = [];
+                $arraynegativo = [];
                 foreach($data->percentage as $valores){
                     if($valores > 0){
                         $arraypositivo[]  = $valores;

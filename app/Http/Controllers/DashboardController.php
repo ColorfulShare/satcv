@@ -11,8 +11,11 @@ class DashboardController extends Controller
   /**
      * Lleva a a la vista del dashboard
      */
-  public function index($id = null)
+  public function index()
   {
+    if(isset($_GET['id'])){
+      $id = $_GET['id'];
+    }
       $this->contratos = new ContractsController;
       $contratos = $this->contratos->contratos();
       $utilities = $this->contratos->getUtilities()->take(6);
