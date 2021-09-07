@@ -33,7 +33,9 @@ class SolicitudController extends Controller
             ]);
             
             if ($validate) {
-                
+                $Contract = Contract::findOrFail($request->contratoId);
+                $Contract->capital -= $request->amount;
+                $Contract->save();
                 $solicitud = SolicitudRetiro::create([
                     'contracts_id' => $request->contratoId,
                     'amount' => $request->amount,
