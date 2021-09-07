@@ -213,7 +213,7 @@ class ContractsController extends Controller
                 $contratos = Contract::where('status', 1)->get();
             
                 foreach($contratos as $contrato){
-                    
+                    setlocale(LC_ALL, 'es');
                     $wallet = null;
                     $previoues_capital = $contrato->capital;
                     if($contrato->type_interes == "lineal"){
@@ -223,6 +223,7 @@ class ContractsController extends Controller
                         $wallet->amount = $contrato->capital * $porcentaje;
                         $wallet->percentage = $porcentaje;
                         $wallet->descripcion = "Utilidad mensual";
+                        $wallet->month = ucfirst(strftime("%B", \Carbon\Carbon::createFromFormat('!m',$request->mes)->getTimestamp()));
                         $wallet->tipo_transaction = 1;
                         $wallet->save();
 
@@ -346,8 +347,23 @@ class ContractsController extends Controller
                 $data->productividad = $productividad;
                 $data->retirado = $retirado;
                 $data->dias = ($contrato->countDaysContract() / 365) * 100;
-                $data->utilidades = $contrato->wallets()->where('tipo_transaction', 1)->take(6)->get()->toArray();
+                $utilities = $contrato->wallets()->where('tipo_transaction', 1)->orderByDesc('id')->latest()->take(6)->get()->toArray();
+                sort($utilities);
+                $data->utilidades = $utilities;
                 $data->amount = array_column($data->utilidades, 'amount');
+                $data->percentage = array_column($data->utilidades, 'percentage');
+                foreach($data->percentage as $valores){
+                    if($valores > 0){
+                        $arraypositivo[]  = $valores;
+                        $arraynegativo[]  = 0;
+                    }else{ 
+                        $arraypositivo[] = 0;
+                        $arraynegativo[] = $valores;
+                    }
+                }
+                $data->positivo = $arraypositivo;
+                $data->negativo = $arraynegativo;
+                $data->mes = array_column($data->utilidades, 'month');
                 return response()->json($data);
             // } catch (\Throwable $th) {
             // Log::error('ContractsController::getContrato -> Error: '.$th);
