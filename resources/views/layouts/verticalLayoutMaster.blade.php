@@ -12,7 +12,7 @@
   @include('panels.navbar')
 
   <!-- BEGIN: Content-->
-  <div class="app-content content contenedorwidth {{ $configData['pageClass'] }}" id="content">
+  <div class="app-content content {{ $configData['pageClass'] }}" id="content">
     <!-- BEGIN: Header-->
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>

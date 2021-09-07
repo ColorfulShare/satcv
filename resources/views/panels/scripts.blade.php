@@ -19,17 +19,7 @@
     
 {{-- page script --}}
     @yield('page-script')
-    <script defer>
-            let container = document.querySelector('#content');
-            let sidebar = document.querySelector('.main-menu');
-            sidebar.addEventListener('mouseenter', function(){
-                container.classList.remove('contenedorwidth');
-            })
-            sidebar.addEventListener('mouseleave', function(){
-                container.classList.add('contenedorwidth');
-            })
-        
-    </script>
+    {{--  --}}
     @stack('custom_js')
     
 {{-- page script --}}

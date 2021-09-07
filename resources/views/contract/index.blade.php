@@ -17,6 +17,7 @@
                             <tr class="text-center bg-purple-alt2">
                                 <th>ID</th>
                                 <th>Fecha</th>
+                                <th>Correo</th>
                                 <th>Monto</th>
                                 <th>Saldo Capital</th>
                                 <th>Productividad</th>
@@ -30,6 +31,7 @@
                             <tr class="text-center">
                                 <td>{{$contrato->id}}</td>
                                 <td>{{$contrato->created_at->format('Y/m/d')}}</td>
+                                <td>{{$contrato->getOrden->user->email}}</td>
                                 <td>{{$contrato->getOrden->amount}}</td>
                                 <td>{{$contrato->capital}} %</td>
                                 <td>{{$contrato->productividad()}} %</td>
