@@ -169,6 +169,23 @@ class ContractsController extends Controller
         }
     }
 
+    public function contracts($id)
+    {
+        // dd( $contratos);
+        try{
+            $user = User::where('id',$id)->first();
+            if($user->admin == 1){
+                $contratos = Contract::orderBy('id', 'asc')->get();
+            }else{
+                $contratos = $user->Contracts->sortBy('id');
+            }
+            return $contratos;
+        } catch (\Throwable $th) {
+            Log::error('ContractsController::contracts -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
 
     public function contratosUser()
     {
@@ -198,15 +215,27 @@ class ContractsController extends Controller
             'mes' => 'required'
         ]);
 
+        $fecha = Carbon::parse($request->mes);
+    
         try {
             if ($validate){
                 DB::beginTransaction();
                 $porcentaje = $request->porcentaje / 100;
                 $ids = [];
                 $gain = 0;
-                $contratos = Contract::where('status', 1)->get();
+             
+                $contratos = Contract::where('status', 1)->whereHas('getOrden.user', function($user)use($ids){
+                    $user->where('type', 0)->where('referred_id', null);
+                })->get();
             
                 foreach($contratos as $contrato){
+                    //SACO EL PORCENTAJE
+                    
+                    if($fecha->format('Y') == $contrato->created_at->format('Y') && $fecha->format('m') == $contrato->created_at->format('m') && intval($contrato->created_at->format('d')) > 1){
+                        $resta = 30 - (intval($contrato->created_at->format('d')) + 1);
+                        $porcentaje = ($resta * $porcentaje ) / 30;
+                    }
+                    
                     $wallet = null;
                     $previoues_capital = $contrato->capital;
                     if($contrato->type_interes == "lineal"){
@@ -217,14 +246,24 @@ class ContractsController extends Controller
                         $wallet->percentage = $porcentaje;
                         $wallet->descripcion = "Utilidad mensual";
                         $wallet->payment_date = $request->mes;
-                        $wallet->tipo_transaction = 1;
                         $wallet->save();
 
                         $gain+= $contrato->capital * $porcentaje;
                         $contrato->gain += $contrato->capital * $porcentaje;
                         $contrato->save();
                     }else{
+                        $wallet = new Wallet;
+                        $wallet->user_id = $contrato->user()->id;
+                        $wallet->contract_id = $contrato->id;
+                        $wallet->amount = $contrato->capital * $porcentaje;
+                        $wallet->percentage = $porcentaje;
+                        $wallet->descripcion = "Utilidad mensual";
+                        $wallet->payment_date = $request->mes;
+                        $wallet->status = 3;
+                        $wallet->save();
+
                         $gain+= $contrato->capital * $porcentaje;
+                        $contrato->gain += $contrato->capital * $porcentaje;
                         $contrato->capital += $contrato->capital * $porcentaje;
                         $contrato->save();
                     }
@@ -259,55 +298,7 @@ class ContractsController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
-    /**
-     * Datatable dinámico (ServerSide) que se muestra en audit.rangos 
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function dataInversion(Request $request)
-    {
 
-        if ($request->ajax()) {
-            $data = $this->contratos();
-            return Datatables::of($data)
-                ->addColumn('id', function($data){
-                    return $data->id;
-                })
-                ->addColumn('fecha', function($data){
-                    return $data->created_at->format('Y/m/d');
-                })
-                ->addColumn('Invertido', function($data){
-                    return $data->invested;
-                })
-                ->addColumn('capital', function($data){
-                    return $data->capital;
-                })
-                ->addColumn('productividad', function($data){
-                    return $data->productividad();
-                })
-                ->addColumn('retirado', function($data){
-                    return $data->retirado();
-                })
-                ->addColumn('vencimiento', function($data){
-                    return $data->ContractExpiration()->format('Y/m/d');
-                })
-                ->addColumn('accion', function($data){
-                    return '<div class="d-flex justify-content-center">
-                        <a href="'. route('users.show-user', $data->getOrden->user->id) .'" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Perfil">
-                            <i class="fa fa-eye"></i>
-                        </a>
-                        <button class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Reenviar Contrato">
-                            <i class="fa fa-paper-plane"></i>
-                        </button>
-                        <button type="button"class="btn btn-success" data-id='. $data->id.' title="Aprobar" data-toggle="modal" data-target="#form-pdf">
-                            <i class="fa fa-check-square"></i>
-                        </button>
-                    </div>';
-                })
-                ->rawColumns(['accion'])
-                ->make(true);
-        }
-    }
     
       /**
      * Retorna el contrato según el id que se le pase
@@ -339,6 +330,9 @@ class ContractsController extends Controller
                 $utilities = $contrato->wallets()->where('tipo_transaction', 1)->orderByDesc('id')->latest()->take(6)->get()->toArray();
                 sort($utilities);
                 $data->utilidades = $utilities;
+                $utility = $contrato->wallets()->select('id', 'payment_date', 'amount', 'percentage')->where('tipo_transaction', 1)->orderByDesc('id')->latest()->take(6)->get()->toArray();
+                // dd($utility);
+                $data->utility = $utility;
                 $data->amount = array_column($data->utilidades, 'amount');
                 $data->percentage = array_column($data->utilidades, 'percentage');
                 $arraypositivo = [];

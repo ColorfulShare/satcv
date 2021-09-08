@@ -17,10 +17,11 @@
                                 <tr class="text-center bg-purple-alt2">
                                     <th>ID</th>
                                     <th>Fecha</th>
-                                    <th>Monto</th>
+                                    <th>Invertido</th>
                                     <th>Saldo Capital</th>
                                     <th>Productividad</th>
                                     <th>Retirado</th>
+                                    <th>Tipo</th>
                                     <th>Vencimiento</th>
                                 </tr>
                             </thead>
@@ -29,10 +30,11 @@
                                 <tr class="text-center bg-purple-alt2">
                                     <td>{{$contrato->id}}</td>
                                     <td>{{$contrato->created_at->format('Y/m/d')}}</td>
-                                    <td>{{$contrato->getOrden->amount}}</td>
+                                    <td>{{$contrato->invested}}</td>
                                     <td>{{$contrato->capital}}</td>
-                                    <td>{{$contrato->gain}}</td>
-                                    <td>0</td>
+                                    <td>{{$contrato->productividad()}}</td>
+                                    <td>{{$contrato->retirado()}}</td>
+                                    <td>{{ucwords($contrato->type_interes)}}</td>
                                     <td>{{$contrato->contractExpiration()->format('Y/m/d')}}</td>
                                 </tr>
                                 @endforeach

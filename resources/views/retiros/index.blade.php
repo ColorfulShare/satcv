@@ -166,3 +166,5 @@
         });
     </script>
 @endpush
+{{-- CONFIGURACIÓN DE DATATABLE --}}
+@include('panels.datatables-config')

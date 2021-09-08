@@ -10,36 +10,12 @@
 @section('content')
 <!-- Dashboard Analytics Start -->
 <section id="dashboard-analytics">
-    @if(Request::get('id'))
-        <a class="btn btn-danger" href="{{ URL::previous() }}">
+    {{-- @if(Request::get('id')) --}}
+        <a class="btn btn-danger mb-2" href="{{ URL::previous() }}">
             <i class="fa fa-arrow-left"></i>
             Regresar
         </a>
-    @endif
-
-    @if(Auth::user()->type == 1)
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-12 mt-1">
-                <div class="card" style="height: 220px;">
-                    <div class="card-body pt-1">
-                    
-                        <div class="card-header d-flex align-items-center text-right pb-0 pt-0 pl-0 white">
-                            <h6 class="mt-1 mb-0 text-white">Link de referido</h6>
-                        </div>
-            
-                        <div class="card-sub d-flex align-items-center ">
-                            <h2 class="gold text-bold-700 mb-0">INVITA A<br>PERSONAS<br></h2>
-                        </div>
-                        <div class="card-header d-flex align-items-center white mt-2">
-                            <button class="btn btn-outline-primary btn-block" style="boder-color=#D6A83E;"
-                                onclick="getlink()"><b>LINK DE
-                                    REFERIDO <i class="fa fa-copy"></i></b></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
+    {{-- @endif --}}
 
     <div class="row match-height justify-content-center">
         <div class="col-lg-4 col-md-12 col-sm-12">
@@ -47,7 +23,7 @@
                 <div class="card-body text-left">
                     <div class="row">
                         <div class="col-8 d-flex flex-column">
-                            <h4 class="mb-1 text-dark texto-card-1">Bienvenido {{Auth::user()->name}}</h4>
+                            <h4 class="mb-1 text-dark texto-card-1">Bienvenido {{$user->name}}</h4>
                             <h1 class="mb-1 text-primary texto-card-2 font-weight-bolder">N°. 
                                 
                                 <span id="idContrato">@if(Request::get('id')){{Request::get('id')}}@endif</span></h1>
@@ -213,6 +189,9 @@
 </section>
 @endsection
 
+{{-- CONFIGURACIÓN DE DATATABLE --}}
+@include('panels.datatables-config')
+
 @section('vendor-script')
 <!-- vendor files -->
 @endsection
@@ -241,18 +220,11 @@
             } 
                 
         }
-        let monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-
 
         selectContract.addEventListener('change', function () {
             if (selectContract.value > 0) {
                 execute();
             } else {
-
-                datatable.clear(),
-                datatable.draw(),
-
                 goalOverviewChart.updateOptions({
                     series: [(0).toFixed(2)],
                 }),
@@ -302,20 +274,10 @@
             .then(response => response.text())
             .then(resultText => (
                 data = JSON.parse(resultText),
-                //DATOS DEL DATATABLE//
-                datosTable = data.utility.map(i => i = Object.values(i)),
-                        datosTable.map(i => i[1] = monthNames[new Date(i[1]).getMonth()]),
-                        datosTable.map(i => i[3] = i[3]*100),
-                dataSet = datosTable,
-                datatable.clear(),
-                datatable.rows.add(dataSet),
-                datatable.draw(),
-                
-                //GRÁFICA DE INVERSIÓN//
+                console.log(data.utility),
                 goalOverviewChart.updateOptions({
                     series: [(data.dias).toFixed(2)],
                 }),
-                //GRÁFICA DE RENDIMIENTO//
                 revenueReportChart.updateOptions({
                     series: [{
                             data: data.positivo.map(num => num * 100),
@@ -328,8 +290,6 @@
                         categories: data.mes,
                     },
                 }),
-
-                //GRÁFICA DE GANANCIA//
                 budgetChart.updateOptions({
                     series: [{
                             data: data.amount,
@@ -339,14 +299,16 @@
                         }
                     ],
                 }),
-                
-                //ESTADÍSTICAS//
+                dataSet = [],
+                datatable.clear(),
+                datatable.rows.add(dataSet),
+                datatable.draw(),
                 idContrato.innerHTML = data.contrato.id,
-                contratoInversion.forEach(i => i.innerHTML = data.contrato.invested.toFixed(2)),
-                contratoSaldoCapital.innerHTML = data.contrato.capital.toFixed(2),
-                contratoProductividad.forEach(i => i.innerHTML = data.productividad.toFixed(2)),
-                contratoGanancia.forEach(i => i.innerHTML = data.contrato.gain.toFixed(2)),
-                contratoRetirado.innerHTML = data.retirado.toFixed(2)
+                contratoInversion.forEach(i => i.innerHTML = data.contrato.invested),
+                contratoSaldoCapital.innerHTML = data.contrato.capital,
+                contratoProductividad.forEach(i => i.innerHTML = data.productividad),
+                contratoGanancia.forEach(i => i.innerHTML = data.contrato.gain),
+                contratoRetirado.innerHTML = data.retirado
             ))
             .catch(function (error) {
                 console.log(error);
@@ -552,14 +514,6 @@
             var dataSet = '';
 
             var datatable = $('#datatableUtility').DataTable({
-                order: [[ 0, "desc" ]],
-                responsive: true,
-                searching: true,
-                bLengthChange: true,
-                pageLength: 10,
-                columnDefs: [
-                        {className: "dt-center text-center", "targets": "_all"}
-                    ],
                 data: dataSet,
                 columns: [
                     { title: "ID" },
@@ -573,25 +527,5 @@
 
     });
 
-    function getlink() {
-        var aux = document.createElement("input");
-        aux.setAttribute("value", "{{route('register')}}?referred_id={{Auth::id()}}");
-        document.body.appendChild(aux);
-        aux.select();
-        document.execCommand("copy");
-        document.body.removeChild(aux);
-
-        Swal.fire({
-            title: "Link Copiado",
-            icon: 'success',
-            text: "Ya puedes pegarlo en su navegador",
-            type: "success",
-            confirmButtonClass: 'btn btn-outline-primary',
-        }).then(function(result){
-                if (result.value) {
-                    window.location.reload();
-                }
-            });
-    }
 </script>
 @endsection

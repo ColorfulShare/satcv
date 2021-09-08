@@ -33,10 +33,17 @@
       "slug": "reports.index"
     },
     {
-      "url": "reports",
       "name": "Informes",
       "icon": "file-text",
-      "slug": "reports.pedidos"
+      "slug": "reports.pedidos",
+      "submenu": [
+        {
+          "url": "utilidad",
+          "name": "Utilidades",
+          "icon": "circle",
+          "slug": "utilidad.utility"
+        }
+      ]
     },
     {
       "url": "user/list-user",
@@ -49,6 +56,12 @@
       "name": "KYC",
       "icon": "sidebar",
       "slug": "users.list-kyc"
+    },
+     {
+      "url": "administrators",
+      "name": "Admistradores de Carteras",
+      "icon": "user-check",
+      "slug": "administrators.index"
     },
     {
       "name": "Retiros",
