@@ -19,6 +19,7 @@
                             <thead class="">
                                 <tr class="text-center text-dark bg-purple-alt2">
                                     <th>ID</th>
+                                    <th>Nombre</th>
                                     <th>Email</th>
                                     <th>Estado</th>
                                     <th>KYC</th>
@@ -30,6 +31,7 @@
                                 @foreach ($user as $item)
                                    <tr class="text-center">
                                         <td>{{ $item->id}}</td>
+                                        <td>{{ $item->name.' '.$item->lastname}}</td>
                                         <td>{{ $item->email}}</td>
 
                                          @if ($item->status == '0')
@@ -55,12 +57,15 @@
                                         @endif
                                    
                                         <td>
-                                            @if ($item->verify == '0' && $item->dni != NULL)
-                                                {{-- <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600"><i data-feather='pencil'></i></a> --}}
+                                            <a href="{{route('dashboard2', ['id' => $item->id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Detalles">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            {{-- @if ($item->verify == '0' && $item->dni != NULL)
+                                                <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600"><i data-feather='pencil'></i></a>
                                                 <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning" data-toggle="tooltip" data-placement="left" title="Verificar KYC"><i data-feather='edit'></i></a>
                                             @else
                                                 <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver todos los datos del usuario"><i data-feather='eye'></i></a>
-                                            @endif
+                                            @endif --}}
                                         </td>
                                         </button>
                                    </tr>
