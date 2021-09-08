@@ -45,20 +45,20 @@ class UserController extends Controller
         $user = user::find($id);
 
         $user->verify = '1';
+        $user->status = '1';
         $user->save();
 
-        return redirect()->back()
-            ->with('success', 'El usuario ha sido verificado de manera exitosa !!!');    
+        return redirect()->route('users.list-kyc')
+        ->with('success', 'El usuario ha sido verificado de manera exitosa !!!');    
     }
 
-    public function denyUser($id)
+    public function denyUser(Request $request, $id)
     {
         $user = user::find($id);
-
-        $user->verify = '2';
+        $user->msj_admin = $request->msj_admin;
         $user->save();
 
-        return redirect()->back()
+        return redirect()->route('users.list-kyc')
             ->with('warning', 'Se ha rechazado la solicitud del usuario de manera exitosa');    
     }
 

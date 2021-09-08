@@ -1,15 +1,19 @@
 @push('custom_js')
 <script>
     $(document).ready(function() {
-        @if($this->user -> photo_dni !== NULL)
-            previewPersistedFile("{{asset('storage/'.$this->user->photo_dni)}}", 'photo_preview');
+        
+        @if($this->user->photo_dni_front !== NULL)
+            previewPersistedFile("{{asset('storage/'.$this->user->photo_dni_front)}}", 'photo_preview_f');
         @endif
-        @if($this->user -> photo_document !== NULL)
+
+        @if($this->user->photo_dni_back !== NULL)
+            previewPersistedFile("{{asset('storage/'.$this->user->photo_dni_back)}}", 'photo_preview_b');
+        @endif
+
+        @if($this->user->photo_document !== NULL)
         previewPersistedFile("{{asset('storage/'.$this->user->photo_document)}}", 'photo_preview2');
         @endif
     });
-
-
 
     function previewFile(input, preview_id) {
         if (input.files && input.files[0]) {
@@ -30,6 +34,13 @@
         $("#" + preview_id).parent().parent().removeClass('d-none');
     }
 </script>
+
+<script type="text/javascript">
+    $(window).on('load', function() {
+        $('#myModal').modal('show');
+    });
+</script>
+
 <script src="{{asset('assets/app-assets/js/core/app-menu.js')}}"></script>
 <script src="{{asset('assets/app-assets/js/core/app.js')}}"></script>
 <script src="{{asset('assets/app-assets/js/scripts/components.js')}}"></script>
@@ -37,6 +48,7 @@
 
 
 <x-jet-form-section submit="updateProfileInformation">
+
     <x-slot name="title">
         {{ __('Información de Perfil') }}
     </x-slot>
@@ -48,12 +60,9 @@
     <x-slot name="form">
         <!-- Profile Photo -->
         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-            <div x-data="{photoName: null, photoPreview: null}" class="col-12 row flex-column align-items-center">
-                <!-- Profile Photo File Input -->
-                <input type="file" class="hidden"
-                            wire:model="photo"
-                            x-ref="photo"
-                            x-on:change="
+        <div x-data="{photoName: null, photoPreview: null}" class="col-12 row flex-column align-items-center">
+            <!-- Profile Photo File Input -->
+            <input type="file" class="hidden" wire:model="photo" x-ref="photo" x-on:change="
                                     photoName = $refs.photo.files[0].name;
                                     const reader = new FileReader();
                                     reader.onload = (e) => {
@@ -62,146 +71,233 @@
                                     reader.readAsDataURL($refs.photo.files[0]);
                             " />
 
-                <x-jet-label for="photo" value="{{ __('Foto') }}" />
+            <x-jet-label for="photo" value="{{ __('Foto') }}" />
 
-                <!-- Current Profile Photo -->
-                @if (Auth::user()->profile_photo_path != NULL)
-                <div class="mt-0" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}"
-                        class="rounded-full h-20 w-20 object-cover">
-                </div>
-                @else
-                <div class="mt-0" x-show="! photoPreview">
-                    <img src="https://ui-avatars.com/api/?background=random&name={{ Auth::user()->username }}"
-                        alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
-                </div>
-                @endif
-
-                <!-- New Profile Photo Preview -->
-                <div class="mt-2" x-show="photoPreview">
-                    <span class="block rounded-full w-20 h-20"
-                          x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
-                    </span>
-                </div>
-
-                <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                    {{ __('Seleccione una nueva foto') }}
-                </x-jet-secondary-button>
-
-                @if ($this->user->profile_photo_path)
-                    <x-jet-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
-                        {{ __('Remove Photo') }}
-                    </x-jet-secondary-button>
-                @endif
-
-                <x-jet-input-error for="photo" class="mt-2" />
+            <!-- Current Profile Photo -->
+            @if (Auth::user()->profile_photo_path != NULL)
+            <div class="mt-0" x-show="! photoPreview">
+                <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}"
+                    class="rounded-full h-20 w-20 object-cover">
             </div>
-        @endif
-        {{-- {{dd($this->user)}} --}}
-        <!-- username -->
-        <div class="row">
+            @else
+            <div class="mt-0" x-show="! photoPreview">
+                <img src="https://ui-avatars.com/api/?background=random&name={{ Auth::user()->username }}"
+                    alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
+            </div>
+            @endif
 
-            <div class="col-sm-12 col-md-6 my-1">
+            <!-- New Profile Photo Preview -->
+            <div class="mt-2" x-show="photoPreview">
+                <span class="block rounded-full w-20 h-20"
+                    x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
+                </span>
+            </div>
+
+            <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                {{ __('Seleccione una nueva foto') }}
+            </x-jet-secondary-button>
+
+            @if ($this->user->profile_photo_path)
+            <x-jet-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
+                {{ __('Remove Photo') }}
+            </x-jet-secondary-button>
+            @endif
+
+            <x-jet-input-error for="photo" class="mt-2" />
+        </div>
+        @endif
+
+        <div class="row mt-5">
+
+            {{-- nombre --}}
+            <div class="col-4 mb-2">
                 <x-jet-label for="name" value="{{ __('Nombre') }}" />
-                <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name"
+                    autocomplete="name" />
+                @else
+                <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name"
+                    autocomplete="name" readonly />
+                @endif
                 <x-jet-input-error for="name" class="mt-2" />
             </div>
-            
-            <div class="col-sm-12 col-md-6 my-1">
+            {{-- apellido --}}
+            <div class="col-4 mb-2">
                 <x-jet-label for="lastname" value="{{ __('Apellido') }}" />
-                <x-jet-input id="lastname" type="text" class="mt-1 block w-full" wire:model.defer="state.lastname" autocomplete="lastname" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="lastname" type="text" class="mt-1 block w-full" wire:model.defer="state.lastname"
+                    autocomplete="lastname" />
+                @else
+                <x-jet-input id="lastname" type="text" class="mt-1 block w-full" wire:model.defer="state.lastname"
+                    autocomplete="lastname" readonly />
+                @endif
                 <x-jet-input-error for="lastname" class="mt-2" />
             </div>
-            {{--  --}}
-            <div class="col-sm-12 col-md-6 my-1">
+            {{-- nacimiento --}}
+            <div class="col-4 mb-2">
                 <x-jet-label for="birth" value="{{ __('Fecha de nacimiento') }}" />
-                <x-jet-input id="birth" type="date" class="mt-1 block w-full" wire:model.defer="state.birth" autocomplete="birth" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="birth" type="date" class="mt-1 block w-full" wire:model.defer="state.birth"
+                    autocomplete="birth" />
+                @else
+                <x-jet-input id="birth" type="date" class="mt-1 block w-full" wire:model.defer="state.birth"
+                    autocomplete="birth" readonly />
+                @endif
                 <x-jet-input-error for="birth" class="mt-2" />
             </div>
-            {{-- Número de documento de identidad o pasaporte --}}
-            <div class="col-sm-12 col-md-6 my-1 w-100">
+
+            {{-- Número del documento --}}
+            <div class="col-4 mb-2">
                 <x-jet-label for="dni" value="{{ __('Número de documento de identidad o pasaporte') }}" />
-                <x-jet-input id="dni" type="text" class="mt-1 block w-full" wire:model.defer="state.dni" autocomplete="dni" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="dni" type="text" class="mt-1 block w-full" wire:model.defer="state.dni"
+                    autocomplete="dni" />
+                @else
+                <x-jet-input id="dni" type="text" class="mt-1 block w-full" wire:model.defer="state.dni"
+                    autocomplete="dni" readonly />
+                @endif
                 <x-jet-input-error for="dni" class="mt-2" />
             </div>
 
-            {{-- Foto de documento de identidad o pasaporte --}}
-                <div class="col-sm-12 col-md-6 my-1" class="mt-1">
-                    <x-jet-label for="photo_dni" value="{{ __('Foto de documento de identidad o pasaporte') }}" />
-                    <img id="photo_preview" class="img-fluid " />
-                    <x-jet-input id="photo_dni" type="file" class="mt-1 block w-full" wire:model.defer="state.photo_dni" autocomplete="photo_dni" onchange="previewFile(this, 'photo_preview')" accept="image/*" />
-                    <x-jet-input-error for="photo_dni" class="mt-2" />
-                </div>
-            {{-- Fecha de vencimiento del documento de identidad --}}
-            <div class="col-sm-12 col-md-6 my-1">
-                <x-jet-label for="dni_expedition" value="{{ __('Fecha de expedicion de documento de identidad o pasaporte') }}" />
-                <x-jet-input id="dni_expedition" type="date" class="mt-1 block w-full" wire:model.defer="state.dni_expedition" autocomplete="dni_expedition" />
+            {{-- Fecha de vencimiento del documento --}}
+            <div class="col-4 mb-2">
+                <x-jet-label for="dni_expedition" value="{{ __('Fecha de expedicion del documento') }}" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="dni_expedition" type="date" class="mt-1 block w-full"
+                    wire:model.defer="state.dni_expedition" autocomplete="dni_expedition" />
+                @else
+                <x-jet-input id="dni_expedition" type="date" class="mt-1 block w-full"
+                    wire:model.defer="state.dni_expedition" autocomplete="dni_expedition" readonly />
+                @endif
                 <x-jet-input-error for="dni_expedition" class="mt-2" />
             </div>
-            {{-- Ciudad de expedición de documento de identidad o pasaporte --}}
-            <div class="col-sm-12 col-md-6 my-1">
-                <x-jet-label for="city_dni" value="{{ __('Ciudad de expedición de documento de identidad o pasaporte') }}" />
+            {{-- Ciudad de expedición del documento --}}
+            <div class="col-4 mb-2">
+                <x-jet-label for="city_dni" value="{{ __('Ciudad de expedición del documento') }}" />
+                @if (Auth::user()->verify == '0')
                 <x-jet-input id="city_dni" type="text" class="mt-1 block w-full" wire:model.defer="state.city_dni" />
+                @else
+                <x-jet-input id="city_dni" type="text" class="mt-1 block w-full" wire:model.defer="state.city_dni"
+                    readonly />
+                @endif
                 <x-jet-input-error for="city_dni" class="mt-2" />
             </div>
+            {{-- Foto del documento front--}}
+            @if (Auth::user()->verify == '0')
+            <div class="col-12 mt-3 d-flex justify-content-center row">
+                <x-jet-label for="photo_dni_front" value="{{ __('Foto de documento parte frontal') }}" class="col-6 mb-2" />
+                <x-jet-input id="photo_dni_front" type="file" class="col-6" wire:model.defer="state.photo_dni_front"
+                    autocomplete="photo_dni_front" onchange="previewFile(this, 'photo_preview_f')" accept="image/*" />
+                <img id="photo_preview_f" class="img-fluid col-6 mt-3" />
+                <x-jet-input-error for="photo_dni_front" class="mt-2" />
+            </div>
+            @endif
+
+            {{-- Foto del documento back--}}
+            @if (Auth::user()->verify == '0')
+            <div class="col-12 mt-3 d-flex justify-content-center row">
+                <x-jet-label for="photo_dni_back" value="{{ __('Foto de documento parte trasera') }}" class="col-6 mb-2" />
+                <x-jet-input id="photo_dni_back" type="file" class="col-6" wire:model.defer="state.photo_dni_back"
+                    onchange="previewFile(this, 'photo_preview_b')" accept="image/*" />
+                <img id="photo_preview_b" class="img-fluid col-6 mt-3" />
+                <x-jet-input-error for="photo_dni_back" class="mt-2" />
+            </div>
+            @endif
+
             {{-- Correo electrónico --}}
-            <div class="col-sm-12 col-md-6 my-1">
+            <div class="col-4 mb-2">
                 <x-jet-label for="email" value="{{ __('Correo electrónico') }}" />
+                @if (Auth::user()->verify == '0')
                 <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
+                @else
+                <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email"
+                    readonly />
+                @endif
                 <x-jet-input-error for="email" class="mt-2" />
             </div>
             {{-- Teléfono fijo --}}
-            <div class="col-sm-12 col-md-6 my-1">
+            <div class="col-4 mb-2">
                 <x-jet-label for="phone" value="{{ __('Teléfono fijo') }}" />
+                @if (Auth::user()->verify == '0')
                 <x-jet-input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" />
+                @else
+                <x-jet-input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" readonly />
+                @endif
                 <x-jet-input-error for="phone" class="mt-2" />
             </div>
             {{-- Teléfono Móvil --}}
-            <div class="col-sm-12 col-md-6 my-1">
+            <div class="col-4 mb-2">
                 <x-jet-label for="mobile_phone" value="{{ __('Teléfono Móvil') }}" />
-                <x-jet-input id="mobile_phone" type="text" class="mt-1 block w-full" wire:model.defer="state.mobile_phone" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="mobile_phone" type="text" class="mt-1 block w-full"
+                    wire:model.defer="state.mobile_phone" />
+                @else
+                <x-jet-input id="mobile_phone" type="text" class="mt-1 block w-full"
+                    wire:model.defer="state.mobile_phone" readonly />
+                @endif
                 <x-jet-input-error for="mobile_phone" class="mt-2" />
             </div>
 
-            
+
             {{-- Zona para editar la Información de Vivienda --}}
-            <h5 class="mt-3 mb-1 font-bold">Información de Vivienda</h5>
-            <div class="row">
-                <div class="col-sm-12 col-md-6 my-1">
-                    <x-jet-label for="address" value="{{ __('Dirección') }}" />
-                    <x-jet-input id="address" type="text" class="mt-1 block w-full" wire:model.defer="state.address" />
-                    <x-jet-input-error for="address" class="mt-2" />
-                </div>
-    
-                <div class="col-sm-12 col-md-6 my-1">
-                    <x-jet-label for="district" value="{{ __('Barrio') }}" />
-                    <x-jet-input id="district" type="text" class="mt-1 block w-full" wire:model.defer="state.district" />
-                    <x-jet-input-error for="district" class="mt-2" />
-                </div>
-    
-                <div class="col-sm-12 col-md-6 my-1">
-                    <x-jet-label for="city" value="{{ __('Ciudad') }}" />
-                    <x-jet-input id="city" type="text" class="mt-1 block w-full" wire:model.defer="state.city" />
-                    <x-jet-input-error for="city" class="mt-2" />
-                </div>
-    
-                <div class="col-sm-12 col-md-6 my-1">
-                    <x-jet-label for="department" value="{{ __('Departamento') }}" />
-                    <x-jet-input id="department" type="text" class="mt-1 block w-full" wire:model.defer="state.department" />
-                    <x-jet-input-error for="department" class="mt-2" />
-                </div>
-    
-                <div class="col-sm-12 col-md-6 my-1" class="mt-1">
-                    <x-jet-label for="photo_document" value="{{ __('Recibo de servicios / Extracto bancario / Recibo de teléfono') }}" />
-                    <img id="photo_preview2" class="img-fluid " />
-                    <x-jet-input id="photo_document" type="file" class="mt-1 block w-full" wire:model.defer="state.photo_document" onchange="previewFile(this, 'photo_preview2')" accept="image/*" />
-                    <x-jet-input-error for="photo_document" class="mt-2" />
-                </div>                
+            <h3 class="mt-3 mb-2 font-bold col-12 text-center">Información de Vivienda</h3>
+
+            <div class="col-3">
+                <x-jet-label for="address" value="{{ __('Dirección') }}" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="address" type="text" class="mt-1 block w-full" wire:model.defer="state.address" />
+                @else
+                <x-jet-input id="address" type="text" class="mt-1 block w-full" wire:model.defer="state.address"
+                    readonly />
+                @endif
+                <x-jet-input-error for="address" class="mt-2" />
             </div>
 
-        
-    </div>
-        
+            <div class="col-3">
+                <x-jet-label for="district" value="{{ __('Barrio') }}" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="district" type="text" class="mt-1 block w-full" wire:model.defer="state.district" />
+                @else
+                <x-jet-input id="district" type="text" class="mt-1 block w-full" wire:model.defer="state.district"
+                    readonly />
+                @endif
+                <x-jet-input-error for="district" class="mt-2" />
+            </div>
+
+            <div class="col-3">
+                <x-jet-label for="city" value="{{ __('Ciudad') }}" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="city" type="text" class="mt-1 block w-full" wire:model.defer="state.city" />
+                @else
+                <x-jet-input id="city" type="text" class="mt-1 block w-full" wire:model.defer="state.city" readonly />
+                @endif
+                <x-jet-input-error for="city" class="mt-2" />
+            </div>
+
+            <div class="col-3">
+                <x-jet-label for="department" value="{{ __('Departamento') }}" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="department" type="text" class="mt-1 block w-full"
+                    wire:model.defer="state.department" />
+                @else
+                <x-jet-input id="department" type="text" class="mt-1 block w-full" wire:model.defer="state.department"
+                    readonly />
+                @endif
+                <x-jet-input-error for="department" class="mt-2" />
+            </div>
+
+            @if (Auth::user()->verify == '0')
+            <div class="col-12 mt-3 d-flex justify-content-center row">
+                <x-jet-label for="photo_document" class="col-6 mb-2"
+                    value="{{ __('Recibo de servicios / Extracto bancario / Recibo de teléfono') }}" />
+                <x-jet-input id="photo_document" type="file" class="col-6"
+                    wire:model.defer="state.photo_document" onchange="previewFile(this, 'photo_preview2')"
+                    accept="image/*" />
+            <img id="photo_preview2" class="img-fluid col-8 mt-3" />
+                <x-jet-input-error for="photo_document" class="mt-2" />
+            </div>
+            @endif
+        </div>
     </x-slot>
 
     <x-slot name="actions">
@@ -213,4 +309,36 @@
             {{ __('Guardar') }}
         </x-jet-button>
     </x-slot>
+
 </x-jet-form-section>
+
+{{-- modal --}}
+@if (Auth::user()->verify == 0)
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">!!! IMPORTANTE !!!</h5>
+          {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> --}}
+        </div>
+        <div class="modal-body">
+        @if (Auth::user()->dni == NULL)
+        <p>Despues de llenar sus datos, sera enviado a revision donde un administrador lo revisara detalladamente.</p><br>
+        <p><span class="font-bold">Si sus datos tiene algun detalle:</span> El administrador le dejara un mensaje en esta modal, comentando el error de sus datos</p><br>
+        <p><span class="font-bold">Si se aprueban sus datos:</span> Su cuenta ya estara verificada y lista para invertir</p><br>
+        <span class="text-danger font-bold">Sea consiente que despues de aprobar sus datos y su cuenta este ya verificada, !NO! podra volver a cambiar los datos</span>
+        @elseif(Auth::user()->dni != NULL && Auth::user()->msj_admin != NULL)
+        <span class="text-danger font-bold">{{ Auth::user()->msj_admin }}</span>
+        @elseif(Auth::user()->msj_admin == NULL)
+        <span class="text-danger font-bold">Procesando datos</span>
+        @endif
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar y continuar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+@endif

@@ -18,6 +18,8 @@
                                 <th>Usuario</th>
                                 <th>Estado</th>
                                 <th>KYC</th>
+                                <th>Datos</th>
+                                <th>Ultima Actualizacion</th>
                                 <th>Accion</th>
                             </tr>
                         </thead>
@@ -48,6 +50,14 @@
                                 @elseif($item->verify == '2')
                                 <td>Rechazado</td>
                                 @endif
+
+                                @if ($item->dni != NULL)
+                                <td>Pendiente por verificar</td>
+                                @else
+                                <td>Falta datos</td>
+                                @endif
+
+                                <td>{{ $item->updated_at}}</td>
 
                                 <td>
                                     <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-primary"
