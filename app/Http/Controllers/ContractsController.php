@@ -169,6 +169,23 @@ class ContractsController extends Controller
         }
     }
 
+    public function contracts($id)
+    {
+        // dd( $contratos);
+        try{
+            $user = User::where('id',$id)->first();
+            if($user->admin == 1){
+                $contratos = Contract::orderBy('id', 'asc')->get();
+            }else{
+                $contratos = $user->Contracts->sortBy('id');
+            }
+            return $contratos;
+        } catch (\Throwable $th) {
+            Log::error('ContractsController::contracts -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
 
     public function contratosUser()
     {
