@@ -158,7 +158,7 @@
                         'Contrato retirado con exito.',
                         'success'
                         )
-                        //location.reload(true);
+                        location.reload(true);
                     }
                     })
                 }, false)

@@ -73,7 +73,7 @@ class ContractsController extends Controller
             $capital = $solicitud->amount - ($solicitud->amount * 0.25);
 
             $Contract = Contract::findOrFail($request->contratoId);
-            $Contract->capital -= $capital;
+            // $Contract->capital -= $capital;
             if($Contract->capital <= 0){
                 $Contract->status = 2;
             }
