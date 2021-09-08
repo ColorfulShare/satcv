@@ -19,6 +19,7 @@
                             <thead class="">
                                 <tr class="text-center text-dark bg-purple-alt2">
                                     <th>ID</th>
+                                    <th>Nombre</th>
                                     <th>Email</th>
                                     <th>Estado</th>
                                     <th>KYC</th>
@@ -30,6 +31,7 @@
                                 @foreach ($user as $item)
                                    <tr class="text-center">
                                         <td>{{ $item->id}}</td>
+                                        <td>{{ $item->name.' '.$item->lastname}}</td>
                                         <td>{{ $item->email}}</td>
 
                                          @if ($item->status == '0')
