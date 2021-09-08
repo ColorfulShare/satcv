@@ -211,6 +211,7 @@ return [
     "Liquidaciones de Comisiones" => "Liquidaciones de Comisiones",
     "Retiros Realizados" => "Retiros Realizados",
     "KYC" => "KYC",
+   "Admistradores de Carteras" => "Admistradores de Carteras",
 
 
 ];

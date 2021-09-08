@@ -50,6 +50,12 @@
       "icon": "sidebar",
       "slug": "users.list-kyc"
     },
+     {
+      "url": "administrators",
+      "name": "Admistradores de Carteras",
+      "icon": "user-check",
+      "slug": "administrators.index"
+    },
     {
       "name": "Solicitud",
       "icon": "home",
