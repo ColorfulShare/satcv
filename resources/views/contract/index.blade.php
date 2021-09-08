@@ -18,10 +18,11 @@
                                 <th>ID</th>
                                 <th>Fecha</th>
                                 <th>Correo</th>
-                                <th>Monto</th>
+                                <th>Invertido</th>
                                 <th>Saldo Capital</th>
                                 <th>Productividad</th>
                                 <th>Retirado</th>
+                                <th>Tipo</th>
                                 <th>Vencimiento</th>
                                 <th>Acción</th>
                             </tr>
@@ -32,10 +33,11 @@
                                 <td>{{$contrato->id}}</td>
                                 <td>{{$contrato->created_at->format('Y/m/d')}}</td>
                                 <td>{{$contrato->getOrden->user->email}}</td>
-                                <td>{{$contrato->getOrden->amount}}</td>
+                                <td>{{$contrato->invested}}</td>
                                 <td>{{$contrato->capital}}</td>
                                 <td>{{$contrato->productividad()}}</td>
                                 <td>{{$contrato->retirado()}}</td>
+                                <td>{{ucwords($contrato->type_interes)}}</td>
                                 <td>{{$contrato->ContractExpiration()->format('Y/m/d')}}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">

@@ -37,7 +37,7 @@
         responsive: true,
         searching: true,
         bLengthChange: true,
-        pageLength: 10
+        pageLength: 10,
     })
 </script>
 @endpush
