@@ -92,6 +92,8 @@
             });
     @endif
   </script>
+
+  @stack('custom-scripts')
 </body>
 
 </html>
