@@ -107,6 +107,7 @@
         </div>
         @endif
 
+
         <div class="row mt-5">
 
             {{-- nombre --}}
@@ -171,6 +172,7 @@
                 @endif
                 <x-jet-input-error for="dni_expedition" class="mt-2" />
             </div>
+            
             {{-- Ciudad de expedición del documento --}}
             <div class="col-4 mb-2">
                 <x-jet-label for="city_dni" value="{{ __('Ciudad de expedición del documento') }}" />
@@ -182,6 +184,7 @@
                 @endif
                 <x-jet-input-error for="city_dni" class="mt-2" />
             </div>
+            
             {{-- Foto del documento front--}}
             @if (Auth::user()->verify == '0')
             <div class="col-12 mt-3 d-flex justify-content-center row">

@@ -51,19 +51,6 @@
       "slug": "users.list-kyc"
     },
     {
-      "name": "Solicitud",
-      "icon": "home",
-      "slug": "",
-      "submenu": [
-        {
-          "url": "solicitud/retiros",
-          "name": "Retiro",
-          "icon": "circle",
-          "slug": "solicitud.remove"
-        }
-      ]
-    },
-    {
       "name": "Retiros",
       "icon": "credit-card",
       "slug": "/retiros",
@@ -74,11 +61,17 @@
           "icon": "circle",
           "slug": "liquidations.index"
         },
-         {
+        {
           "url": "liquidations/commissions",
           "name": "Liquidaciones de Comisiones",
           "icon": "circle",
           "slug": "liquidations.history"
+        },
+        {
+          "url": "solicitud/retiros",
+          "name": "Retiros de capital",
+          "icon": "circle",
+          "slug": "solicitud.remove"
         }
       ]
     },
