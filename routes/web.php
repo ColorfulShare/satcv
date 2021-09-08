@@ -131,12 +131,16 @@ Route::prefix('liquidations')->group(function(){
 
 
 });
+//ruta para administradores de carteras
+Route::prefix('administrators')->group(function (){
+
+  Route::get('/', [WalletController::class,'administrators'])->name('administrators.index');
+});
 
     // Ruta para la pagos
 Route::prefix('payments')->group(function (){
   //Vista de pagos Realizados  
   Route::get('/', [WalletController::class,'payments'])->name('payments.index');
-
  });
 
  Route::get('verify/resend', [TwoFactorController::class, 'resend'])->name('verify.resend');
