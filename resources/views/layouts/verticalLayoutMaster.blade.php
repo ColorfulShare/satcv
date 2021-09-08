@@ -91,6 +91,15 @@
                 tapToDismiss: false
             });
     @endif
+
+    @if(isset($errors))
+      @foreach ($errors->all() as $message)
+        toastr['error']('{{ $message }}', 'Validación fallida', {
+                closeButton: true,
+                tapToDismiss: false
+            });
+      @endforeach
+    @endif
   </script>
 
   @stack('custom-scripts')

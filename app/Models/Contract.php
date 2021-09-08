@@ -48,7 +48,7 @@ class Contract extends Model
 
     public function retirado()
     {
-        return $this->wallets()->where('status', 1)->sum('amount');
+        return $this->wallets->where('status', 1)->sum('amount');
     }
 
     public function productividad()
@@ -63,6 +63,11 @@ class Contract extends Model
         }else{
             return '<span class="badge bg-danger">Culminado</span>';
         }
+    }
+
+    public function firma_cliente()
+    {
+        
     }
     
 }

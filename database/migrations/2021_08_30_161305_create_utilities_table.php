@@ -17,7 +17,7 @@ class CreateUtilitiesTable extends Migration
             $table->id();
             $table->double('gain');
             $table->double('percentage');
-            $table->integer('month');
+            $table->date('payment_date');
             $table->timestamps();
         });
     }
