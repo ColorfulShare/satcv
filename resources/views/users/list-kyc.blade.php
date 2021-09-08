@@ -19,6 +19,7 @@
                                 <th>Estado</th>
                                 <th>KYC</th>
                                 <th>Datos</th>
+                                <th>Ultima Actualizacion</th>
                                 <th>Accion</th>
                             </tr>
                         </thead>
@@ -55,6 +56,8 @@
                                 @else
                                 <td>Falta datos</td>
                                 @endif
+
+                                <td>{{ $item->updated_at}}</td>
 
                                 <td>
                                     <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-primary"

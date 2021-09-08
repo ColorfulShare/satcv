@@ -329,8 +329,10 @@
         <p><span class="font-bold">Si sus datos tiene algun detalle:</span> El administrador le dejara un mensaje en esta modal, comentando el error de sus datos</p><br>
         <p><span class="font-bold">Si se aprueban sus datos:</span> Su cuenta ya estara verificada y lista para invertir</p><br>
         <span class="text-danger font-bold">Sea consiente que despues de aprobar sus datos y su cuenta este ya verificada, !NO! podra volver a cambiar los datos</span>
-        @else
-        <span class="text-danger font-bold">mensaje del admin</span>
+        @elseif(Auth::user()->dni != NULL && Auth::user()->msj_admin != NULL)
+        <span class="text-danger font-bold">{{ Auth::user()->msj_admin }}</span>
+        @elseif(Auth::user()->msj_admin == NULL)
+        <span class="text-danger font-bold">Procesando datos</span>
         @endif
         </div>
         <div class="modal-footer">
