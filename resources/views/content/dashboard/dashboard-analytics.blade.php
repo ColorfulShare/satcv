@@ -169,32 +169,14 @@
                     <div class="card-body card-dashboard">
                         <div class="table-responsive">
                             <table
-                                class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped comuntable">
+                                class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped" id="datatableUtility">
                                 <thead class="">
-
-                                    <tr class="text-center bg-purple-alt2">
-                                        <th>Id</th>
-                                        <th>Mes</th>
-                                        <th>Monto</th>
-                                        <th>%</th>
-                                    </tr>
-
                                 </thead>
                                 <tbody class="text-center">
                                     @php
                                     setlocale(LC_ALL, 'es');
                                     @endphp
-                                    @foreach ($utilities as $utility)
-
-                                    <tr class="text-center">
-                                        <td>{{$utility->id}}</td>
-                                        <td class="text-capitalize">
-                                            {{\Carbon\Carbon::parse($utility->payment_date)->format('Y/m/d')}}
-                                        </td>
-                                        <td>{{$utility->gain}}</td>
-                                        <td>{{$utility->percentage * 100}} %</td>
-                                    </tr>
-                                    @endforeach
+                                   
                                 </tbody>
                             </table>
                         </div>
@@ -292,6 +274,7 @@
             .then(response => response.text())
             .then(resultText => (
                 data = JSON.parse(resultText),
+                console.log(data.utility),
                 goalOverviewChart.updateOptions({
                     series: [(data.dias).toFixed(2)],
                 }),
@@ -316,6 +299,10 @@
                         }
                     ],
                 }),
+                dataSet = [],
+                datatable.clear(),
+                datatable.rows.add(dataSet),
+                datatable.draw(),
                 idContrato.innerHTML = data.contrato.id,
                 contratoInversion.forEach(i => i.innerHTML = data.contrato.invested),
                 contratoSaldoCapital.innerHTML = data.contrato.capital,
@@ -521,6 +508,22 @@
             };
             budgetChart = new ApexCharts($budgetChart, budgetChartOptions);
             budgetChart.render();
+
+        //---------------- DataTable ----------------
+        //----------------------------------------------
+            var dataSet = '';
+
+            var datatable = $('#datatableUtility').DataTable({
+                data: dataSet,
+                columns: [
+                    { title: "ID" },
+                    { title: "Mes" },
+                    { title: "Monto" },
+                    { title: "%" }
+                ]
+
+
+            });
 
     });
 

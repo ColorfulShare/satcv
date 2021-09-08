@@ -42,7 +42,7 @@
                                         <a href="{{route('dashboard', ['id' => $contrato->id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Detalles">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Ver Contrato">
+                                        <a target="_blank" href="{{route('contract.generatePdf', ['id' => $contrato->id])}}" class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Ver Contrato">
                                             <i class="fa fa-file-pdf"></i>
                                         </a>
                                     </div>

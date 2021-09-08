@@ -339,6 +339,9 @@ class ContractsController extends Controller
                 $utilities = $contrato->wallets()->where('tipo_transaction', 1)->orderByDesc('id')->latest()->take(6)->get()->toArray();
                 sort($utilities);
                 $data->utilidades = $utilities;
+                $utility = $contrato->wallets()->select('id', 'payment_date', 'amount', 'percentage')->where('tipo_transaction', 1)->orderByDesc('id')->latest()->take(6)->get()->toArray();
+                // dd($utility);
+                $data->utility = $utility;
                 $data->amount = array_column($data->utilidades, 'amount');
                 $data->percentage = array_column($data->utilidades, 'percentage');
                 $arraypositivo = [];
