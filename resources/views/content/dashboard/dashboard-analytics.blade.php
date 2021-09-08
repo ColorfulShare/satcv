@@ -220,11 +220,18 @@
             } 
                 
         }
+        let monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+
 
         selectContract.addEventListener('change', function () {
             if (selectContract.value > 0) {
                 execute();
             } else {
+
+                datatable.clear(),
+                datatable.draw(),
+
                 goalOverviewChart.updateOptions({
                     series: [(0).toFixed(2)],
                 }),
@@ -274,10 +281,20 @@
             .then(response => response.text())
             .then(resultText => (
                 data = JSON.parse(resultText),
-                console.log(data.utility),
+                //DATOS DEL DATATABLE//
+                datosTable = data.utility.map(i => i = Object.values(i)),
+                        datosTable.map(i => i[1] = monthNames[new Date(i[1]).getMonth()]),
+                        datosTable.map(i => i[3] = i[3]*100),
+                dataSet = datosTable,
+                datatable.clear(),
+                datatable.rows.add(dataSet),
+                datatable.draw(),
+                
+                //GRÁFICA DE INVERSIÓN//
                 goalOverviewChart.updateOptions({
                     series: [(data.dias).toFixed(2)],
                 }),
+                //GRÁFICA DE RENDIMIENTO//
                 revenueReportChart.updateOptions({
                     series: [{
                             data: data.positivo.map(num => num * 100),
@@ -290,6 +307,8 @@
                         categories: data.mes,
                     },
                 }),
+
+                //GRÁFICA DE GANANCIA//
                 budgetChart.updateOptions({
                     series: [{
                             data: data.amount,
@@ -299,10 +318,8 @@
                         }
                     ],
                 }),
-                dataSet = [],
-                datatable.clear(),
-                datatable.rows.add(dataSet),
-                datatable.draw(),
+                
+                //ESTADÍSTICAS//
                 idContrato.innerHTML = data.contrato.id,
                 contratoInversion.forEach(i => i.innerHTML = data.contrato.invested),
                 contratoSaldoCapital.innerHTML = data.contrato.capital,
@@ -514,6 +531,9 @@
             var dataSet = '';
 
             var datatable = $('#datatableUtility').DataTable({
+                columnDefs: [
+                        {className: "dt-center text-center", "targets": "_all"}
+                    ],
                 data: dataSet,
                 columns: [
                     { title: "ID" },
