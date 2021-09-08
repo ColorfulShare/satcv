@@ -38,6 +38,8 @@ class CreateUsersTable extends Migration
             $table->string('department')->nullable();
             $table->longtext('photo_document')->nullable();
             // $table->foreignId('current_team_id')->nullable();
+            $table->tinyInteger('type')->default(0)->comment('0 - Normal, 1 - Administrador de carteras');
+            $table->bigInteger('referred_id')->nullable()->comment('ID del usuario patrocinador');
             $table->rememberToken();
             $table->timestamps();
         });

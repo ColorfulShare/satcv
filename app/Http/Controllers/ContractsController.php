@@ -206,7 +206,10 @@ class ContractsController extends Controller
                 $porcentaje = $request->porcentaje / 100;
                 $ids = [];
                 $gain = 0;
-                $contratos = Contract::where('status', 1)->get();
+             
+                $contratos = Contract::where('status', 1)->whereHas('getOrden.user', function($user)use($ids){
+                    $user->where('type', 0)->where('referred_id', null);
+                })->get();
             
                 foreach($contratos as $contrato){
                     //SACO EL PORCENTAJE

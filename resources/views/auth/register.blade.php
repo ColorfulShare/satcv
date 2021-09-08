@@ -8,6 +8,11 @@
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
+            @if ( request()->referred_id != null )
+                <input type="hidden" name="referred_id" value="{{request()->referred_id}}">
+            @else    
+                <input type="hidden" name="referred_id">  
+            @endif
 
             <div>
                 <x-jet-label for="name" value="{{ __('Nombre') }}" />

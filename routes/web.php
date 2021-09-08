@@ -100,8 +100,9 @@ Route::get('/2fact', [DoubleAutenticationController::class, 'index'])->name('2fa
 Route::post('/2fact', [DoubleAutenticationController::class, 'checkCodeLogin'])->name('2fact.post');
 
 // locale Route
+/*
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
-
+*/
 //rutas para la lista de usuarios
  Route::prefix('user')->group(function(){
 
@@ -115,10 +116,10 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
     Route::get('rechazar/{id}',[UserController::class,'denyUser'])->name('deny-user');
     
     Route::get('two_factor_challenge',[UserController::class,'two_factor_challenge'])->name('user.two_factor_challenge');
-
+    /*
     Route::get('/impersonate/stop', 'ImpersonateController@stop')->name('impersonate.stop');
     Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
-
+    */
 });
 
 //Rutas para las liquidaciones realizadas
