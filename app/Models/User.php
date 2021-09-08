@@ -28,6 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'lastname',
         'password',
+        'msj_admin',
         'QR_code',
         'activar_2fact',
         'two_factor_code_email',

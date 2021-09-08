@@ -23,13 +23,15 @@ class CreateUsersTable extends Migration
             $table->enum('verify', [0, 1, 2])->default(0)->comment('permite saber si un usuario esta verificado o no');
             $table->date('birth')->nullable(); 
             $table->date('dni_expedition')->nullable(); 
+            $table->string('msj_admin')->nullable();      
             $table->string('phone')->nullable();      
             $table->string('mobile_phone')->nullable();      
             $table->string('city_dni')->nullable();      
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('admin', [0, 1])->default(0)->comment('permite saber si un usuario es admin o no');
             $table->enum('status', [0, 1, 2])->default(0)->comment('0 - inactivo, 1 - activo, 2 - eliminado');        
-            $table->longtext('photo_dni')->nullable();
+            $table->longtext('photo_dni_front')->nullable();
+            $table->longtext('photo_dni_back')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             // Detalles de vivienda
             $table->string('address')->nullable();

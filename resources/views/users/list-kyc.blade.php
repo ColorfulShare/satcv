@@ -18,6 +18,7 @@
                                 <th>Usuario</th>
                                 <th>Estado</th>
                                 <th>KYC</th>
+                                <th>Datos</th>
                                 <th>Accion</th>
                             </tr>
                         </thead>
@@ -47,6 +48,12 @@
                                 <td>Verificado</td>
                                 @elseif($item->verify == '2')
                                 <td>Rechazado</td>
+                                @endif
+
+                                @if ($item->dni != NULL)
+                                <td>Pendiente por verificar</td>
+                                @else
+                                <td>Falta datos</td>
                                 @endif
 
                                 <td>

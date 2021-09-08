@@ -35,7 +35,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'city' => ['nullable', 'string', 'max:255'],
             'department' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-            'photo_dni' => ['nullable', 'max:1024'],
+            'photo_dni_front' => ['nullable', 'max:1024'],
+            'photo_dni_back' => ['nullable', 'max:1024'],
             'photo_document' => ['nullable', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
 
