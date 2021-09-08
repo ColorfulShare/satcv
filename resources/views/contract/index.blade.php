@@ -39,7 +39,7 @@
                                 <td>{{$contrato->ContractExpiration()->format('Y/m/d')}}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
-                                        <a href="{{route('dashboard')}}/?id={{$contrato->id}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Detalles">
+                                        <a href="{{route('dashboard', ['id' => $contrato->id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Detalles">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                         <a class="btn btn-info mx-1" data-toggle="tooltip" data-placement="top" title="Ver Contrato">

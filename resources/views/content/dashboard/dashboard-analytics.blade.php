@@ -10,12 +10,12 @@
 @section('content')
 <!-- Dashboard Analytics Start -->
 <section id="dashboard-analytics">
-    @isset($id)
+    @if(Request::get('id'))
         <a class="btn btn-danger" href="{{ URL::previous() }}">
             <i class="fa fa-arrow-left"></i>
             Regresar
         </a>
-    @endisset
+    @endif
 
     <div class="row match-height justify-content-center">
         <div class="col-lg-4 col-md-12 col-sm-12">
@@ -26,7 +26,7 @@
                             <h4 class="mb-1 text-dark texto-card-1">Bienvenido {{Auth::user()->name}}</h4>
                             <h1 class="mb-1 text-primary texto-card-2 font-weight-bolder">N°. 
                                 
-                                <span id="idContrato">@isset($id){{$id}}@endisset</span></h1>
+                                <span id="idContrato">@if(Request::get('id')){{Request::get('id')}}@endif</span></h1>
                                 
                             <div class="text-left">
                                 <div class="form-group">
@@ -35,9 +35,10 @@
                                         <select class="form-control text-center" id="selectContract">
                                             <option>-- Seleccione --</option>
                                             @foreach($contratos as $contrato)
-                                            <option @isset($id)@if($id == $contrato->id)
+                                            <option 
+                                                @if(Request::get('id') == $contrato->id)
                                                 selected
-                                                @endif @endisset value="{{$contrato->id}}">Contrato #: {{$contrato->id}} /
+                                                @endif value="{{$contrato->id}}">Contrato #: {{$contrato->id}} /
                                                 {{$contrato->created_at->format('Y/m/d')}}</option>
                                             @endforeach
                                         </select>

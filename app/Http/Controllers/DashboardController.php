@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -11,21 +12,12 @@ class DashboardController extends Controller
   /**
      * Lleva a a la vista del dashboard
      */
-  public function index()
+  public function index(Request $request)
   {
-    if(isset($_GET['id'])){
-      $id = $_GET['id'];
-    }
-    
       $this->contratos = new ContractsController;
       $contratos = $this->contratos->contratos();
       $utilities = $this->contratos->getUtilities()->take(6);
-    
-    if(isset($id)){
-      return view('/content/dashboard/dashboard-analytics', compact('contratos', 'utilities', 'id'));
-    }else{
       return view('/content/dashboard/dashboard-analytics', compact('contratos', 'utilities'));
-    }
   }
 
 
