@@ -189,9 +189,6 @@
 </section>
 @endsection
 
-{{-- CONFIGURACIÓN DE DATATABLE --}}
-@include('panels.datatables-config')
-
 @section('vendor-script')
 <!-- vendor files -->
 @endsection
@@ -531,6 +528,11 @@
             var dataSet = '';
 
             var datatable = $('#datatableUtility').DataTable({
+                order: [[ 0, "desc" ]],
+                responsive: true,
+                searching: true,
+                bLengthChange: true,
+                pageLength: 10,
                 columnDefs: [
                         {className: "dt-center text-center", "targets": "_all"}
                     ],
