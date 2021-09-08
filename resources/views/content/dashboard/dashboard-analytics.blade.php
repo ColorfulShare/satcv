@@ -318,11 +318,11 @@
                 
                 //ESTADÍSTICAS//
                 idContrato.innerHTML = data.contrato.id,
-                contratoInversion.forEach(i => i.innerHTML = data.contrato.invested),
-                contratoSaldoCapital.innerHTML = data.contrato.capital,
-                contratoProductividad.forEach(i => i.innerHTML = data.productividad),
-                contratoGanancia.forEach(i => i.innerHTML = data.contrato.gain),
-                contratoRetirado.innerHTML = data.retirado
+                contratoInversion.forEach(i => i.innerHTML = data.contrato.invested.toFixed(2)),
+                contratoSaldoCapital.innerHTML = data.contrato.capital.toFixed(2),
+                contratoProductividad.forEach(i => i.innerHTML = data.productividad.toFixed(2)),
+                contratoGanancia.forEach(i => i.innerHTML = data.contrato.gain.toFixed(2)),
+                contratoRetirado.innerHTML = data.retirado.toFixed(2)
             ))
             .catch(function (error) {
                 console.log(error);
