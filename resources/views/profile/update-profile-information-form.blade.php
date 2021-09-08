@@ -1,13 +1,16 @@
 @push('custom_js')
 <script>
     $(document).ready(function() {
-        @if($this->user -> photo_dni !== NULL)
-            previewPersistedFile("{{asset('storage/'.$this->user->photo_dni_front)}}", 'photo_preview');
+        
+        @if($this->user->photo_dni_front !== NULL)
+            previewPersistedFile("{{asset('storage/'.$this->user->photo_dni_front)}}", 'photo_preview_f');
         @endif
-        @if($this->user -> photo_dni !== NULL)
-            previewPersistedFile("{{asset('storage/'.$this->user->photo_dni_back)}}", 'photo_preview');
+
+        @if($this->user->photo_dni_back !== NULL)
+            previewPersistedFile("{{asset('storage/'.$this->user->photo_dni_back)}}", 'photo_preview_b');
         @endif
-        @if($this->user -> photo_document !== NULL)
+
+        @if($this->user->photo_document !== NULL)
         previewPersistedFile("{{asset('storage/'.$this->user->photo_document)}}", 'photo_preview2');
         @endif
     });
@@ -184,8 +187,8 @@
             <div class="col-12 mt-3 d-flex justify-content-center row">
                 <x-jet-label for="photo_dni_front" value="{{ __('Foto de documento parte frontal') }}" class="col-6 mb-2" />
                 <x-jet-input id="photo_dni_front" type="file" class="col-6" wire:model.defer="state.photo_dni_front"
-                    autocomplete="photo_dni_front" onchange="previewFile(this, 'photo_preview')" accept="image/*" />
-                <img id="photo_preview" class="img-fluid col-6 mt-3" />
+                    autocomplete="photo_dni_front" onchange="previewFile(this, 'photo_preview_f')" accept="image/*" />
+                <img id="photo_preview_f" class="img-fluid col-6 mt-3" />
                 <x-jet-input-error for="photo_dni_front" class="mt-2" />
             </div>
             @endif
@@ -195,8 +198,8 @@
             <div class="col-12 mt-3 d-flex justify-content-center row">
                 <x-jet-label for="photo_dni_back" value="{{ __('Foto de documento parte trasera') }}" class="col-6 mb-2" />
                 <x-jet-input id="photo_dni_back" type="file" class="col-6" wire:model.defer="state.photo_dni_back"
-                    autocomplete="photo_dni_back" onchange="previewFile(this, 'photo_preview')" accept="image/*" />
-                <img id="photo_preview" class="img-fluid col-6 mt-3" />
+                    onchange="previewFile(this, 'photo_preview_b')" accept="image/*" />
+                <img id="photo_preview_b" class="img-fluid col-6 mt-3" />
                 <x-jet-input-error for="photo_dni_back" class="mt-2" />
             </div>
             @endif

@@ -46,15 +46,26 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
         // dd($input['photo_dni']);        
         
-        if (isset($input['photo_dni'])) {
-            if(!is_string($input['photo_dni'])){
-                $file = $input['photo_dni'];
+        if (isset($input['photo_dni_front'])) {
+            if(!is_string($input['photo_dni_front'])){
+                $file = $input['photo_dni_front'];
                 $nombre = time() . $file->getClientOriginalName();
-                $ruta = 'photo_dni/' . $user->id . '/' . $nombre;
-                $user->photo_dni = $ruta;
-                $file->storeAs('public/photo_dni/'.$user->id, $nombre);
+                $ruta = 'photo_dni_front/' . $user->id . '/' . $nombre;
+                $user->photo_dni_front = $ruta;
+                $file->storeAs('public/photo_dni_front/'.$user->id, $nombre);
             }
         }
+
+        if (isset($input['photo_dni_back'])) {
+            if(!is_string($input['photo_dni_back'])){
+                $file = $input['photo_dni_back'];
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'photo_dni_back/' . $user->id . '/' . $nombre;
+                $user->photo_dni_back = $ruta;
+                $file->storeAs('public/photo_dni_back/'.$user->id, $nombre);
+            }
+        }
+
         if (isset($input['photo_document'])) {
             if(!is_string($input['photo_document'])){
                 $file = $input['photo_document'];
