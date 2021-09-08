@@ -16,9 +16,11 @@ class DashboardController extends Controller
     if(isset($_GET['id'])){
       $id = $_GET['id'];
     }
+    
       $this->contratos = new ContractsController;
       $contratos = $this->contratos->contratos();
       $utilities = $this->contratos->getUtilities()->take(6);
+    
     if(isset($id)){
       return view('/content/dashboard/dashboard-analytics', compact('contratos', 'utilities', 'id'));
     }else{

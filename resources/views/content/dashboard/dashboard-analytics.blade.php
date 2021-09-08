@@ -188,7 +188,7 @@
                                     <tr class="text-center">
                                         <td>{{$utility->id}}</td>
                                         <td class="text-capitalize">
-                                            {{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}
+                                            {{\Carbon\Carbon::parse($utility->payment_date)->format('Y/m/d')}}
                                         </td>
                                         <td>{{$utility->gain}}</td>
                                         <td>{{$utility->percentage * 100}} %</td>
