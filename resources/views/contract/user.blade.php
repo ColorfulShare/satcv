@@ -70,6 +70,7 @@
                                 <th>Ganancia</th>
                                 <th>Productividad</th>
                                 <th>Retirado</th>
+                                <th>Tipo</th>
                                 <th>Estado</th>
                                 <th>Fecha</th>
                                 <th>Vencimiento</th>
@@ -85,6 +86,7 @@
                                 <td>{{$contrato->gain}}</td>
                                 <td>{{$contrato->productividad()}}</td>
                                 <td>{{$contrato->retirado()}}</td>
+                                <td>{{ucwords($contrato->type_interes)}}</td>
                                 <td>{!!$contrato->estado()!!}</td>
                                 <td>{{$contrato->created_at->format('Y/m/d')}}</td>
                                 <td>{{$contrato->contractExpiration()->format('Y/m/d')}}</td>

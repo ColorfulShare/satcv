@@ -215,15 +215,27 @@ class ContractsController extends Controller
             'mes' => 'required'
         ]);
 
+        $fecha = Carbon::parse($request->mes);
+    
         try {
             if ($validate){
                 DB::beginTransaction();
                 $porcentaje = $request->porcentaje / 100;
                 $ids = [];
                 $gain = 0;
-                $contratos = Contract::where('status', 1)->get();
+             
+                $contratos = Contract::where('status', 1)->whereHas('getOrden.user', function($user)use($ids){
+                    $user->where('type', 0)->where('referred_id', null);
+                })->get();
             
                 foreach($contratos as $contrato){
+                    //SACO EL PORCENTAJE
+                    
+                    if($fecha->format('Y') == $contrato->created_at->format('Y') && $fecha->format('m') == $contrato->created_at->format('m') && intval($contrato->created_at->format('d')) > 1){
+                        $resta = 30 - (intval($contrato->created_at->format('d')) + 1);
+                        $porcentaje = ($resta * $porcentaje ) / 30;
+                    }
+                    
                     $wallet = null;
                     $previoues_capital = $contrato->capital;
                     if($contrato->type_interes == "lineal"){
@@ -234,14 +246,24 @@ class ContractsController extends Controller
                         $wallet->percentage = $porcentaje;
                         $wallet->descripcion = "Utilidad mensual";
                         $wallet->payment_date = $request->mes;
-                        $wallet->tipo_transaction = 1;
                         $wallet->save();
 
                         $gain+= $contrato->capital * $porcentaje;
                         $contrato->gain += $contrato->capital * $porcentaje;
                         $contrato->save();
                     }else{
+                        $wallet = new Wallet;
+                        $wallet->user_id = $contrato->user()->id;
+                        $wallet->contract_id = $contrato->id;
+                        $wallet->amount = $contrato->capital * $porcentaje;
+                        $wallet->percentage = $porcentaje;
+                        $wallet->descripcion = "Utilidad mensual";
+                        $wallet->payment_date = $request->mes;
+                        $wallet->status = 3;
+                        $wallet->save();
+
                         $gain+= $contrato->capital * $porcentaje;
+                        $contrato->gain += $contrato->capital * $porcentaje;
                         $contrato->capital += $contrato->capital * $porcentaje;
                         $contrato->save();
                     }

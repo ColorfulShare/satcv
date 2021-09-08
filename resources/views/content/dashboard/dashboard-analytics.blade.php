@@ -17,6 +17,30 @@
         </a>
     @endif
 
+    @if(Auth::user()->type == 1)
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-12 mt-1">
+                <div class="card" style="height: 220px;">
+                    <div class="card-body pt-1">
+                    
+                        <div class="card-header d-flex align-items-center text-right pb-0 pt-0 pl-0 white">
+                            <h6 class="mt-1 mb-0 text-white">Link de referido</h6>
+                        </div>
+            
+                        <div class="card-sub d-flex align-items-center ">
+                            <h2 class="gold text-bold-700 mb-0">INVITA A<br>PERSONAS<br></h2>
+                        </div>
+                        <div class="card-header d-flex align-items-center white mt-2">
+                            <button class="btn btn-outline-primary btn-block" style="boder-color=#D6A83E;"
+                                onclick="getlink()"><b>LINK DE
+                                    REFERIDO <i class="fa fa-copy"></i></b></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="row match-height justify-content-center">
         <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="card card-light">
@@ -549,5 +573,25 @@
 
     });
 
+    function getlink() {
+        var aux = document.createElement("input");
+        aux.setAttribute("value", "{{route('register')}}?referred_id={{Auth::id()}}");
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+
+        Swal.fire({
+            title: "Link Copiado",
+            icon: 'success',
+            text: "Ya puedes pegarlo en su navegador",
+            type: "success",
+            confirmButtonClass: 'btn btn-outline-primary',
+        }).then(function(result){
+                if (result.value) {
+                    window.location.reload();
+                }
+            });
+    }
 </script>
 @endsection

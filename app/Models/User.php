@@ -32,7 +32,8 @@ class User extends Authenticatable
         'QR_code',
         'activar_2fact',
         'two_factor_code_email',
-        'two_factor_expires_at'
+        'two_factor_expires_at',
+        'referred_id'
     ];
 
     /**

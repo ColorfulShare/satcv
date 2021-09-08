@@ -69,7 +69,7 @@
                         <div class="mb-3">
                             <label for="mes" class="form-label">Mes</label>
 
-                            <input class="form-control" type="date" name="mes" id="mes" min="{{$utilities->first() ? $utilities->first()->created_at->format('Y-m-d') : ''}}">
+                            <input class="form-control" type="date" name="mes" id="mes" min="{{$utilities->first() ? \Carbon\Carbon::parse($utilities->first()->payment_date)->addDay(1)->format('Y-m-d') : ''}}">
                             {{--
                             <select name="mes" id="mes" required class="form-control form-select">
                                 <option value="">Seleccione un mes</option>
