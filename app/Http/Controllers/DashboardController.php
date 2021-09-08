@@ -13,10 +13,19 @@ class DashboardController extends Controller
      */
   public function index()
   {
-    $this->contratos = new ContractsController;
-    $contratos = $this->contratos->contratos();
-    $utilities = $this->contratos->getUtilities()->take(6);
-    return view('/content/dashboard/dashboard-analytics', compact('contratos', 'utilities'));
+    if(isset($_GET['id'])){
+      $id = $_GET['id'];
+    }
+    
+      $this->contratos = new ContractsController;
+      $contratos = $this->contratos->contratos();
+      $utilities = $this->contratos->getUtilities()->take(6);
+    
+    if(isset($id)){
+      return view('/content/dashboard/dashboard-analytics', compact('contratos', 'utilities', 'id'));
+    }else{
+      return view('/content/dashboard/dashboard-analytics', compact('contratos', 'utilities'));
+    }
   }
 
 

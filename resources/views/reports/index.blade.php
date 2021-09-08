@@ -20,7 +20,6 @@
                                         <th>Monto</th>
                                         <th>Estado</th>
                                         <th>Fecha de Creación</th>
-                                      
                                     </tr>
 
                                 </thead>

@@ -24,7 +24,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form action="{{route('shop.procces')}}" method="POST" target="_blank" id="shop.procces" name="procces">
+                                <form action="{{route('shop.procces')}}" method="POST" id="shop.procces" name="procces">
                                     @csrf
                                     <div class="modal-body">
 
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <!-- Vertical modal end-->
-
+            
                 <div class="table-responsive">
                     <table class="table w-100 nowrap scroll-horizontal-vertical table-striped comuntable">
                         <thead class="">
@@ -89,7 +89,9 @@
                                 <td>{{$contrato->created_at->format('Y/m/d')}}</td>
                                 <td>{{$contrato->contractExpiration()->format('Y/m/d')}}</td>
                                 <td>
-                                    <a href="{{ route('dashboard', ['id' => $contrato->id]) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver Contrato"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ route('dashboard', ['id' => $contrato->id]) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title=""><i class="fa fa-eye"></i></a>
+
+                                    <a target="_blank" href="{{route('contract.generatePdf', ['id' => $contrato->id])}}" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Ver Pdf"><i data-feather='file-text'></i></a>
                                 </td>
                             </tr>
                             @endforeach

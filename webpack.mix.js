@@ -12,6 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .js('resources/js/core/app.js', 'public/js/core')
     .postCss('resources/css/custom-css.css', 'public/css')
     .copy( 'resources/images/logo', 'public/images/logo', false )
     .copy( 'resources/images/ico', 'public/images/ico', false )

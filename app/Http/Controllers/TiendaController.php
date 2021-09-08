@@ -32,7 +32,6 @@ class TiendaController extends Controller
      */
     public function procesarOrden(Request $request)
     {
-        dd($request->all());
         $validate = $request->validate([
             'interes' => 'required',
             'monto' => 'required|numeric|min:500'

@@ -10,6 +10,12 @@
 @section('content')
 <!-- Dashboard Analytics Start -->
 <section id="dashboard-analytics">
+    @isset($id)
+        <a class="btn btn-danger" href="{{ URL::previous() }}">
+            <i class="fa fa-arrow-left"></i>
+            Regresar
+        </a>
+    @endisset
 
     <div class="row match-height justify-content-center">
         <div class="col-lg-4 col-md-12 col-sm-12">
@@ -18,20 +24,23 @@
                     <div class="row">
                         <div class="col-8 d-flex flex-column">
                             <h4 class="mb-1 text-dark texto-card-1">Bienvenido {{Auth::user()->name}}</h4>
-                            <h1 class="mb-1 text-primary texto-card-2 font-weight-bolder">N°. <span
-                                    id="idContrato"></span></h1>
-
+                            <h1 class="mb-1 text-primary texto-card-2 font-weight-bolder">N°. 
+                                
+                                <span id="idContrato">@isset($id){{$id}}@endisset</span></h1>
+                                
                             <div class="text-left">
                                 <div class="form-group">
                                     <label for="selectContract" class="d-flex justify-content-center">Cambiar
                                         contrato</label>
-                                    <select class="form-control text-center" id="selectContract">
-                                        <option>-- Seleccione --</option>
-                                        @foreach($contratos as $contrato)
-                                        <option value="{{$contrato->id}}">Contrato #: {{$contrato->id}} /
-                                            {{$contrato->created_at->format('Y/m/d')}}</option>
-                                        @endforeach
-                                    </select>
+                                        <select class="form-control text-center" id="selectContract">
+                                            <option>-- Seleccione --</option>
+                                            @foreach($contratos as $contrato)
+                                            <option @isset($id)@if($id == $contrato->id)
+                                                selected
+                                                @endif @endisset value="{{$contrato->id}}">Contrato #: {{$contrato->id}} /
+                                                {{$contrato->created_at->format('Y/m/d')}}</option>
+                                            @endforeach
+                                        </select>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +188,7 @@
                                     <tr class="text-center">
                                         <td>{{$utility->id}}</td>
                                         <td class="text-capitalize">
-                                            {{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}
+                                            {{\Carbon\Carbon::parse($utility->payment_date)->format('Y/m/d')}}
                                         </td>
                                         <td>{{$utility->gain}}</td>
                                         <td>{{$utility->percentage * 100}} %</td>
@@ -222,93 +231,102 @@
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         let mesActual;
         if (selectContract != null) {
-            selectContract.addEventListener('change', function () {
-                if (selectContract.value > 0) {
-                    fetch(url + selectContract.value, {
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Accept": "application/json, text-plain, */*",
-                                "X-Requested-With": "XMLHttpRequest",
-                                "X-CSRF-TOKEN": token
-                            },
-                            method: 'get',
-                        })
-                        .then(response => response.text())
-                        .then(resultText => (
-                            data = JSON.parse(resultText),
-                            goalOverviewChart.updateOptions({
-                                series: [(data.dias).toFixed(2)],
-                            }),
-                            revenueReportChart.updateOptions({
-                                series: [{
-                                        data: data.positivo,
-                                    },
-                                    {
-                                        data: data.negativo,
-                                    }
-                                ],
-                                xaxis: {
-                                    categories: data.mes,
-                                },
-                            }),
-                            budgetChart.updateOptions({
-                                series: [{
-                                        data: data.amount,
-                                    },
-                                    {
-                                        data: data.amount.map(num => num - 30),
-                                    }
-                                ],
-                            }),
-                            idContrato.innerHTML = data.contrato.id,
-                            contratoInversion.forEach(i => i.innerHTML = data.contrato.invested),
-                            contratoSaldoCapital.innerHTML = data.contrato.capital,
-                            contratoProductividad.forEach(i => i.innerHTML = data.productividad),
-                            contratoGanancia.forEach(i => i.innerHTML = data.contrato.gain),
-                            contratoRetirado.innerHTML = data.retirado
-                        ))
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                } else {
-                    goalOverviewChart.updateOptions({
-                        series: [(0).toFixed(2)],
-                    }),
-                    revenueReportChart.updateOptions({
-                        series: [{
-                                data: [0,0,0,0,0,0],
-                            },
-                            {
-                                data: [0,0,0,0,0,0],
-                            }
-                        ],
-                        xaxis: {
-                            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-                        },
-                    }),
-                    
-                    budgetChart.updateOptions({
-                        series: [{
-                                data: [0,0,0,0,0,0],
-                            },
-                            {
-                                data: [0,0,0,0,0,0],
-                            }
-                        ],
-                    }),
-
-                    
-                    idContrato.innerHTML = "";
-                    contratoInversion.forEach(i => i.innerHTML = 0),
-                    contratoSaldoCapital.innerHTML = 0;
-                    contratoProductividad.forEach(i => i.innerHTML = 0),
-                    contratoGanancia.forEach(i => i.innerHTML = 0),
-                    contratoRetirado.innerHTML = 0;
-                }
-            });
+            
+            if (selectContract.value > 0) {
+                execute();
+            } 
+                
         }
 
+        selectContract.addEventListener('change', function () {
+            if (selectContract.value > 0) {
+                execute();
+            } else {
+                goalOverviewChart.updateOptions({
+                    series: [(0).toFixed(2)],
+                }),
+                revenueReportChart.updateOptions({
+                    series: [{
+                            data: [0,0,0,0,0,0],
+                        },
+                        {
+                            data: [0,0,0,0,0,0],
+                        }
+                    ],
+                    xaxis: {
+                        categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                    },
+                }),
+                
+                budgetChart.updateOptions({
+                    series: [{
+                            data: [0,0,0,0,0,0],
+                        },
+                        {
+                            data: [0,0,0,0,0,0],
+                        }
+                    ],
+                }),
 
+                
+                idContrato.innerHTML = "";
+                contratoInversion.forEach(i => i.innerHTML = 0),
+                contratoSaldoCapital.innerHTML = 0;
+                contratoProductividad.forEach(i => i.innerHTML = 0),
+                contratoGanancia.forEach(i => i.innerHTML = 0),
+                contratoRetirado.innerHTML = 0;
+            }
+        });
+
+        function execute(){
+            fetch(url + selectContract.value, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text-plain, */*",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": token
+                },
+                method: 'get',
+            })
+            .then(response => response.text())
+            .then(resultText => (
+                data = JSON.parse(resultText),
+                goalOverviewChart.updateOptions({
+                    series: [(data.dias).toFixed(2)],
+                }),
+                revenueReportChart.updateOptions({
+                    series: [{
+                            data: data.positivo.map(num => num * 100),
+                        },
+                        {
+                            data: data.negativo.map(num => num * 100),
+                        }
+                    ],
+                    xaxis: {
+                        categories: data.mes,
+                    },
+                }),
+                budgetChart.updateOptions({
+                    series: [{
+                            data: data.amount,
+                        },
+                        {
+                            data: data.amount.map(num => num - 30),
+                        }
+                    ],
+                }),
+                idContrato.innerHTML = data.contrato.id,
+                contratoInversion.forEach(i => i.innerHTML = data.contrato.invested),
+                contratoSaldoCapital.innerHTML = data.contrato.capital,
+                contratoProductividad.forEach(i => i.innerHTML = data.productividad),
+                contratoGanancia.forEach(i => i.innerHTML = data.contrato.gain),
+                contratoRetirado.innerHTML = data.retirado
+            ))
+            .catch(function (error) {
+                console.log(error);
+            });
+                
+        }
 
 
         var $revenueReportChart = document.querySelector('#revenue-report-chart');
@@ -412,11 +430,11 @@
                 },
                 colors: ['#00e600', window.colors.solid.warning],
                 series: [{
-                        name: 'Earning',
+                        name: '%',
                         data: [0, 0, 0, 0, 0, 0]
                     },
                     {
-                        name: 'Expense',
+                        name: '%',
                         data: [-0, -0, -0, -0, -0, -0]
                     }
                 ],

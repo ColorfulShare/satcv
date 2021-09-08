@@ -12,7 +12,7 @@
   @include('panels.navbar')
 
   <!-- BEGIN: Content-->
-  <div class="app-content content {{ $configData['pageClass'] }}">
+  <div class="app-content content {{ $configData['pageClass'] }}" id="content">
     <!-- BEGIN: Header-->
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -90,6 +90,15 @@
                 closeButton: true,
                 tapToDismiss: false
             });
+    @endif
+
+    @if(isset($errors))
+      @foreach ($errors->all() as $message)
+        toastr['error']('{{ $message }}', 'Validación fallida', {
+                closeButton: true,
+                tapToDismiss: false
+            });
+      @endforeach
     @endif
   </script>
 

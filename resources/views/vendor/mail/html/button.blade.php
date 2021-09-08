@@ -8,7 +8,7 @@
                             <tr>
                                 <td>
                                     <a href="{{ $url }}" class="button button-{{ $color ?? 'primary' }}" target="_blank"
-                                        rel="noopener">Restablecer contraseña</a>
+                                        rel="noopener">Ir al enlace</a>
                                 </td>
                             </tr>
                         </table>

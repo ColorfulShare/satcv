@@ -33,7 +33,7 @@
 
                             <tr class="text-center">
                                 <td>{{$utility->id}}</td>
-                                <td>{{$utility->created_at->format('Y-m-d')}}</td>
+                                <td>{{\Carbon\Carbon::parse($utility->payment_date)->format('Y-m-d')}}</td>
                                 <td>{{$utility->percentage * 100}} %</td>
                                 {{--
                                 <td>{{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}
@@ -68,6 +68,9 @@
                             name="porcentaje" step="any">
                         <div class="mb-3">
                             <label for="mes" class="form-label">Mes</label>
+
+                            <input class="form-control" type="date" name="mes" id="mes" min="{{$utilities->first() ? $utilities->first()->created_at->format('Y-m-d') : ''}}">
+                            {{--
                             <select name="mes" id="mes" required class="form-control form-select">
                                 <option value="">Seleccione un mes</option>
                                 <option value="1">Enero</option>
@@ -83,6 +86,7 @@
                                 <option value="11">Noviembre</option>
                                 <option value="12">Diciembre</option>
                             </select>
+                            --}}
                         </div>
                     </div>
                     <div class="modal-footer">

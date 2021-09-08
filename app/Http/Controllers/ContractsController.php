@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Log;
 use Hexters\CoinPayment\CoinPayment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ContractsController extends Controller
 {
@@ -35,7 +36,8 @@ class ContractsController extends Controller
 
     public function index()
     {
-        return view('contract.index');
+        $contratos = $this->contratos();
+        return view('contract.index', compact('contratos'));
     }
     /**
      * Permite guardar las nuevas contratos generadas
@@ -54,7 +56,8 @@ class ContractsController extends Controller
                 'orden_purchases_id' => $orden->id,
                 'invested' => $orden->amount,
                 'capital' => $orden->amount,
-                'type_interes' => $orden->type_interes
+                'type_interes' => $orden->type_interes,
+                'firma_cliente' => $orden->firma_cliente
             ];
             Contract::create($data);
     
@@ -72,7 +75,7 @@ class ContractsController extends Controller
             $capital = $solicitud->amount - ($solicitud->amount * 0.25);
 
             $Contract = Contract::findOrFail($request->contratoId);
-            $Contract->capital -= $capital;
+            // $Contract->capital -= $capital;
             if($Contract->capital <= 0){
                 $Contract->status = 2;
             }
@@ -173,15 +176,6 @@ class ContractsController extends Controller
         return view('contract.user', compact('contratos'));
     }
 
-    /**
-     * Lleva a la vista de inversion
-     */
-    public function inversion()
-    {
-        $contratos = $this->contratos();
-        return view('contract.inversion', compact('contratos'));
-    }
-
      /**
      * Lleva a la vista de utilidades
      */
@@ -213,7 +207,6 @@ class ContractsController extends Controller
                 $contratos = Contract::where('status', 1)->get();
             
                 foreach($contratos as $contrato){
-                    setlocale(LC_ALL, 'es');
                     $wallet = null;
                     $previoues_capital = $contrato->capital;
                     if($contrato->type_interes == "lineal"){
@@ -223,7 +216,7 @@ class ContractsController extends Controller
                         $wallet->amount = $contrato->capital * $porcentaje;
                         $wallet->percentage = $porcentaje;
                         $wallet->descripcion = "Utilidad mensual";
-                        $wallet->month = ucfirst(strftime("%B", \Carbon\Carbon::createFromFormat('!m',$request->mes)->getTimestamp()));
+                        $wallet->payment_date = $request->mes;
                         $wallet->tipo_transaction = 1;
                         $wallet->save();
 
@@ -241,8 +234,7 @@ class ContractsController extends Controller
                     $utility->Contract_id = $contrato->id;
                     $utility->wallet_id = $wallet != null ? $wallet->id : null;
                     $utility->percentage = $porcentaje;
-                    $utility->month = $request->mes;
-                    $utility->year = Carbon::now()->format('Y');
+                    $utility->payment_date = $request->mes;
                     $utility->previoues_capital = $previoues_capital;
                     $utility->current_capital = $current_capital;
                     $utility->save();
@@ -254,7 +246,7 @@ class ContractsController extends Controller
                 $utilidad = new Utility;
                 $utilidad->gain = $gain;
                 $utilidad->percentage = $porcentaje;
-                $utilidad->month = $request->mes;
+                $utilidad->payment_date = $request->mes;
                 $utilidad->save();
 
                 $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
@@ -267,7 +259,6 @@ class ContractsController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
-
     /**
      * Datatable dinámico (ServerSide) que se muestra en audit.rangos 
      *
@@ -285,17 +276,17 @@ class ContractsController extends Controller
                 ->addColumn('fecha', function($data){
                     return $data->created_at->format('Y/m/d');
                 })
-                ->addColumn('monto', function($data){
-                    return $data->getOrden->amount;
+                ->addColumn('Invertido', function($data){
+                    return $data->invested;
                 })
                 ->addColumn('capital', function($data){
                     return $data->capital;
                 })
                 ->addColumn('productividad', function($data){
-                    return $data->gain;
+                    return $data->productividad();
                 })
                 ->addColumn('retirado', function($data){
-                    return $data->gain;
+                    return $data->retirado();
                 })
                 ->addColumn('vencimiento', function($data){
                     return $data->ContractExpiration()->format('Y/m/d');
@@ -317,9 +308,7 @@ class ContractsController extends Controller
                 ->make(true);
         }
     }
-
-
-
+    
       /**
      * Retorna el contrato según el id que se le pase
      *
@@ -327,7 +316,7 @@ class ContractsController extends Controller
      */
     public function getContrato($id)
     {
-            // try{
+            try{
                 $data = new stdClass();
                 $contrato = Contract::find($id);
                 if($contrato->productividad() != null){
@@ -352,6 +341,8 @@ class ContractsController extends Controller
                 $data->utilidades = $utilities;
                 $data->amount = array_column($data->utilidades, 'amount');
                 $data->percentage = array_column($data->utilidades, 'percentage');
+                $arraypositivo = [];
+                $arraynegativo = [];
                 foreach($data->percentage as $valores){
                     if($valores > 0){
                         $arraypositivo[]  = $valores;
@@ -365,10 +356,10 @@ class ContractsController extends Controller
                 $data->negativo = $arraynegativo;
                 $data->mes = array_column($data->utilidades, 'month');
                 return response()->json($data);
-            // } catch (\Throwable $th) {
-            // Log::error('ContractsController::getContrato -> Error: '.$th);
-            // abort(403, "Ocurrio un error, contacte con el administrador");
-            // }
+            } catch (\Throwable $th) {
+            Log::error('ContractsController::getContrato -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+            }
     }
 
     /**
@@ -398,5 +389,20 @@ class ContractsController extends Controller
             Log::error('ContractsController::formPdf -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
+    }
+
+    public function generatePdf($id)
+    {
+        $contract = Contract::findOrFail($id);
+        
+        $pdf = PDF::loadView('contract.pdf', compact('contract'));
+
+        //$pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->setPaper('A4', 'portrait');
+        
+        $html = $pdf->stream();
+        //$html = $pdf->download('reporte-socios-'. Carbon::now()->format('d/m/Y').'.pdf');
+
+        return $html;
     }
 }
