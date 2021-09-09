@@ -34,7 +34,7 @@
                             <tr class="text-center">
                                 <td>{{$utility->id}}</td>
                                 <td>{{\Carbon\Carbon::parse($utility->payment_date)->format('Y-m-d')}}</td>
-                                <td>{{$utility->percentage * 100}} %</td>
+                                <td>{{$utility->percentage}} %</td>
                                 {{--
                                 <td>{{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}
                                 </td>

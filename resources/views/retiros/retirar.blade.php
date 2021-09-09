@@ -79,18 +79,24 @@
                 <div class="card-body card-dashboard p-0">
                     <div class="table-responsive">
                     <h3 class="text-white p-1">Billetera</h3>
-                        <table class="table nowrap scroll-horizontal-vertical myTable2">
+                        <table class="table nowrap scroll-horizontal-vertical myTable text-center">
                             <thead>
 
                                 <tr class="text-center text-dark text-uppercase pl-2">                                
-                                    <th>Fecha</th>
-                                    <th>Descripción</th>
-                                    <th>Email</th>
-                                    <th>Monto</th>    
+                                    <th>Monto</th>
+                                    <th>Estatus</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha</th>    
                                 </tr>
 
                             </thead>
                             <tbody>
+                                @foreach ($liquidaciones as $liquidacion)
+                                    <td>{{$liquidacion->total_amount}} $</td>
+                                    <td>{!!$liquidacion->estado()!!}</td>
+                                    <td>{{$liquidacion->tipo()}}</td>
+                                    <td>{{$liquidacion->created_at->format('Y-m-d')}}</td>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -100,6 +106,9 @@
     </div>
 </div>
 @endsection
+
+{{-- CONFIGURACIÓN DE DATATABLE --}}
+@include('panels.datatables-config')
 
 @push('custom_js')
     <script>

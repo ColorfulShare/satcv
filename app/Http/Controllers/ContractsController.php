@@ -284,7 +284,7 @@ class ContractsController extends Controller
 
                 $utilidad = new Utility;
                 $utilidad->gain = $gain;
-                $utilidad->percentage = $porcentaje;
+                $utilidad->percentage = $request->porcentaje;
                 $utilidad->payment_date = $request->mes;
                 $utilidad->save();
 

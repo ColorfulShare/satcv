@@ -21,5 +21,24 @@ class Liquidation extends Model
     return $this->belongsTo('App\Models\User', 'user_id', 'id');
  }
 
+ public function estado()
+ {
+      if($this->status == 1){
+            return '<span class="badge bg-success">Aprobado</span>';
+      }elseif($this->status == 0){
+            return '<span class="badge bg-warning">En espera</span>';
+      }elseif($this->status == 2){
+            return '<span class="badge bg-danger">Rechazada</span>';
+      }
+ }
+
+ public function tipo()
+ {
+      if($this->type == 0){
+            return 'Socilitud';
+      }elseif($this->type == 1){
+            return 'Rendimientos';
+      }
+ }
 
 }

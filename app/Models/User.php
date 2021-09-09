@@ -91,7 +91,7 @@ class User extends Authenticatable
 
     public function saldoDisponible()
     {
-        return number_format($this->wallets->where('status', 0)->where('tipo_transaction', 1)->sum('amount'), 2);
+        return number_format($this->wallets->where('status', 0)->sum('amount'), 2);
         
     }
 

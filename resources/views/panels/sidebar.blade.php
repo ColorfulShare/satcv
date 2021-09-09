@@ -96,6 +96,15 @@ $configData = Helper::applClasses();
       @endif
       {{-- Foreach menu item ends --}}
     @endif
+      @if(Auth::user()->type == 1)
+        <li class="nav-item ">
+          <a class="d-flex align-items-center" onclick="getlink()">
+            <i class="fa fa-copy"></i>
+            <span class="menu-title text-truncate">Link de referido</span>
+          
+          </a>
+        </li>
+      @endif
     </ul>
   </div>
 </div>

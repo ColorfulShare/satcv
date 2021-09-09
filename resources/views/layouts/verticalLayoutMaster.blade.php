@@ -100,6 +100,27 @@
             });
       @endforeach
     @endif
+
+    function getlink() {
+        var aux = document.createElement("input");
+        aux.setAttribute("value", "{{route('register')}}?referred_id={{Auth::id()}}");
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+
+        Swal.fire({
+            title: "Link Copiado",
+            icon: 'success',
+            text: "Ya puedes pegarlo en su navegador",
+            type: "success",
+            confirmButtonClass: 'btn btn-outline-primary',
+        }).then(function(result){
+                if (result.value) {
+                    window.location.reload();
+                }
+            });
+    }
   </script>
 
   @stack('custom-scripts')
