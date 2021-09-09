@@ -274,6 +274,7 @@ class ContractsController extends Controller
                     $utility->Contract_id = $contrato->id;
                     $utility->wallet_id = $wallet != null ? $wallet->id : null;
                     $utility->percentage = $porcentaje;
+                    $utility->amount = $wallet->amount;
                     $utility->payment_date = $request->mes;
                     $utility->previoues_capital = $previoues_capital;
                     $utility->current_capital = $current_capital;

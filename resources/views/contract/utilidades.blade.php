@@ -22,6 +22,9 @@
                                 <th>Id</th>
                                 <th>Fecha de pago</th>
                                 <th>Porcentaje de rendimiento</th>
+                                <th>Pagado</th>
+                                <th>Lineal</th>
+                                <th>Compuesto</th>
                             </tr>
 
                         </thead>
@@ -35,6 +38,9 @@
                                 <td>{{$utility->id}}</td>
                                 <td>{{\Carbon\Carbon::parse($utility->payment_date)->format('Y-m-d')}}</td>
                                 <td>{{$utility->percentage}} %</td>
+                                <td>{{$utility->gain}} $</td>
+                                <td>{{$utility->amount_lineal()}} $</td>
+                                <td>{{$utility->amount_compuesto()}} $</td>
                                 {{--
                                 <td>{{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}
                                 </td>
