@@ -18,6 +18,7 @@ class CreateLogUtilitiesTable extends Migration
             $table->foreignId('contract_id')->constrained('contracts');
             $table->foreignId('wallet_id')->nullable()->constrained('wallets');
             $table->foreignId('utility_id')->nullable()->constrained('utilities');
+            $table->double('amount');
             $table->double('percentage');
             $table->date('payment_date');
             $table->double('previoues_capital');

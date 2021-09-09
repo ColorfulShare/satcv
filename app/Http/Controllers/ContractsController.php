@@ -103,51 +103,6 @@ class ContractsController extends Controller
         }
     }   
 
-    public function testCoin()
-    {
-        $transaction['order_id'] = uniqid(); // invoice number
-        $transaction['amountTotal'] = (FLOAT) 37.5;
-        $transaction['note'] = 'Transaction note';
-        $transaction['buyer_name'] = 'Jhone Due';
-        $transaction['buyer_email'] = 'buyer@mail.com';
-        $transaction['redirect_url'] = url('/back_to_tarnsaction'); // When Transaction was comleted
-        $transaction['cancel_url'] = url('/back_to_tarnsaction'); // When user click cancel link
-        /*
-        *   @required true
-        *   @example first item
-        */
-        $transaction['items'][] = [
-            'itemDescription' => 'Product one',
-            'itemPrice' => (FLOAT) 7.5, // USD
-            'itemQty' => (INT) 1,
-            'itemSubtotalAmount' => (FLOAT) 7.5 // USD
-        ];
-        /*
-        *   @example second item
-        */
-        $transaction['items'][] = [
-            'itemDescription' => 'Product two',
-            'itemPrice' => (FLOAT) 10, // USD
-            'itemQty' => (INT) 1,
-            'itemSubtotalAmount' => (FLOAT) 10 // USD
-        ];
-        /*@example third item*/
-        $transaction['items'][] = [
-            'itemDescription' => 'Product Three',
-            'itemPrice' => (FLOAT) 10, // USD
-            'itemQty' => (INT) 2,
-            'itemSubtotalAmount' => (FLOAT) 20 // USD
-        ];
-        $transaction['payload'] = [
-            'foo' => [
-                'bar' => 'baz'
-            ]
-        ];     
-        $ruta = CoinPayment::generatelink($transaction);
-
-        return redirect($ruta);
-    }
-
     /**
      * Permite listar todos los contratos generadas
      * @return collection
@@ -220,7 +175,7 @@ class ContractsController extends Controller
         try {
             if ($validate){
                 DB::beginTransaction();
-                //$porcentaje = $request->porcentaje / 100;
+                $porcentaje = $request->porcentaje / 100;
                 $ids = [];
                 $gain = 0;
                 
@@ -274,6 +229,7 @@ class ContractsController extends Controller
                     $utility->Contract_id = $contrato->id;
                     $utility->wallet_id = $wallet != null ? $wallet->id : null;
                     $utility->percentage = $porcentaje;
+                    $utility->amount = $wallet->amount;
                     $utility->payment_date = $request->mes;
                     $utility->previoues_capital = $previoues_capital;
                     $utility->current_capital = $current_capital;
@@ -290,6 +246,179 @@ class ContractsController extends Controller
                 $utilidad->save();
 
                 $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
+            }
+            DB::commit();
+            return back()->with('success', 'Utilidad pagada exitosamente');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            Log::error('ContractsController - payUtility -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+    public function payUtilityCartera(Request $request)
+    {
+        $validate = $request->validate([
+            'porcentaje_administrador' => 'required',
+            'porcentaje_cartera' => 'required',
+            'mes' => 'required'
+        ]);
+
+        $fecha = Carbon::parse($request->mes);
+        
+        try {
+            if ($validate){
+                DB::beginTransaction();
+                $gain = 0;
+                $ids = [];
+                $porcentaje = $request->porcentaje_administrador / 100;
+
+                $administradores = Contract::where('status', 1)->whereHas('getOrden.user', function($user){
+                    $user->where('type', 1);
+                })->get();
+                
+                if(count($administradores) > 0){
+                    foreach($administradores as $contrato){
+                        //SACO EL PORCENTAJE
+                        
+                        if($fecha->format('Y') == $contrato->created_at->format('Y') && $fecha->format('m') == $contrato->created_at->format('m') && intval($contrato->created_at->format('d')) > 1){
+                            $resta = 30 - (intval($contrato->created_at->format('d')) + 1);
+                            $porcentaje = ($resta * ($request->porcentaje_administrador / 100) ) / 30;
+                            
+                        }
+                        
+                        $wallet = null;
+                        $previoues_capital = $contrato->capital;
+                        if($contrato->type_interes == "lineal"){
+                            $wallet = new Wallet;
+                            $wallet->user_id = $contrato->user()->id;
+                            $wallet->contract_id = $contrato->id;
+                            $wallet->amount = $contrato->capital * $porcentaje;
+                            $wallet->percentage = $porcentaje;
+                            $wallet->descripcion = "Utilidad mensual";
+                            $wallet->payment_date = $request->mes;
+                            $wallet->save();
+
+                            $gain+= $contrato->capital * $porcentaje;
+                            $contrato->gain += $contrato->capital * $porcentaje;
+                            $contrato->save();
+                        }else{
+                            $wallet = new Wallet;
+                            $wallet->user_id = $contrato->user()->id;
+                            $wallet->contract_id = $contrato->id;
+                            $wallet->amount = $contrato->capital * $porcentaje;
+                            $wallet->percentage = $porcentaje;
+                            $wallet->descripcion = "Utilidad mensual";
+                            $wallet->payment_date = $request->mes;
+                            $wallet->status = 3;
+                            $wallet->save();
+                            
+                            $gain+= $contrato->capital * $porcentaje;
+                            $contrato->gain += $contrato->capital * $porcentaje;
+                            $contrato->capital += $contrato->capital * $porcentaje;
+                            $contrato->save();
+                        }
+                        $current_capital = $contrato->capital;
+
+                        $utility = new Log_utility;
+                        $utility->Contract_id = $contrato->id;
+                        $utility->wallet_id = $wallet != null ? $wallet->id : null;
+                        $utility->percentage = $porcentaje;
+                        $utility->amount = $wallet->amount;
+                        $utility->payment_date = $request->mes;
+                        $utility->previoues_capital = $previoues_capital;
+                        $utility->current_capital = $current_capital;
+                        $utility->save();
+                        
+                        $ids[] = $utility->id;
+                        
+                    }
+
+                    $utilidad = new Utility;
+                    $utilidad->gain = $gain;
+                    $utilidad->percentage = $request->porcentaje_administrador;
+                    $utilidad->payment_date = $request->mes;
+                    $utilidad->type = 1;
+                    $utilidad->save();
+
+                    $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
+                }
+                //REFERIDOS
+
+                $gain = 0;
+                $ids = [];
+                $porcentaje = $request->porcentaje_cartera / 100;
+
+                $referidos = Contract::where('status', 1)->whereHas('getOrden.user', function($user){
+                    $user->where('referred_id', '<>' ,null);
+                })->get();
+                
+                if(count($referidos) > 0){
+                    foreach($referidos as $contrato){
+                        //SACO EL PORCENTAJE
+                        
+                        if($fecha->format('Y') == $contrato->created_at->format('Y') && $fecha->format('m') == $contrato->created_at->format('m') && intval($contrato->created_at->format('d')) > 1){
+                            $resta = 30 - (intval($contrato->created_at->format('d')) + 1);
+                            $porcentaje = ($resta * ($request->porcentaje_cartera / 100) ) / 30;
+                            
+                        }
+                        
+                        $wallet = null;
+                        $previoues_capital = $contrato->capital;
+                        if($contrato->type_interes == "lineal"){
+                            $wallet = new Wallet;
+                            $wallet->user_id = $contrato->user()->id;
+                            $wallet->contract_id = $contrato->id;
+                            $wallet->amount = $contrato->capital * $porcentaje;
+                            $wallet->percentage = $porcentaje;
+                            $wallet->descripcion = "Utilidad mensual";
+                            $wallet->payment_date = $request->mes;
+                            $wallet->save();
+
+                            $gain+= $contrato->capital * $porcentaje;
+                            $contrato->gain += $contrato->capital * $porcentaje;
+                            $contrato->save();
+                        }else{
+                            $wallet = new Wallet;
+                            $wallet->user_id = $contrato->user()->id;
+                            $wallet->contract_id = $contrato->id;
+                            $wallet->amount = $contrato->capital * $porcentaje;
+                            $wallet->percentage = $porcentaje;
+                            $wallet->descripcion = "Utilidad mensual";
+                            $wallet->payment_date = $request->mes;
+                            $wallet->status = 3;
+                            $wallet->save();
+                            
+                            $gain+= $contrato->capital * $porcentaje;
+                            $contrato->gain += $contrato->capital * $porcentaje;
+                            $contrato->capital += $contrato->capital * $porcentaje;
+                            $contrato->save();
+                        }
+                        $current_capital = $contrato->capital;
+
+                        $utility = new Log_utility;
+                        $utility->Contract_id = $contrato->id;
+                        $utility->wallet_id = $wallet != null ? $wallet->id : null;
+                        $utility->percentage = $porcentaje;
+                        $utility->amount = $wallet->amount;
+                        $utility->payment_date = $request->mes;
+                        $utility->previoues_capital = $previoues_capital;
+                        $utility->current_capital = $current_capital;
+                        $utility->save();
+                        
+                        $ids[] = $utility->id;
+                        
+                    }
+
+                    $utilidad = new Utility;
+                    $utilidad->gain = $gain;
+                    $utilidad->percentage = $request->porcentaje_cartera;
+                    $utilidad->payment_date = $request->mes;
+                    $utilidad->type = 1;
+                    $utilidad->save();
+
+                    $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
+                }
             }
             DB::commit();
             return back()->with('success', 'Utilidad pagada exitosamente');

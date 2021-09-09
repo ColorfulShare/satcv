@@ -131,4 +131,9 @@ class User extends Authenticatable
         }
         
     }
+
+    public function countrie()
+    {
+        return $this->belongsTo('App\Models\Country', 'country_id');
+    }
 }
