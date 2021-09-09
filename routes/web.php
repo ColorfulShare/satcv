@@ -37,9 +37,6 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
 
-
-    Route::get('/{id}', [DashboardController::class,'dashboard2'])->name('dashboard2')->middleware(['auth']);
-
     Route::group(['prefix' => 'contratos'], function () {
         Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
         Route::get('/user', [ContractsController::class, 'contratosUser'])->name('contract.user');
@@ -147,6 +144,9 @@ Route::middleware('auth')->group(function(){
 
     Route::get('verify/resend', [TwoFactorController::class, 'resend'])->name('verify.resend');
     Route::resource('verify', TwoFactorController::class)->only('index', 'store');
+
+    Route::get('/{id}', [DashboardController::class,'dashboard2'])->name('dashboard2')->middleware(['auth']);
+
 });
 
 
