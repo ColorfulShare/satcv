@@ -53,7 +53,7 @@ class Contract extends Model
 
     public function productividad()
     {
-        return ((($this->capital + $this->retirado() ) - $this->invested ) / $this->invested ) * 100;
+        return ($this->type_interes == 'lineal') ? ($this->gain / $this->invested ) * 100 : ((($this->capital + $this->retirado() ) - $this->invested ) / $this->invested ) * 100;
     }
 
     public function estado()
