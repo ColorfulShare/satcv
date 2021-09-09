@@ -189,9 +189,6 @@
 </section>
 @endsection
 
-{{-- CONFIGURACIÓN DE DATATABLE --}}
-@include('panels.datatables-config')
-
 @section('vendor-script')
 <!-- vendor files -->
 @endsection
@@ -220,11 +217,18 @@
             } 
                 
         }
+        let monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+
 
         selectContract.addEventListener('change', function () {
             if (selectContract.value > 0) {
                 execute();
             } else {
+
+                datatable.clear(),
+                datatable.draw(),
+
                 goalOverviewChart.updateOptions({
                     series: [(0).toFixed(2)],
                 }),
@@ -274,10 +278,20 @@
             .then(response => response.text())
             .then(resultText => (
                 data = JSON.parse(resultText),
-                console.log(data.utility),
+                //DATOS DEL DATATABLE//
+                datosTable = data.utility.map(i => i = Object.values(i)),
+                        datosTable.map(i => i[1] = monthNames[new Date(i[1]).getMonth()]),
+                        datosTable.map(i => i[3] = i[3]*100),
+                dataSet = datosTable,
+                datatable.clear(),
+                datatable.rows.add(dataSet),
+                datatable.draw(),
+                
+                //GRÁFICA DE INVERSIÓN//
                 goalOverviewChart.updateOptions({
                     series: [(data.dias).toFixed(2)],
                 }),
+                //GRÁFICA DE RENDIMIENTO//
                 revenueReportChart.updateOptions({
                     series: [{
                             data: data.positivo.map(num => num * 100),
@@ -290,6 +304,8 @@
                         categories: data.mes,
                     },
                 }),
+
+                //GRÁFICA DE GANANCIA//
                 budgetChart.updateOptions({
                     series: [{
                             data: data.amount,
@@ -299,16 +315,14 @@
                         }
                     ],
                 }),
-                dataSet = [],
-                datatable.clear(),
-                datatable.rows.add(dataSet),
-                datatable.draw(),
+                
+                //ESTADÍSTICAS//
                 idContrato.innerHTML = data.contrato.id,
-                contratoInversion.forEach(i => i.innerHTML = data.contrato.invested),
-                contratoSaldoCapital.innerHTML = data.contrato.capital,
-                contratoProductividad.forEach(i => i.innerHTML = data.productividad),
-                contratoGanancia.forEach(i => i.innerHTML = data.contrato.gain),
-                contratoRetirado.innerHTML = data.retirado
+                contratoInversion.forEach(i => i.innerHTML = data.contrato.invested.toFixed(2)),
+                contratoSaldoCapital.innerHTML = data.contrato.capital.toFixed(2),
+                contratoProductividad.forEach(i => i.innerHTML = data.productividad.toFixed(2)),
+                contratoGanancia.forEach(i => i.innerHTML = data.contrato.gain.toFixed(2)),
+                contratoRetirado.innerHTML = data.retirado.toFixed(2)
             ))
             .catch(function (error) {
                 console.log(error);
@@ -514,6 +528,14 @@
             var dataSet = '';
 
             var datatable = $('#datatableUtility').DataTable({
+                order: [[ 0, "desc" ]],
+                responsive: true,
+                searching: true,
+                bLengthChange: true,
+                pageLength: 10,
+                columnDefs: [
+                        {className: "dt-center text-center", "targets": "_all"}
+                    ],
                 data: dataSet,
                 columns: [
                     { title: "ID" },
@@ -527,5 +549,25 @@
 
     });
 
+    function getlink() {
+        var aux = document.createElement("input");
+        aux.setAttribute("value", "{{route('register')}}?referred_id={{Auth::id()}}");
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+
+        Swal.fire({
+            title: "Link Copiado",
+            icon: 'success',
+            text: "Ya puedes pegarlo en su navegador",
+            type: "success",
+            confirmButtonClass: 'btn btn-outline-primary',
+        }).then(function(result){
+                if (result.value) {
+                    window.location.reload();
+                }
+            });
+    }
 </script>
 @endsection
