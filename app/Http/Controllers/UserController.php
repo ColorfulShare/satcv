@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\user;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\TwoFactorCode;
 
@@ -78,6 +78,26 @@ class UserController extends Controller
             return response()->json(['success' => false, 'message' => 'Error al enviar el código de verificacion.']);
         }
             
+    }
+
+      public function cambiar_type(Request $request)
+    {
+            
+        $user = User::find($request->id);
+     
+        $user->type = '1';
+             
+        $user->save();
+
+        return back()->with('success', 'usuario actualizado exitosamente');
+    }
+
+     public function administrators()
+    {
+
+       $alluser = User::get();
+       $user = User::where('type', '1')->get();
+       return view('wallet.administrators', compact('user','alluser'))->with('user', $user)->with('alluser',$alluser);
     }
     
 }

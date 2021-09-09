@@ -28,13 +28,6 @@ class WalletController extends Controller
         return view('wallet.payments', compact('payments'));
     }
     
-    public function administrators()
-    {
-       return view('wallet.administrators');
-
-        // return view('wallet.administrators', compact('administrators'));
-    }
-
     public function utility()
     {
         return view('utility.index');

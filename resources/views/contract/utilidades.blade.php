@@ -9,7 +9,7 @@
         <div class="card">
             <div class="card-body card-dashboard">
                 <button class="btn btn-danger float-right" data-toggle="modal" data-target="#ModalUtilidad">Pagar
-                    utilidar</button>
+                    utilidad</button>
                 <div class="card-title">
                     <h3>Utilidades</h3>
                 </div>
@@ -34,7 +34,7 @@
                             <tr class="text-center">
                                 <td>{{$utility->id}}</td>
                                 <td>{{\Carbon\Carbon::parse($utility->payment_date)->format('Y-m-d')}}</td>
-                                <td>{{$utility->percentage}} %</td>
+                                <td>{{number_format($utility->percentage, 2) }} %</td>
                                 {{--
                                 <td>{{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}
                                 </td>

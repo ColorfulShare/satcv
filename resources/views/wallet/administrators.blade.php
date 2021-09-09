@@ -25,7 +25,57 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($user as $item)
+                                   <tr class="text-center">
+                                        <td>{{ $item->id}}</td>
+                                        <td>{{ $item->email}}</td>
+
+                                         @if ($item->status == '0')
+                                        <td>Inactivo</td>
+                                        @elseif($item->status == '1')
+                                        <td>Activo</td>
+                                        @elseif($item->status == '2')
+                                        <td>Suspendido</td>
+                                        @elseif($item->status == '3')
+                                        <td>Bloqueado</td>
+                                        @elseif($item->status == '4')
+                                        <td>Caducado</td>
+                                        @elseif($item->status == '5')
+                                        <td>Eliminado</td>
+                                        @endif
+                                   </tr>
+                                     <!-- Modal -->
                           
+                            <div class="modal fade" id="ModalAdministrador" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Seleccionar Nuevo Administrador</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="{{ route('cambiarTipo') }}" method="POST">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="type" class="form-label">Usuario</label>
+                                                   <select name="id" required class="form-control">
+                                                   @foreach($alluser as $item)
+                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                   @endforeach
+                                                   </select>   
+                                             
+                                                <div class="mt-5 float-right">
+                                                    <button type="button" class="btn btn-secondary">Cancelar</button>
+                                                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                                                </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+          
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -34,34 +84,6 @@
     </div>
 </div>
 
-  <!-- Modal -->
-<div class="modal fade" id="ModalAdministrador" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Seleccionar Nuevo Administrador</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="" method="">
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="porcentaje" class="form-label">Usuario</label>
-                        <input type="number" class="form-control" id="porcentaje" aria-describedby="porcentaje"
-                            name="porcentaje" step="any">
-                      
-                 
-                    <div class="mt-5 float-right">
-                        <button type="button" class="btn btn-secondary">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-            </form>
-        </div>
-    </div>
-</div>
+
+
 @endsection
-
-
- 
