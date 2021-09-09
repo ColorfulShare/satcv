@@ -20,6 +20,12 @@
       "slug": "reports.pedidos"
     },
     {
+      "url": "user/profile",
+      "name": "KYC",
+      "icon": "sidebar",
+      "slug": "users.profile"
+    },
+    {
      "name": "Retiros",
       "icon": "credit-card",
       "slug": "/retiros",

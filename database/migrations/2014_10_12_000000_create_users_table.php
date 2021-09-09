@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->foreignId('country_id')->nullable()->constrained('countries');
-            $table->enum('verify', [0, 1, 2])->default(0)->comment('permite saber si un usuario esta verificado o no');
+            $table->enum('verify', [0, 1, 2])->default(0)->comment('0 - En espera, 1 - verificado, 2 - rechazado');
             $table->date('birth')->nullable(); 
             $table->date('dni_expedition')->nullable(); 
             $table->string('msj_admin')->nullable();      
