@@ -216,14 +216,14 @@ class ContractsController extends Controller
         ]);
 
         $fecha = Carbon::parse($request->mes);
-    
+        
         try {
             if ($validate){
                 DB::beginTransaction();
-                $porcentaje = $request->porcentaje / 100;
+                //$porcentaje = $request->porcentaje / 100;
                 $ids = [];
                 $gain = 0;
-             
+                
                 $contratos = Contract::where('status', 1)->whereHas('getOrden.user', function($user)use($ids){
                     $user->where('type', 0)->where('referred_id', null);
                 })->get();
@@ -233,7 +233,8 @@ class ContractsController extends Controller
                     
                     if($fecha->format('Y') == $contrato->created_at->format('Y') && $fecha->format('m') == $contrato->created_at->format('m') && intval($contrato->created_at->format('d')) > 1){
                         $resta = 30 - (intval($contrato->created_at->format('d')) + 1);
-                        $porcentaje = ($resta * $porcentaje ) / 30;
+                        $porcentaje = ($resta * ($request->porcentaje / 100) ) / 30;
+                        
                     }
                     
                     $wallet = null;
@@ -261,7 +262,7 @@ class ContractsController extends Controller
                         $wallet->payment_date = $request->mes;
                         $wallet->status = 3;
                         $wallet->save();
-
+                        
                         $gain+= $contrato->capital * $porcentaje;
                         $contrato->gain += $contrato->capital * $porcentaje;
                         $contrato->capital += $contrato->capital * $porcentaje;
