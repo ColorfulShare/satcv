@@ -1,4 +1,4 @@
-<?php
+d<?php
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -121,19 +121,14 @@ Route::middleware('auth')->group(function(){
         */
     });
 
-    //Rutas para las liquidaciones realizadas
-    Route::prefix('liquidations')->group(function(){
-        //Vista de liquidaciones de Capital
-        Route::get('/capital',[LiquidationController::class,'index'])->name('liquidations.index');
-    //Vista de liquidaciones de Comision
-        Route::get('/commissions',[LiquidationController::class,'commissions'])->name('liquidations.history');
 
-
-    });
     //ruta para administradores de carteras
     Route::prefix('administrators')->group(function (){
 
-    Route::get('/', [WalletController::class,'administrators'])->name('administrators.index');
+    Route::get('/',[UserController::class,'administrators'])->name('administrators.index');
+
+    Route::post('/cambiarTipo/{$id}',[UserController::class,'cambiar_type'])->name('cambiarTipo');
+   
     });
 
         // Ruta para la pagos

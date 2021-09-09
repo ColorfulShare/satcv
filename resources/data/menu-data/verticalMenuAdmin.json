@@ -64,22 +64,10 @@
       "slug": "administrators.index"
     },
     {
-      "name": "Retiros",
+      "name": "Historial de Retiros",
       "icon": "credit-card",
       "slug": "/retiros",
       "submenu": [
-        {
-          "url": "liquidations/capital",
-          "name": "Liquidaciones de Capital",
-          "icon": "circle",
-          "slug": "liquidations.index"
-        },
-        {
-          "url": "liquidations/commissions",
-          "name": "Liquidaciones de Comisiones",
-          "icon": "circle",
-          "slug": "liquidations.history"
-        },
         {
           "url": "solicitud/retiros",
           "name": "Retiros de capital",
