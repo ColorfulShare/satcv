@@ -130,8 +130,8 @@
               <div class="signature-pad--footer">
                 <div class="text-center">Accion</div>
                 <div class="text-center">
-                    <button type="button" class="button clear btn btn-info btn-round" data-action="clear" id="limpiar">Limpiar</button>
-                    <button type="button" class="button btn btn-info btn-round" data-action="undo" id="btnGuardar">Firmar</button>
+                    <button type="button" class="button clear btn btn-outline-primary btn-round" data-action="clear" id="limpiar">Limpiar</button>
+                    <button type="button" class="button btn btn-outline-primary btn-round" data-action="undo" id="btnGuardar">Firmar</button>
                 </div>
               </div>
             </div>

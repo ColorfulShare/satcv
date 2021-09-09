@@ -348,7 +348,11 @@ class ContractsController extends Controller
                 }
                 $data->positivo = $arraypositivo;
                 $data->negativo = $arraynegativo;
-                $data->mes = array_column($data->utilidades, 'month');
+                foreach($data->utilidades as $i => $d){
+                    $data->utilidades[$i]['payment_date'] = Carbon::create($d['payment_date'])->month;
+                }
+
+                $data->mes = array_column($data->utilidades, 'payment_date');
                 return response()->json($data);
             } catch (\Throwable $th) {
             Log::error('ContractsController::getContrato -> Error: '.$th);
