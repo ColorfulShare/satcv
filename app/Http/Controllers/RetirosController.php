@@ -25,7 +25,9 @@ class RetirosController extends Controller
     {
         $user = Auth::user();
 
-        return view('retiros.retirar', compact('user'));
+        $liquidaciones = Liquidation::where('user_id', $user->id)->get();
+
+        return view('retiros.retirar', compact('user', 'liquidaciones'));
     }
 
     public function retiro(Request $request)
@@ -50,7 +52,6 @@ class RetirosController extends Controller
                     $saldo = Wallet::where([
                         ['user_id', '=', $user->id],
                         ['status', '=', 0],
-                        ['tipo_transaction', '=', 1]
                     ])->sum('amount');
 
                     $liquidacion = Liquidation::create([
@@ -67,7 +68,6 @@ class RetirosController extends Controller
                     $ids = Wallet::where([
                         ['user_id', '=', $user->id],
                         ['status', '=', 0],
-                        ['tipo_transaction', '=', 1]
                     ])->pluck('id');
 
                     foreach($ids as $id){
@@ -80,7 +80,6 @@ class RetirosController extends Controller
                     $wallet = Wallet::where([
                         ['user_id', '=', $user->id],
                         ['status', '=', 0],
-                        ['tipo_transaction', '=', 1]
                     ])->update(['status' => 1]);
 
                     $user->resetTwoFactorCode();
