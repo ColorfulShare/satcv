@@ -327,10 +327,10 @@ class ContractsController extends Controller
                 $data->productividad = $productividad;
                 $data->retirado = $retirado;
                 $data->dias = ($contrato->countDaysContract() / 365) * 100;
-                $utilities = $contrato->wallets()->where('tipo_transaction', 1)->orderByDesc('id')->latest()->take(6)->get()->toArray();
+                $utilities = $contrato->wallets()->orderByDesc('id')->latest()->take(6)->get()->toArray();
                 sort($utilities);
                 $data->utilidades = $utilities;
-                $utility = $contrato->wallets()->select('id', 'payment_date', 'amount', 'percentage')->where('tipo_transaction', 1)->orderByDesc('id')->latest()->take(6)->get()->toArray();
+                $utility = $contrato->wallets()->select('id', 'payment_date', 'amount', 'percentage')->orderByDesc('id')->latest()->take(6)->get()->toArray();
                 // dd($utility);
                 $data->utility = $utility;
                 $data->amount = array_column($data->utilidades, 'amount');
