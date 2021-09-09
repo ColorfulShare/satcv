@@ -81,11 +81,11 @@
                             @foreach($contratos as $contrato)
                             <tr class="text-center bg-purple-alt2">
                                 <td>{{$contrato->id}}</td>
-                                <td>{{$contrato->invested}}</td>
-                                <td>{{$contrato->capital}}</td>
-                                <td>{{$contrato->gain}}</td>
-                                <td>{{$contrato->productividad()}}</td>
-                                <td>{{$contrato->retirado()}}</td>
+                                <td>{{number_format($contrato->invested, 2, '.', '')}}</td>
+                                <td>{{number_format($contrato->capital, 2, '.', '')}}</td>
+                                <td>{{number_format($contrato->gain, 2, '.', '')}}</td>
+                                <td>{{number_format($contrato->productividad(), 2, '.', '')}}</td>
+                                <td>{{number_format($contrato->retirado(), 2, '.', '')}}</td>
                                 <td>{{ucwords($contrato->type_interes)}}</td>
                                 <td>{!!$contrato->estado()!!}</td>
                                 <td>{{$contrato->created_at->format('Y/m/d')}}</td>
