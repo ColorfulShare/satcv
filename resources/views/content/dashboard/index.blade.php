@@ -217,7 +217,7 @@
             } 
                 
         }
-        let monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        let monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
 
 
@@ -303,7 +303,7 @@
                         }
                     ],
                     xaxis: {
-                        categories: data.mes.map(i => i = monthNames[i]),
+                        categories: data.mes.map(i => i = monthNames[i-1]),
                     },
                 }),
 
