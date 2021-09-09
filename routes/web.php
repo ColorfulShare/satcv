@@ -43,8 +43,8 @@ Route::middleware('auth')->group(function(){
         Route::get('/inversion-data', [ContractsController::class, 'dataInversion'])->name('data.inversion');
         Route::post('/form-pdf', [ContractsController::class, 'formPdf'])->name('contract.pdf');
         Route::get('/utilidades', [ContractsController::class, 'utilidades'])->name('contract.utilidades');
-        Route::get('/testCoin', [ContractsController::class, 'testCoin'])->name('contract.testCoin');
         Route::post('/payUtility', [ContractsController::class, 'payUtility'])->name('payUtility');
+        Route::post('/payUtilityCartera', [ContractsController::class, 'payUtilityCartera'])->name('payUtilityCartera');
         Route::get('/generatePdf/{id}', [ContractsController::class, 'generatePdf'])->name('contract.generatePdf');
     });
 
