@@ -32,12 +32,16 @@ class TiendaController extends Controller
      */
     public function procesarOrden(Request $request)
     {
+        
         $validate = $request->validate([
             'interes' => 'required',
             'monto' => 'required|numeric|min:500'
         ]);
 
         try {
+            if(Auth::user()->verify != 1){
+                return redirect()->back()->with('danger', 'Su cuenta no ha sido verificada');
+            }
             if ($validate) {
 
                 $porcentaje = ($request->monto * 0.03);
@@ -145,8 +149,8 @@ class TiendaController extends Controller
         $transaction['note'] = $data['descripcion'];
         $transaction['buyer_name'] = $data['name'];
         $transaction['buyer_email'] = $data['email'];
-        $transaction['redirect_url'] = url('/'); // When Transaction was comleted
-        $transaction['cancel_url'] = url('/'); // When user click cancel link
+        $transaction['redirect_url'] = route('reports.index'); // When Transaction was comleted
+        $transaction['cancel_url'] = route('contract.user'); // When user click cancel link
         $transaction['items'][] = [
         'itemDescription' => 'contrato',
         'itemPrice' => (FLOAT) $data['total'], // USD

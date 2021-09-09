@@ -217,7 +217,7 @@
             } 
                 
         }
-        let monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        let monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
 
 
@@ -282,6 +282,8 @@
                 datosTable = data.utility.map(i => i = Object.values(i)),
                         datosTable.map(i => i[1] = monthNames[new Date(i[1]).getMonth()]),
                         datosTable.map(i => i[3] = i[3]*100),
+                        datosTable.map(i => i[3] = i[3].toFixed(2)),
+                        datosTable.map(i => i[2] = i[2].toFixed(2)),
                 dataSet = datosTable,
                 datatable.clear(),
                 datatable.rows.add(dataSet),
@@ -294,14 +296,14 @@
                 //GRÁFICA DE RENDIMIENTO//
                 revenueReportChart.updateOptions({
                     series: [{
-                            data: data.positivo.map(num => num * 100),
+                            data: data.positivo.map(num => (num * 100).toFixed(2)),
                         },
                         {
-                            data: data.negativo.map(num => num * 100),
+                            data: data.negativo.map(num => (num * 100).toFixed(2)),
                         }
                     ],
                     xaxis: {
-                        categories: data.mes,
+                        categories: data.mes.map(i => i = monthNames[i-1]),
                     },
                 }),
 
@@ -475,6 +477,9 @@
                 },
                 yaxis: {
                     labels: {
+                        formatter: function (y) {
+                            return y.toFixed(2) + "%";
+                        },
                         style: {
                             colors: '#b9b9c3',
                             fontSize: '0.86rem'

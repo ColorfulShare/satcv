@@ -1,0 +1,7 @@
+[type='checkbox'], [type='radio']{
+    color: #00e600;
+}
+
+[type='checkbox']:focus, [type='radio']:focus {
+    --tw-ring-color: #00e600;
+}
