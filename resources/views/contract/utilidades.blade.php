@@ -8,16 +8,13 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body card-dashboard">
-<<<<<<< HEAD
+
                 <div class="float-right">
                     <button class="btn btn-danger" id="btnModalCartera">Pagar administrador de cartera</button>
                     <button class="btn btn-danger" id="btnModalUtilidad">Pagar utilidad</button>
                 </div>
                 
-=======
-                <button class="btn btn-danger float-right" data-toggle="modal" data-target="#ModalUtilidad">Pagar
-                    utilidad</button>
->>>>>>> f35607151b5c0e79a74521576cf3e54375e1b863
+
                 <div class="card-title">
                     <h3>Utilidades</h3>
                 </div>
