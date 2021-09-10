@@ -10,7 +10,7 @@
             <div class="card-body">
                 <!-- Vertical modal -->
                 <div class="vertical-modal-ex">
-                    <button type="button" class="btn btn-outline-primary float-right" id="btnFormulario">
+                    <button type="button" class="btn btn-primary float-right" id="btnFormulario">
                         Invertir
                     </button>
                     <!-- Modal -->
@@ -130,8 +130,8 @@
               <div class="signature-pad--footer">
                 <div class="text-center">Accion</div>
                 <div class="text-center">
-                    <button type="button" class="button clear btn btn-outline-primary btn-round" data-action="clear" id="limpiar">Limpiar</button>
-                    <button type="button" class="button btn btn-outline-primary btn-round" data-action="undo" id="btnGuardar">Firmar</button>
+                    <button type="button" class="button clear btn btn-primary btn-round" data-action="clear" id="limpiar">Limpiar</button>
+                    <button type="button" class="button btn btn-primary btn-round" data-action="undo" id="btnGuardar">Firmar</button>
                 </div>
               </div>
             </div>
