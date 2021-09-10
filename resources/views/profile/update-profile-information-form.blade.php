@@ -47,6 +47,9 @@
 @endpush
 
 
+@php
+  $country = \App\Models\Country::all();  
+@endphp
 <x-jet-form-section submit="updateProfileInformation">
 
     <x-slot name="title">
@@ -108,11 +111,12 @@
         @endif
 
 
+
         <div class="row mt-5">
 
             {{-- nombre --}}
             <div class="col-4 mb-2">
-                <x-jet-label for="name" value="{{ __('Nombre') }}" />
+                <x-jet-label for="name" value="{{ __('Nombres') }}" />
                 @if (Auth::user()->verify == '0')
                 <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name"
                     autocomplete="name" />
@@ -124,7 +128,7 @@
             </div>
             {{-- apellido --}}
             <div class="col-4 mb-2">
-                <x-jet-label for="lastname" value="{{ __('Apellido') }}" />
+                <x-jet-label for="lastname" value="{{ __('Apellidos') }}" />
                 @if (Auth::user()->verify == '0')
                 <x-jet-input id="lastname" type="text" class="mt-1 block w-full" wire:model.defer="state.lastname"
                     autocomplete="lastname" />
@@ -146,10 +150,24 @@
                 @endif
                 <x-jet-input-error for="birth" class="mt-2" />
             </div>
-
+            {{-- Tipo de documento --}}
+            <div class="col-2">
+                <x-jet-label for="document_type" value="{{ __('Nacionalidad') }}" />
+                @if (Auth::user()->verify == '0')
+                <select id="document_type" type="number" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" wire:model.defer="state.country_id" >
+                    <option value="0" @if(Auth::user()->document_type == '0') selected  @endif>DNI</option>
+                    <option value="1" @if(Auth::user()->document_type == '1') selected  @endif>Pasaporte</option>
+            </select>
+                @else
+                <select id="document_type" type="number" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" wire:model.defer="state.country_id" >
+                    <option value="{{ $country->id}}" @if(Auth::user()->document_type == $country->id) selected @endif>{{ $country->name}}</option>
+            </select>
+                @endif
+                <x-jet-input-error for="document_type" class="mt-2" />
+            </div>
             {{-- Número del documento --}}
-            <div class="col-4 mb-2">
-                <x-jet-label for="dni" value="{{ __('Número de documento de identidad o pasaporte') }}" />
+            <div class="col-2 mb-2">
+                <x-jet-label for="dni" value="{{ __('N° del documento') }}" />
                 @if (Auth::user()->verify == '0')
                 <x-jet-input id="dni" type="text" class="mt-1 block w-full" wire:model.defer="state.dni"
                     autocomplete="dni" />
@@ -159,7 +177,6 @@
                 @endif
                 <x-jet-input-error for="dni" class="mt-2" />
             </div>
-
             {{-- Fecha de vencimiento del documento --}}
             <div class="col-4 mb-2">
                 <x-jet-label for="dni_expedition" value="{{ __('Fecha de expedicion del documento') }}" />
@@ -172,7 +189,6 @@
                 @endif
                 <x-jet-input-error for="dni_expedition" class="mt-2" />
             </div>
-            
             {{-- Ciudad de expedición del documento --}}
             <div class="col-4 mb-2">
                 <x-jet-label for="city_dni" value="{{ __('Ciudad de expedición del documento') }}" />
@@ -191,7 +207,7 @@
                 <x-jet-label for="photo_dni_front" value="{{ __('Foto de documento parte frontal') }}" class="col-6 mb-2" />
                 <x-jet-input id="photo_dni_front" type="file" class="col-6" wire:model.defer="state.photo_dni_front"
                     autocomplete="photo_dni_front" onchange="previewFile(this, 'photo_preview_f')" accept="image/*" />
-                <img id="photo_preview_f" class="img-fluid col-6 mt-3" />
+                <img id="photo_preview_f" class="img-fluid col-6 mt-3 mb-5" />
                 <x-jet-input-error for="photo_dni_front" class="mt-2" />
             </div>
             @endif
@@ -202,7 +218,7 @@
                 <x-jet-label for="photo_dni_back" value="{{ __('Foto de documento parte trasera') }}" class="col-6 mb-2" />
                 <x-jet-input id="photo_dni_back" type="file" class="col-6" wire:model.defer="state.photo_dni_back"
                     onchange="previewFile(this, 'photo_preview_b')" accept="image/*" />
-                <img id="photo_preview_b" class="img-fluid col-6 mt-3" />
+                <img id="photo_preview_b" class="img-fluid col-6 mt-3 mb-5" />
                 <x-jet-input-error for="photo_dni_back" class="mt-2" />
             </div>
             @endif
@@ -241,19 +257,25 @@
                 <x-jet-input-error for="mobile_phone" class="mt-2" />
             </div>
 
-
             {{-- Zona para editar la Información de Vivienda --}}
             <h3 class="mt-3 mb-2 font-bold col-12 text-center">Información de Vivienda</h3>
 
             <div class="col-3">
-                <x-jet-label for="address" value="{{ __('Dirección') }}" />
+                <x-jet-label for="country_id" value="{{ __('Nacionalidad') }}" />
                 @if (Auth::user()->verify == '0')
-                <x-jet-input id="address" type="text" class="mt-1 block w-full" wire:model.defer="state.address" />
+                <select id="country_id" type="number" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" wire:model.defer="state.country_id" >
+                    @foreach ( $country as $item)
+                    <option value="{{ $item->id}}">{{ $item->name}}</option>
+                    @endforeach
+            </select>
                 @else
-                <x-jet-input id="address" type="text" class="mt-1 block w-full" wire:model.defer="state.address"
-                    readonly />
+                <select id="country_id" type="number" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" wire:model.defer="state.country_id" >
+                    @foreach ( $country as $item)
+                    <option value="{{ $item->id}}" @if(Auth::user()->country_id == $item->id) selected @endif>{{ $item->name}}</option>
+                    @endforeach
+            </select>
                 @endif
-                <x-jet-input-error for="address" class="mt-2" />
+                <x-jet-input-error for="country_id" class="mt-2" />
             </div>
 
             <div class="col-3">
@@ -288,6 +310,18 @@
                 @endif
                 <x-jet-input-error for="department" class="mt-2" />
             </div>
+
+            <div class="col-12 mt-1">
+                <x-jet-label for="address" value="{{ __('Dirección') }}" />
+                @if (Auth::user()->verify == '0')
+                <x-jet-input id="address" type="text" class="mt-1 block w-full" wire:model.defer="state.address" />
+                @else
+                <x-jet-input id="address" type="text" class="mt-1 block w-full" wire:model.defer="state.address"
+                    readonly />
+                @endif
+                <x-jet-input-error for="address" class="mt-2" />
+            </div>
+
 
             @if (Auth::user()->verify == '0')
             <div class="col-12 mt-3 d-flex justify-content-center row">

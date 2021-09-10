@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Country;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\TwoFactorCode;
 
@@ -34,9 +35,11 @@ class UserController extends Controller
     {
 
         $user = user::find($id);
+        $country = Country::where('id', $user->country_id);
 
         
         return view('users.show-user')
+            ->with('country', $country)
             ->with('user', $user);
     }
 
