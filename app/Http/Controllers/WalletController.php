@@ -47,7 +47,7 @@ class WalletController extends Controller
             return $data->user->email;
         })
         ->addColumn('porcentaje', function($data){
-            return $data->percentage * 100 . ' %';
+            return $data->percentage * 100;
         })
         ->addColumn('estado', function($data){
             if($data->status == 0){

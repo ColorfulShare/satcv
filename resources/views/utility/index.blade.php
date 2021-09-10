@@ -50,10 +50,13 @@
                         { data: 'contract_id', name: 'contract_id', orderable: true, searchable: true },
                         { data: 'Correo', name: 'user.email', orderable: true, searchable: true },
                         { data: 'amount', name: 'amount', orderable: true, searchable: true, render:  function( data, type, full, meta ){
-                            return data + ' $';       
+                            return data.toFixed(2) + '$';       
                         }
                         },
-                        { data: 'porcentaje', name: 'porcentaje', orderable: true, searchable: true },
+                        { data: 'porcentaje', name: 'porcentaje', orderable: true, searchable: true, render:  function( data, type, full, meta ){
+                            return data.toFixed(2) + '%';       
+                        }
+                        },
                         { data: 'estado', name: 'estado', orderable: true, searchable: true },
                         { data: 'fecha', name: 'created_at', orderable: true, searchable: true }
                     ],
