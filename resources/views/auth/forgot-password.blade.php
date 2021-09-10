@@ -24,9 +24,9 @@
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
-            <div class="flex items-center justify-end mt-3">
-                <x-jet-button class="btn btn-primary w-100">
-                    {{ __('Email Password Reset Link') }}
+            <div class="d-grid gap-2 col-6 mx-auto mt-3">
+                <x-jet-button class="btn btn-primary">
+                    {{ __('Restablecer Contraseña') }}
                 </x-jet-button>
             </div>
         </form>
