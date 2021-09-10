@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\Contract;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Models\SolicitudRetiro;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class SolicitudController extends Controller
 {
@@ -24,7 +25,17 @@ class SolicitudController extends Controller
 
     public function history()
     {
-        $retiros = SolicitudRetiro::orderBy('id', 'desc')->where('status', 1)->get();
+        if(Auth::user()->admin == 1){
+            $retiros = SolicitudRetiro::orderBy('id', 'desc')->where('status', 1)->get();
+        }else{
+            $retiros = collect();
+            $contracts = User::find(Auth::id())->contracts;
+            foreach($contracts as $contrato){
+                foreach($contrato->getHistory as $retiro){
+                    $retiros->push($retiro);
+                }
+            }
+        }
         return view('retiros.history', compact('retiros'));
     }
 

@@ -69,5 +69,10 @@ class Contract extends Model
     {
         
     }
+
+    public function getHistory()
+    {
+        return $this->hasMany('App\Models\SolicitudRetiro', 'contracts_id', 'id');
+    }
     
 }

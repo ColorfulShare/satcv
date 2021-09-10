@@ -31,10 +31,10 @@
       "slug": "/retiros",
       "submenu": [
         {
-          "url": "payments",
+          "url": "solicitud/history",
           "name": "Historial de Retiros",
           "icon": "circle",
-          "slug": "payments.index"
+          "slug": "#"
         },
         {
           "url": "retiros/retirar",
