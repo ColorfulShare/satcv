@@ -17,6 +17,40 @@
         </a>
     @endif
 
+    @if(Auth::user()->type == 1)
+    <div class="row match-height">
+        <!-- Earnings Card -->
+        <div class="col-md-6 col-12">
+            <div class="card earnings-card">
+                <div class="card-body">
+                        <div class="row mx-0">
+                            <div class="col-6">
+                                <h4 class="card-title mb-1">Cartera</h4>
+                                <div class="font-small-2 mt-2">Total Capital</div>
+                                <h5 class="mb-1">${{Auth::user()->portafolio()}}</h5>
+                            </div>
+                        <div class="col-6">
+                            <div id="earnings-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ Earnings Card -->
+        <!-- Line Chart - Profit -->
+        <div class="col-md-6 col-12">
+            <div class="card card-tiny-line-stats">
+            <div class="card-body pb-50">
+                <h4>Ganancia</h4>
+                <h2 class="font-weight-bolder mb-1">{{Auth::user()->ganancia()}}</h2>
+                <div id="statistics-profit-chart"></div>
+            </div>
+            </div>
+        </div>
+      <!--/ Line Chart - Profit -->
+    </div>
+@endif
+
     <div class="row match-height justify-content-center">
         <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="card card-light">
@@ -154,39 +188,7 @@
 
     </div>
 
-    @if(Auth::user()->type == 1)
-        <div class="row match-height">
-            <!-- Earnings Card -->
-            <div class="col-md-6 col-12">
-                <div class="card earnings-card">
-                    <div class="card-body">
-                            <div class="row mx-0">
-                                <div class="col-6">
-                                    <h4 class="card-title mb-1">Cartera</h4>
-                                    <div class="font-small-2 mt-2">Total Capital</div>
-                                    <h5 class="mb-1">${{Auth::user()->portafolio()}}</h5>
-                                </div>
-                            <div class="col-6">
-                                <div id="earnings-chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/ Earnings Card -->
-            <!-- Line Chart - Profit -->
-            <div class="col-md-6 col-12">
-                <div class="card card-tiny-line-stats">
-                <div class="card-body pb-50">
-                    <h4>Ganancia</h4>
-                    <h2 class="font-weight-bolder mb-1">{{Auth::user()->ganancia()}}</h2>
-                    <div id="statistics-profit-chart"></div>
-                </div>
-                </div>
-            </div>
-          <!--/ Line Chart - Profit -->
-        </div>
-    @endif
+
 
     <div class="row match-height justify-content-center">
 
