@@ -22,6 +22,12 @@ class SolicitudController extends Controller
         return view('retiros.index', compact('contratos'));
     }
 
+    public function history()
+    {
+        $retiros = SolicitudRetiro::orderBy('id', 'desc')->where('status', 1)->get();
+        return view('retiros.history', compact('retiros'));
+    }
+
     public function solicitar(Request $request)
     {
         try{

@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function(){
 
     Route::group(['prefix' => 'solicitud'], function () {
         Route::get('/retiro', [SolicitudController::class, 'index_retiros'])->name('solicitud.retiros')->middleware('primerosCincoDias');
+        Route::get('/history', [SolicitudController::class, 'history'])->name('solicitud.history');
         Route::get('/retiros', [SolicitudController::class, 'index_solicitudes'])->name('solicitud.remove');
     });
 

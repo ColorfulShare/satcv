@@ -64,10 +64,16 @@
       "slug": "administrators.index"
     },
     {
-      "name": "Historial de Retiros",
+      "name": "Retiros",
       "icon": "credit-card",
       "slug": "/retiros",
       "submenu": [
+        {
+          "url": "solicitud/history",
+          "name": "Historial de Retiros",
+          "icon": "circle",
+          "slug": "#"
+        },
         {
           "url": "solicitud/retiros",
           "name": "Retiros de capital",
