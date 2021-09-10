@@ -8,11 +8,13 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body card-dashboard">
+
                 <div class="float-right">
                     <button class="btn btn-danger" id="btnModalCartera">Pagar administrador de cartera</button>
                     <button class="btn btn-danger" id="btnModalUtilidad">Pagar utilidad</button>
                 </div>
                 
+
                 <div class="card-title">
                     <h3>Utilidades</h3>
                 </div>
