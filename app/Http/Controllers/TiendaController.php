@@ -15,8 +15,6 @@ use Hexters\CoinPayment\CoinPayment;
 
 class TiendaController extends Controller
 {
-
-    public $apis_key_nowpayments;
     public $ContractsController;
 
     public function __construct()
@@ -163,52 +161,7 @@ class TiendaController extends Controller
         if($ruta != null){
             return $ruta;
         }
-           /*
-            $headers = [
-                'x-api-key: '.$this->apis_key_nowpayments,
-                'Content-Type:application/json'
-            ];
-
-            $resul = ''; 
-            $curl = curl_init();
-
-            $dataRaw = collect([
-                'price_amount' => floatval($data['total']),
-                "price_currency" => "usd",
-                "order_id" => $data['idorden'],
-                'pay_currency' => 'USDTTRC20',
-                //"order_description" => $data['descripcion'],
-                "ipn_callback_url" => route('shop.ipn'),
-                "success_url" => route('shop.proceso.status', [$data['idorden'], 'Completada']),
-                "cancel_url" => route('shop.proceso.status', [$data['idorden'], 'Cancelada']),
-            ]);
-            
-
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.nowpayments.io/v1/invoice",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => $dataRaw->toJson(),
-                CURLOPT_HTTPHEADER => $headers
-            ));
-                
-                $response = curl_exec($curl);
-                $err = curl_error($curl);
-                curl_close($curl);
-                if ($err) {
-                    Log::error('Tienda - generalUrlOrden -> Error curl: '.$err);        
-                } else {
-                    $response = json_decode($response);
-                    OrdenPurchases::where('id', $data['idorden'])->update(['idtransacion' => $response->id]);
-                    $resul = $response->invoice_url;
-                }
-                  
-            return $resul;
-            */
+        
         } catch (\Throwable $th) {
             Log::error('Tienda - generalUrlOrden -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");

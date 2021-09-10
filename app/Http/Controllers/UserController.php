@@ -85,10 +85,17 @@ class UserController extends Controller
 
       public function cambiar_type(Request $request)
     {
-            
-        $user = User::find($request->id);
+        $rules = [
+            'user' => 'required'
+        ];
+        $messages = [
+            'user.required' => 'Debe consultar un usuario primero.'
+        ];
+        $this->validate($request, $rules, $messages);
+
+        $user = User::where('email', $request->user)->first();
      
-        $user->type = '1';
+        $user->type = 1;
              
         $user->save();
 
@@ -99,8 +106,15 @@ class UserController extends Controller
     {
 
        $alluser = User::get();
-       $user = User::where('type', '1')->get();
-       return view('wallet.administrators', compact('user','alluser'))->with('user', $user)->with('alluser',$alluser);
+       $user = User::orderBy('id', 'desc')->where('type', 1)->get();
+    
+       return view('wallet.administrators', compact('user','alluser'));
     }
     
+    public function find(Request $request)
+    {
+        $user = User::find($request->id);
+
+        return response()->json($user);
+    }
 }

@@ -1,4 +1,4 @@
-d<?php
+<?php
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -127,7 +127,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/',[UserController::class,'administrators'])->name('administrators.index');
 
-    Route::post('/cambiarTipo/{$id}',[UserController::class,'cambiar_type'])->name('cambiarTipo');
+    Route::post('/cambiarTipo',[UserController::class,'cambiar_type'])->name('cambiarTipo');
    
     });
 
