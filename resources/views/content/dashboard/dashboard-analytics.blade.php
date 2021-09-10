@@ -154,7 +154,39 @@
 
     </div>
 
-
+    @if(Auth::user()->type == 1)
+        <div class="row match-height">
+            <!-- Earnings Card -->
+            <div class="col-md-6 col-12">
+                <div class="card earnings-card">
+                    <div class="card-body">
+                            <div class="row mx-0">
+                                <div class="col-6">
+                                    <h4 class="card-title mb-1">Cartera</h4>
+                                    <div class="font-small-2 mt-2">Total Capital</div>
+                                    <h5 class="mb-1">${{Auth::user()->portafolio()}}</h5>
+                                </div>
+                            <div class="col-6">
+                                <div id="earnings-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Earnings Card -->
+            <!-- Line Chart - Profit -->
+            <div class="col-md-6 col-12">
+                <div class="card card-tiny-line-stats">
+                <div class="card-body pb-50">
+                    <h4>Ganancia</h4>
+                    <h2 class="font-weight-bolder mb-1">{{Auth::user()->ganancia()}}</h2>
+                    <div id="statistics-profit-chart"></div>
+                </div>
+                </div>
+            </div>
+          <!--/ Line Chart - Profit -->
+        </div>
+    @endif
 
     <div class="row match-height justify-content-center">
 
@@ -336,15 +368,20 @@
         var $revenueReportChart = document.querySelector('#revenue-report-chart');
         var $budgetChart = document.querySelector('#budget-chart');
         var $goalOverviewChart = document.querySelector('#goal-overview-radial-bar-chart');
+        var $earningsChart = document.querySelector('#earnings-chart');
+        var $statisticsProfitChart = document.querySelector('#statistics-profit-chart');
 
         var revenueReportChartOptions;
         var budgetChartOptions;
         var goalOverviewChartOptions;
+        var earningsChartOptions;
+        var statisticsProfitChartOptions;
 
         var revenueReportChart;
         var budgetChart;
         var goalOverviewChart;
-
+        var earningsChart;
+        var statisticsProfitChart;
 
                 //------------ Goal Overview Chart (INVERSION) ------------
         //---------------------------------------------
@@ -527,6 +564,220 @@
             };
             budgetChart = new ApexCharts($budgetChart, budgetChartOptions);
             budgetChart.render();
+
+
+
+
+
+            if($earningsChart){ 
+                //--------------- Earnings Chart ---------------
+                //----------------------------------------------
+                    earningsChartOptions = {
+                        chart: {
+                        type: 'donut',
+                        height: 120,
+                        toolbar: {
+                            show: false
+                        }
+                        },
+                        dataLabels: {
+                        enabled: false
+                        },
+                        series: [53, 16, 31],
+                        legend: { show: false },
+                        labels: ['App', 'Service', 'Product'],
+                        stroke: { width: 0 },
+                        colors: ['#00e600', '#b9b9c3', '#333333'],
+                        grid: {
+                        padding: {
+                            right: -20,
+                            bottom: -8,
+                            left: -20
+                        }
+                        },
+                        plotOptions: {
+                        pie: {
+                            startAngle: -10,
+                            donut: {
+                            labels: {
+                                show: true,
+                                name: {
+                                offsetY: 15
+                                },
+                                value: {
+                                offsetY: -15,
+                                formatter: function (val) {
+                                    return parseInt(val) + '%';
+                                }
+                                },
+                                total: {
+                                show: true,
+                                offsetY: 15,
+                                label: 'App',
+                                formatter: function (w) {
+                                    return '53%';
+                                }
+                                }
+                            }
+                            }
+                        }
+                        },
+                        responsive: [
+                        {
+                            breakpoint: 1325,
+                            options: {
+                            chart: {
+                                height: 100
+                            }
+                            }
+                        },
+                        {
+                            breakpoint: 1200,
+                            options: {
+                            chart: {
+                                height: 120
+                            }
+                            }
+                        },
+                        {
+                            breakpoint: 1045,
+                            options: {
+                            chart: {
+                                height: 100
+                            }
+                            }
+                        },
+                        {
+                            breakpoint: 992,
+                            options: {
+                            chart: {
+                                height: 120
+                            }
+                            }
+                        }
+                        ]
+                    };
+                    earningsChart = new ApexCharts($earningsChart, earningsChartOptions);
+                    earningsChart.render();
+
+                //------------ Statistics Line Chart ------------
+                //-----------------------------------------------
+            
+                    statisticsProfitChartOptions = {
+                        chart: {
+                        height: 70,
+                        type: 'line',
+                        toolbar: {
+                            show: false
+                        },
+                        zoom: {
+                            enabled: false
+                        }
+                        },
+                        grid: {
+                        borderColor: '#00e600',
+                        strokeDashArray: 5,
+                        xaxis: {
+                            lines: {
+                            show: true
+                            }
+                        },
+                        yaxis: {
+                            lines: {
+                            show: false
+                            }
+                        },
+                        padding: {
+                            top: -30,
+                            bottom: -10
+                        }
+                        },
+                        stroke: {
+                        width: 3
+                        },
+                        colors: ['#00e600'],
+                        series: [
+                        {
+                            data: [0, 20, 5, 30, 15, 45]
+                        }
+                        ],
+                        markers: {
+                        size: 2,
+                        colors: '#00e600',
+                        strokeColors: '#00e600',
+                        strokeWidth: 2,
+                        strokeOpacity: 1,
+                        strokeDashArray: 0,
+                        fillOpacity: 1,
+                        discrete: [
+                            {
+                            seriesIndex: 0,
+                            dataPointIndex: 5,
+                            fillColor: '#ffffff',
+                            strokeColor: '#00e600',
+                            size: 5
+                            }
+                        ],
+                        shape: 'circle',
+                        radius: 2,
+                        hover: {
+                            size: 3
+                        }
+                        },
+                        xaxis: {
+                        labels: {
+                            show: true,
+                            style: {
+                            fontSize: '0px'
+                            }
+                        },
+                        axisBorder: {
+                            show: false
+                        },
+                        axisTicks: {
+                            show: false
+                        }
+                        },
+                        yaxis: {
+                        show: false
+                        },
+                        tooltip: {
+                        x: {
+                            show: false
+                        }
+                        }
+                    };
+                    statisticsProfitChart = new ApexCharts($statisticsProfitChart, statisticsProfitChartOptions);
+                    statisticsProfitChart.render();
+
+                    //------------PETICIÓN ASINCRONA  ------------
+                    //-----------------------------------------------
+
+                    fetch(`{{route("get.inversion", Auth::id())}}`, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json, text-plain, */*",
+                            "X-Requested-With": "XMLHttpRequest",
+                            "X-CSRF-TOKEN": token
+                        },
+                        method: 'post',
+                    })
+                    .then(response => response.text())
+                    .then(resultText => (
+                        data = JSON.parse(resultText),
+                        console.log(data)
+                    ))
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                    }
+
+            
+
+            
+
+
+
 
         //---------------- DataTable ----------------
         //----------------------------------------------

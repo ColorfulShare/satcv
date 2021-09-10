@@ -36,6 +36,9 @@ use App\Http\Controllers\Auth\TwoFactorController;
 Route::middleware('auth')->group(function(){
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
+    Route::get('/ecommerce', function () { 
+        return view('/content/dashboard/dashboard-ecommerce');
+    });
 
     Route::group(['prefix' => 'contratos'], function () {
         Route::get('/', [ContractsController::class, 'index'])->name('contract.index');

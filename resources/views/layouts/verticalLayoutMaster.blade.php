@@ -115,11 +115,7 @@
             text: "Ya puedes pegarlo en su navegador",
             type: "success",
             confirmButtonClass: 'btn btn-outline-primary',
-        }).then(function(result){
-                if (result.value) {
-                    window.location.reload();
-                }
-            });
+        })
     }
   </script>
 

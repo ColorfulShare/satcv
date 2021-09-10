@@ -490,6 +490,16 @@ class ContractsController extends Controller
             }
     }
 
+     /**
+     * Retorna las inversiones según el id del usuario
+     *
+     * @return json
+     */
+    public function getInversion($id)
+    {
+        return $id;
+    }
+
     /**
      * Formulario para subir PDF
      *
