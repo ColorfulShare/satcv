@@ -30,6 +30,7 @@ Route::group(['prefix' => 'contratos'], function () {
 
 Route::group(['prefix' => 'user'], function () {
     Route::post('/sendMailFactorCode', [UserController::class, 'sendMailFactorCode'])->name('sendMailFactorCode');
+    Route::post('/find', [UserController::class, 'find'])->name('user.find');
 });
 
 Route::group(['prefix' => 'solicitud'], function () {

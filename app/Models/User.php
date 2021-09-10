@@ -136,4 +136,30 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Country', 'country_id');
     }
+
+    public function invertido()
+    {
+        return $this->contracts->sum('invested');
+    }
+
+    public function ganancia()
+    {
+        return $this->contracts->sum('gain');
+    }
+
+    public function referidos()
+    {
+        return $this->hasMany('App\Models\User', 'referred_id');
+    }
+
+    public function portafolio()
+    {
+        $capital = 0;
+        foreach($this->referidos as $referido){
+            $capital += $referido->contracts->sum('capital');
+        }
+        $capital+= $this->contracts->sum('capital');
+
+        return $capital;
+    }
 }
