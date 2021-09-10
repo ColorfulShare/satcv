@@ -12,13 +12,13 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Nombre</label>
+                                    <label>Nombres</label>
                                     <input type="text" readonly class="form-control" value="{{ $user->name }}">
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                    <label>Apellido</label>
+                                    <label>Apellidos</label>
                                     <input type="text" readonly class="form-control" value="{{ $user->lastname }}">
                                 </div>
                             </div>
@@ -28,9 +28,18 @@
                                     <input type="text" readonly class="form-control" value="{{ $user->birth }}">
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-2">
                                 <div class="form-group">
-                                    <label>Número de documento de identidad o pasaporte</label>
+                                    <label>Tipo de documento</label>
+                                    <input type="text" readonly class="form-control" value="{{ $user->document_type }}">
+                                    <select id="document_type" type="number" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" wire:model.defer="state.country_id" >
+                                        <option>{{ $country->name}}</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label>N° de documento</label>
                                     <input type="text" readonly class="form-control" value="{{ $user->dni }}">
                                 </div>
                             </div>
