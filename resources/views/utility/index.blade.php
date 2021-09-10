@@ -49,10 +49,7 @@
                         { data: 'id', name: 'id', orderable: true, searchable: true },
                         { data: 'contract_id', name: 'contract_id', orderable: true, searchable: true },
                         { data: 'Correo', name: 'user.email', orderable: true, searchable: true },
-                        { data: 'amount', name: 'amount', orderable: true, searchable: true, render:  function( data, type, full, meta ){
-                            return data + ' $';       
-                        }
-                        },
+                        { data: 'cantidad', name: 'amount', orderable: true, searchable: true},
                         { data: 'porcentaje', name: 'porcentaje', orderable: true, searchable: true },
                         { data: 'estado', name: 'estado', orderable: true, searchable: true },
                         { data: 'fecha', name: 'created_at', orderable: true, searchable: true }

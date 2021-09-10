@@ -46,8 +46,11 @@ class WalletController extends Controller
         ->addColumn('Correo', function($data){
             return $data->user->email;
         })
+        ->addColumn('cantidad', function($data){
+            return number_format($data->amount, 2) .' $';
+        })
         ->addColumn('porcentaje', function($data){
-            return $data->percentage * 100 . ' %';
+            return number_format($data->percentage * 100,2) . ' %';
         })
         ->addColumn('estado', function($data){
             if($data->status == 0){

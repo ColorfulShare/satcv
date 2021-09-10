@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'google_authenticator' => \App\Http\Middleware\DoubleAutentication::class,
         'TwoFactorMail' => App\Http\MiddlewareTwoFactorMail::class,
         'primerosCincoDias' => \App\Http\Middleware\primerosCincoDias::class,
+        'admin' => \App\Http\Middleware\CheckRole::class,
     ];
 }
