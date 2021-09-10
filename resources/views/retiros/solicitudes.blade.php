@@ -4,54 +4,61 @@
 
 @section('content')
   
-<div class="card bg-lp">
-    <div class="card-content">
-        <div class="card-body card-dashboard p-0">
-            <div class="table-responsive">
-                <h1 class="p-1">Solitudes</h1>
-                <table class="table nowrap scroll-horizontal-vertical myTable2">
-                    <thead>
+<div class="row" id="basic-table">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body card-dashboard">
+                <div class="card-title">
+                    <h3>Retiros de Capital</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100">
+                        <thead>
 
-                        <tr class="text-center text-dark text-uppercase pl-2">
-                            <th>Id</th>                                
-                            <th>Usuario</th>
-                            <th>Contrato</th>
-                            <th>Cantidad</th>
-                            <th>Porcentaje</th>
-                            <th>Estatus</th>
-                            <th>Fecha</th>    
-                            <th>Accion</th>
-                        </tr>
-
-                    </thead>
-                    <tbody>
-                        @foreach ($solicitudes as $solicitud)
-                            <tr class="text-center">
-                                <td>{{$solicitud->id}}</td>
-                                <td>{{$solicitud->user()->fullName()}}</td>
-                                <td>{{$solicitud->contracts_id}}</td>
-                                <td>{{$solicitud->amount}}</td>
-                                <td>{{$solicitud->percentage}}</td>
-                                <td>{{$solicitud->status()}}</td>
-                                <td>{{$solicitud->created_at->format('d/m/Y')}}</td>
-                                <td>
-                                    <button type="button" class="btn btn-danger retirar" solicitud="{{$solicitud->id}}" contrato_id="{{$solicitud->contracts_id}}">
-                                        Pagar
-                                    </button>
-
-                                    <button type="button" class="btn btn-success cancelar" solicitud="{{$solicitud->id}}">
-                                        Cancelar
-                                    </button>
-                                </td>
+                            <tr class="text-center text-dark text-uppercase pl-2">
+                                <th>Id</th>                                
+                                <th>Usuario</th>
+                                <th>Contrato</th>
+                                <th>Cantidad</th>
+                                <th>Porcentaje</th>
+                                <th>Estatus</th>
+                                <th>Fecha</th>    
+                                <th>Accion</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+
+                        </thead>
+                        <tbody>
+                            @foreach ($solicitudes as $solicitud)
+                                <tr class="text-center">
+                                    <td>{{$solicitud->id}}</td>
+                                    <td>{{$solicitud->user()->fullName()}}</td>
+                                    <td>{{$solicitud->contracts_id}}</td>
+                                    <td>{{number_format($solicitud->amount, 2, '.', '')}}</td>
+                                    <td>{{number_format($solicitud->percentage, 2, '.', '')}}</td>
+                                    <td>{{$solicitud->status()}}</td>
+                                    <td>{{$solicitud->created_at->format('d/m/Y')}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger retirar" solicitud="{{$solicitud->id}}" contrato_id="{{$solicitud->contracts_id}}">
+                                            Pagar
+                                        </button>
+
+                                        <button type="button" class="btn btn-success cancelar" solicitud="{{$solicitud->id}}">
+                                            Cancelar
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+{{-- CONFIGURACIÓN DE DATATABLE --}}
+@include('panels.datatables-config')
 
 @push('custom_js')
 <script>
