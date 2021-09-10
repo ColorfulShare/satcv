@@ -43,9 +43,9 @@
                                 <td>{{$utility->id}}</td>
                                 <td>{{\Carbon\Carbon::parse($utility->payment_date)->format('Y-m-d')}}</td>
                                 <td>{{number_format($utility->percentage, 2) }} %</td>
-                                <td>{{$utility->gain}} $</td>
-                                <td>{{$utility->amount_lineal()}} $</td>
-                                <td>{{$utility->amount_compuesto()}} $</td>
+                                <td>{{number_format($utility->gain, 2)}} $</td>
+                                <td>{{number_format($utility->amount_lineal(), 2)}} $</td>
+                                <td>{{number_format($utility->amount_compuesto(), 2)}} $</td>
                                 {{--
                                 <td>{{strftime("%B", \Carbon\Carbon::createFromFormat('!m',$utility->month)->getTimestamp())}}
                                 </td>
