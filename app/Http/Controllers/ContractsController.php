@@ -88,7 +88,7 @@ class ContractsController extends Controller
                 'user_id' => $Contract->user()->id,
                 'amount' => $solicitud->amount,
                 'total_amount' => $capital,
-                'feed' => $solicitud->amount * 0.25,
+                'feed' => $solicitud->amount * 0.20,
                 'wallet_used' => $request->wallet,
                 'status' => 0,
                 'type' => 0
@@ -602,5 +602,18 @@ class ContractsController extends Controller
         //$html = $pdf->download('reporte-socios-'. Carbon::now()->format('d/m/Y').'.pdf');
 
         return $html;
+    }
+    public function administrators()
+    {
+        $user = Auth::user();
+
+        if(Auth::user()->type == 1){
+          $inversion = Contract::where([['user_id', '=', Auth::user()->id]])->get();
+
+        return view('contract.administrador', compact('inversion'));
+        }else{
+
+         return redirect()->back();
+        }          
     }
 }

@@ -38,11 +38,11 @@
                                     <td>{{$solicitud->status()}}</td>
                                     <td>{{$solicitud->created_at->format('d/m/Y')}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-danger retirar" solicitud="{{$solicitud->id}}" contrato_id="{{$solicitud->contracts_id}}">
+                                        <button type="button" class="btn btn-success retirar" solicitud="{{$solicitud->id}}" contrato_id="{{$solicitud->contracts_id}}">
                                             Pagar
                                         </button>
 
-                                        <button type="button" class="btn btn-success cancelar" solicitud="{{$solicitud->id}}">
+                                        <button type="button" class="btn btn-danger cancelar" solicitud="{{$solicitud->id}}">
                                             Cancelar
                                         </button>
                                     </td>
@@ -86,7 +86,7 @@
                         return 'Debe ingresar una billetera';
                     }
                 },
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#00bb2d',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Retirar',
                 cancelButtonText: 'Cancelar',
@@ -146,7 +146,7 @@
                 title: '¿Estas seguro que deseas cancelar la solicitud de retiro?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#00bb2d',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si',
                 showCloseButton: true,

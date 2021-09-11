@@ -25,6 +25,12 @@
       "icon": "sidebar",
       "slug": "users.profile"
     },
+        {
+      "url": "contratos/inversion",
+      "name": "Cartera",
+      "icon": "activity",
+      "slug": ""
+    },
     {
      "name": "Retiros",
       "icon": "credit-card",

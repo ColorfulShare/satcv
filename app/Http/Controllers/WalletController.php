@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\Models\Liquidation;
 use App\Models\Wallet;
+use Exception;
 //use Yajra\Datatables\Facades\Datatables;
 use DataTables;
 
