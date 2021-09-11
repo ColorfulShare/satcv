@@ -3,14 +3,7 @@
 @section('title', 'Administradores  de Carteras')
 
 @section('vendor-style')
-  <!-- vendor css files -->
-  <link rel="stylesheet" href="{{ asset('vendors/css/forms/select/select2.min.css') }}">
 
-  <style>
-      b{
-          display: none;
-      }
-  </style>
 @endsection
 
 @section('content')
@@ -52,7 +45,7 @@
                                         <td>Eliminado</td>
                                         @endif
 
-                                        <td>{{number_format($item->portafolio(), 2)}} $</td>
+                                        <td><a href="{{route('contract.index', ['id' => $item->id])}}">{{number_format($item->portafolio(), 2)}} $</a></td>
                                         <td>{{number_format($item->invertido(), 2)}} $</td>
                                         <td>{{number_format($item->ganancia(), 2)}} $</td>
                                         
@@ -114,12 +107,6 @@
 {{-- CONFIGURACIÓN DE DATATABLE --}}
 @include('panels.datatables-config')
 
-@section('vendor-script')
-  <!-- vendor files -->
-  {{--<script src="{{ asset('vendors/js/jquery/jquery.min.js') }}"></script>--}}
-  <script src="{{ asset('vendors/js/forms/select/select2.full.min.js') }}"></script>
-@endsection
-
 @section('page-script')
   <!-- Page js files -->
     <script src="{{ asset('js/scripts/forms/form-select2.js') }}"></script>
@@ -136,7 +123,6 @@
             spinnerBtnEnbiar.classList.remove('d-none');
             //
             let data = {'id': id.value}
-            console.log(data);
             
             fetch(`{{route("user.find")}}`, {
             method: 'POST', // or 'PUT'
@@ -167,26 +153,45 @@
                 }
             })
             .then(data => {
-                console.log(data);
+            
                 let user = document.querySelector('#user');
                 if(data.email != undefined){
                     user.value = data.email;
+
+                    if(data.type == 1){
+                        toastr['info']('Este usuario ya es administrador de cartera', 'Consulta exitosa', {
+                            closeButton: true,
+                            tapToDismiss: false
+                        });
+                    }else{
+                        toastr['success']('Usuario encontrado', 'Consulta exitosa', {
+                            closeButton: true,
+                            tapToDismiss: false
+                        });
+                    }
+                    
                 }else{
                     user.value = '';
+
+                    toastr['error']('No existe ningun usuario con ese identificado', 'Error', {
+                        closeButton: true,
+                        tapToDismiss: false
+                    });
                 }
 
-                toastr['success'](data.message, 'Usuario consultado', {
-                    closeButton: true,
-                    tapToDismiss: false
-                });
+                
                 
             })
             .catch(error => {
-                console.log(error);
+                //console.log(error);
                 //removemos el spinner y colocamos el texto
                 spinnerBtnEnbiar.classList.add('d-none');
                 texBtnConsultar.classList.remove('d-none');
                 //
+                toastr['error']('Intente mas tarde', 'Error', {
+                        closeButton: true,
+                        tapToDismiss: false
+                    });
             })
         });
     </script>

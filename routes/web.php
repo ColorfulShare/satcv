@@ -34,20 +34,61 @@ use App\Http\Controllers\Auth\TwoFactorController;
 
 // Main Page Route
 Route::middleware('auth')->group(function(){
+    //ADMIN
+    Route::middleware('admin')->group(function(){
 
+        Route::group(['prefix' => 'contratos'], function () {
+
+            Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
+            Route::get('/utilidades', [ContractsController::class, 'utilidades'])->name('contract.utilidades');
+            Route::post('/payUtility', [ContractsController::class, 'payUtility'])->name('payUtility');
+            Route::post('/payUtilityCartera', [ContractsController::class, 'payUtilityCartera'])->name('payUtilityCartera');
+        });
+
+        Route::group(['prefix' => 'utilidad'], function () {
+            Route::get('/', [WalletController::class,'utility'])->name('utilidad.utility');
+        });
+
+        Route::prefix('user')->group(function(){
+
+            Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
+            Route::get('/list-kyc',[UserController::class,'listKyc'])->name('users.list-kyc');
+        
+        });
+
+        //ruta para administradores de carteras
+        Route::prefix('administrators')->group(function (){
+
+            Route::get('/',[UserController::class,'administrators'])->name('administrators.index');
+        
+            Route::post('/cambiarTipo',[UserController::class,'cambiar_type'])->name('cambiarTipo');
+        
+        });
+
+        Route::group(['prefix' => 'solicitud'], function () {
+            Route::get('/retiros', [SolicitudController::class, 'index_solicitudes'])->name('solicitud.remove');
+        });
+
+        Route::prefix('ticket')->group(function(){
+            Route::get('edit-admin/{id}', [TicketController::class,'editAdmin'])->name('ticket.edit-admin');
+            Route::patch('update-admin/{id}', [TicketController::class,'updateAdmin'])->name('ticket.update-admin');
+            Route::get('list-admin', [TicketController::class,'indexAdmin'])->name('ticket.list-admin');
+        });
+
+        Route::group(['prefix' => 'shop'], function () {
+            Route::post('/cambiarStatus', [TiendaController::class, 'cambiar_status'])->name('cambiarStatus');
+        });
+    });
+    
+    //USER
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
     Route::get('/ecommerce', function () { 
         return view('/content/dashboard/dashboard-ecommerce');
     });
 
     Route::group(['prefix' => 'contratos'], function () {
-        Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
         Route::get('/user', [ContractsController::class, 'contratosUser'])->name('contract.user');
-        Route::get('/inversion-data', [ContractsController::class, 'dataInversion'])->name('data.inversion');
         Route::post('/form-pdf', [ContractsController::class, 'formPdf'])->name('contract.pdf');
-        Route::get('/utilidades', [ContractsController::class, 'utilidades'])->name('contract.utilidades');
-        Route::post('/payUtility', [ContractsController::class, 'payUtility'])->name('payUtility');
-        Route::post('/payUtilityCartera', [ContractsController::class, 'payUtilityCartera'])->name('payUtilityCartera');
         Route::get('/generatePdf/{id}', [ContractsController::class, 'generatePdf'])->name('contract.generatePdf');
     });
 
@@ -56,7 +97,6 @@ Route::middleware('auth')->group(function(){
         Route::post('/procces', [TiendaController::class, 'procesarOrden'])->name('shop.procces');
         Route::post('/ipn', [TiendaController::class, 'ipn'])->name('shop.ipn');
         Route::post('/{status}/estado', [TiendaController::class, 'statusProcess'])->name('shop.proceso.status');
-        Route::post('/cambiarStatus', [TiendaController::class, 'cambiar_status'])->name('cambiarStatus');
     });
 
     Route::group(['prefix' => 'reports'], function () {
@@ -69,7 +109,6 @@ Route::middleware('auth')->group(function(){
     Route::group(['prefix' => 'solicitud'], function () {
         Route::get('/retiro', [SolicitudController::class, 'index_retiros'])->name('solicitud.retiros')->middleware('primerosCincoDias');
         Route::get('/history', [SolicitudController::class, 'history'])->name('solicitud.history');
-        Route::get('/retiros', [SolicitudController::class, 'index_solicitudes'])->name('solicitud.remove');
     });
 
     //Ruta de los Tickets
@@ -82,15 +121,6 @@ Route::middleware('auth')->group(function(){
         Route::patch('update-user/{id}', [TicketController::class,'updateUser'])->name('ticket.update-user');
         Route::get('list-user', [TicketController::class,'indexUser'])->name('ticket.list-user');
         Route::get('show-user/{id}', [TicketController::class,'showUser'])->name('ticket.show-user');
-
-        // Para el Admin
-        Route::get('edit-admin/{id}', [TicketController::class,'editAdmin'])->name('ticket.edit-admin');
-        Route::patch('update-admin/{id}', [TicketController::class,'updateAdmin'])->name('ticket.update-admin');
-        Route::get('list-admin', [TicketController::class,'indexAdmin'])->name('ticket.list-admin');
-    });
-
-    Route::group(['prefix' => 'utilidad'], function () {
-        Route::get('/', [WalletController::class,'utility'])->name('utilidad.utility');
     });
 
     Route::group(['prefix' => 'retiros'], function () {
@@ -109,10 +139,6 @@ Route::middleware('auth')->group(function(){
     //rutas para la lista de usuarios
     Route::prefix('user')->group(function(){
 
-        Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
-
-        Route::get('/list-kyc',[UserController::class,'listKyc'])->name('users.list-kyc');
-
         Route::get('show-user/{id}',[UserController::class,'showUser'])->name('users.show-user');
 
         Route::get('verificar/{id}',[UserController::class,'verifyUser'])->name('verify-user');
@@ -123,16 +149,6 @@ Route::middleware('auth')->group(function(){
         Route::get('/impersonate/stop', 'ImpersonateController@stop')->name('impersonate.stop');
         Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
         */
-    });
-
-
-    //ruta para administradores de carteras
-    Route::prefix('administrators')->group(function (){
-
-    Route::get('/',[UserController::class,'administrators'])->name('administrators.index');
-
-    Route::post('/cambiarTipo',[UserController::class,'cambiar_type'])->name('cambiarTipo');
-   
     });
 
         // Ruta para la pagos

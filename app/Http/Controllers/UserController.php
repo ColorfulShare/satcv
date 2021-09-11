@@ -104,11 +104,9 @@ class UserController extends Controller
 
      public function administrators()
     {
-
-       $alluser = User::get();
        $user = User::orderBy('id', 'desc')->where('type', 1)->get();
     
-       return view('wallet.administrators', compact('user','alluser'));
+       return view('wallet.administrators', compact('user'));
     }
     
     public function find(Request $request)

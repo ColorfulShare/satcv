@@ -22,6 +22,7 @@ class CreateWalletsTable extends Migration
             $table->string('descripcion');
             $table->date('payment_date');
             $table->tinyInteger('status')->default(0)->comment('0 - En espera, 1 - Pagado (liquidado), 2 - Cancelado, 3 - Reinvertido');
+            $table->tinyInteger('type')->default(0)->comment('0 - Utilidad, 1 - Cartera');
             $table->timestamps();
         });
     }
