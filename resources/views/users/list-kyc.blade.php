@@ -60,9 +60,11 @@
                                 <td>{{ $item->updated_at}}</td>
 
                                 <td>
+                                @if ($item->dni != NULL)
                                     <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-primary"
                                         data-toggle="tooltip" data-placement="left"
                                         title="Verificar usuario"><i data-feather='eye'></i></a>
+                                        @endif
                                 </td>
                             </tr>
                             @endforeach

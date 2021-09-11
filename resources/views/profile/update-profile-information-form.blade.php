@@ -152,17 +152,19 @@
             </div>
             {{-- Tipo de documento --}}
             <div class="col-2">
-                <x-jet-label for="document_type" value="{{ __('Nacionalidad') }}" />
+                <x-jet-label for="document_type" value="{{ __('Tipo de documento') }}" />
                 @if (Auth::user()->verify == '0')
-                <select id="document_type" type="number" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" wire:model.defer="state.country_id" >
+                <select id="document_type" type="number" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" wire:model.defer="state.document_type" >
                     <option value="0" @if(Auth::user()->document_type == '0') selected  @endif>DNI</option>
                     <option value="1" @if(Auth::user()->document_type == '1') selected  @endif>Pasaporte</option>
-            </select>
+                </select>
                 @else
-                <select id="document_type" type="number" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" wire:model.defer="state.country_id" >
-                    <option value="{{ $country->id}}" @if(Auth::user()->document_type == $country->id) selected @endif>{{ $country->name}}</option>
-            </select>
+                @if (Auth::user()->document_type == '0')
+                <input type="text" readonly class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" value="DNI">
+                @else
+                <input type="text" readonly class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" value="Pasaporte">
                 @endif
+            @endif
                 <x-jet-input-error for="document_type" class="mt-2" />
             </div>
             {{-- Número del documento --}}
@@ -269,11 +271,7 @@
                     @endforeach
             </select>
                 @else
-                <select id="country_id" type="number" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" wire:model.defer="state.country_id" >
-                    @foreach ( $country as $item)
-                    <option value="{{ $item->id}}" @if(Auth::user()->country_id == $item->id) selected @endif>{{ $item->name}}</option>
-                    @endforeach
-            </select>
+            <input type="text" readonly class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" value="{{ Auth::user()->countrie->name }}">
                 @endif
                 <x-jet-input-error for="country_id" class="mt-2" />
             </div>

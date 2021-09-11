@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function listKyc()
     {
-        $user = User::where('verify', '0')->get();
+        $user = User::where([['verify', '0'], ['admin', '0']])->get();
 
         return view('users.list-kyc')
             ->with('user', $user);
@@ -35,9 +35,8 @@ class UserController extends Controller
     {
 
         $user = user::find($id);
-        $country = Country::where('id', $user->country_id);
+        $country = Country::where('id', $user->country_id)->first();
 
-        
         return view('users.show-user')
             ->with('country', $country)
             ->with('user', $user);
