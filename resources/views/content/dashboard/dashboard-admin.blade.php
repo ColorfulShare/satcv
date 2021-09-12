@@ -54,8 +54,30 @@
 
 @section('page-script')
 <script>
+  let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     document.addEventListener('DOMContentLoaded', function () {
-        
+        //------------PETICIÓN ASINCRONA  ------------
+                    //-----------------------------------------------
+
+                    fetch(`{{route("get.contracts.admin")}}`, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json, text-plain, */*",
+                            "X-Requested-With": "XMLHttpRequest",
+                            "X-CSRF-TOKEN": token
+                        },
+                        method: 'post',
+                    })
+                    .then(response => response.text())
+                    .then(resultText => (
+                        data = JSON.parse(resultText),
+                        console.log(data)
+                                                
+                    ))
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                    
 
           // Line Chart
   // --------------------------------------------------------------------

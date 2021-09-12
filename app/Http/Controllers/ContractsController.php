@@ -500,12 +500,18 @@ class ContractsController extends Controller
             $data = new stdClass();
             $contratos = Contract::OrderBy('id', 'desc')->get();
             $data->contratos = $contratos;
+            $date = Carbon::now();
+            $from = $date->subYear()->format('Y-m-d')." 00:00:00";
+
+            $inversion = Contract::whereBetween('created_at', [$from, \Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('count(*) as contratos'),DB::raw("DATE_FORMAT(created_at,'%m') as months"))->groupBy('months')->get();
+
+            $data->inversiones = $inversion;
             
+            return response()->json($data);
         // } catch (\Throwable $th) {
         //     Log::error('ContractsController::getContrato -> Error: '.$th);
         //     abort(403, "Ocurrio un error, contacte con el administrador");
         // }
-        return response()->json($data);
     }
 
     
