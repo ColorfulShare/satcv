@@ -214,6 +214,6 @@ return [
     "Retiros de capital" => "Retiros de capital",
     "Historial de retiros" => "Historial de retiros",
     "Admistradores de Carteras" => "Admistradores de Carteras",
-
+    "Cartera" => "Cartera",
 
 ];

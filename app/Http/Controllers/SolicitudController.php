@@ -56,7 +56,7 @@ class SolicitudController extends Controller
                 $solicitud = SolicitudRetiro::create([
                     'contracts_id' => $request->contratoId,
                     'amount' => $request->amount,
-                    'percentage' => 25,
+                    'percentage' => 20,
                     'status' => 0
                 ]);
                 return response()->json(true);
