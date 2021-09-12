@@ -20,6 +20,14 @@ class DashboardController extends Controller
       $utilities = $this->contratos->getUtilities()->take(6);
       return view('/content/dashboard/dashboard-analytics', compact('contratos', 'utilities'));
   }
+
+  public function indexAdmin(Request $request)
+  {
+      $this->contratos = new ContractsController;
+      $contratos = $this->contratos->contratos();
+      $utilities = $this->contratos->getUtilities();
+      return view('/content/dashboard/dashboard-admin', compact('contratos', 'utilities'));
+  }
   public function dashboard2($id)
   {
     $user = User::where('id',$id)->first();

@@ -16,8 +16,18 @@
             Regresar
         </a>
     @endif
-
+    
     @if(Auth::user()->type == 1)
+    <div class="row match-height">
+        <!-- Earnings Card -->
+        <div class="col-12">
+            <div class="card">
+                <div class="card-title">
+                    <h3 class="pt-2 text-center">STCV - Gestion de portafolio</h3>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row match-height">
         <!-- Earnings Card -->
         <div class="col-md-6 col-12">
@@ -149,6 +159,10 @@
                 </div>
                 <div class="card-body p-0">
                     <div id="goal-overview-radial-bar-chart" class="my-2"></div>
+                    <div class="card-header d-flex flex-column justify-content-center">
+                        <h4 class="card-title">Días restantes</h4>
+                        <h1 class="badge badge-primary h1" id="daysleft">0</h1>
+                    </div>
                     <div class="row border-top text-center mx-0">
                         <div class="col-6 border-right py-1">
                             <p class="card-text text-muted mb-0">Saldo Invertido</p>
@@ -240,6 +254,7 @@
         let contratoProductividad = document.querySelectorAll(".contratoProductividad")
         let contratoGanancia = document.querySelectorAll(".contratoGanancia")
         let contratoRetirado = document.querySelector("#contratoRetirado")
+        let daysleft = document.querySelector('#daysleft')
 
         let url = 'api/getContrato/'
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -296,6 +311,7 @@
                 contratoProductividad.forEach(i => i.innerHTML = 0),
                 contratoGanancia.forEach(i => i.innerHTML = 0),
                 contratoRetirado.innerHTML = 0;
+                daysleft.innerHTML = 0;
             }
         });
 
@@ -358,7 +374,8 @@
                 contratoSaldoCapital.innerHTML = data.contrato.capital.toFixed(2),
                 contratoProductividad.forEach(i => i.innerHTML = data.productividad.toFixed(2)),
                 contratoGanancia.forEach(i => i.innerHTML = data.contrato.gain.toFixed(2)),
-                contratoRetirado.innerHTML = data.retirado.toFixed(2)
+                contratoRetirado.innerHTML = data.retirado.toFixed(2),
+                daysleft.innerHTML = data.daysleft
             ))
             .catch(function (error) {
                 console.log(error);
@@ -583,13 +600,16 @@
                         }
                         },
                         dataLabels: {
-                        enabled: false
+                            enabled: false,
+                            formatter: function (val) {
+                                return val + "%"
+                            },
                         },
-                        series: [53, 16, 31],
+                        series: [0, 0, 0],
                         legend: { show: false },
-                        labels: ['App', 'Service', 'Product'],
+                        labels: ['', '', ''],
                         stroke: { width: 0 },
-                        colors: ['#00e600', '#b9b9c3', '#333333'],
+                        colors: ['#00c600', '#00d600', '#00e600'],
                         grid: {
                         padding: {
                             right: -20,
@@ -598,13 +618,16 @@
                         }
                         },
                         plotOptions: {
-                        pie: {
+                            pie: {
                             startAngle: -10,
                             donut: {
                             labels: {
                                 show: true,
                                 name: {
-                                offsetY: 15
+                                offsetY: 15,
+                                formatter: function (val) {
+                                    return 'Inv. ID: ' + val;
+                                }
                                 },
                                 value: {
                                 offsetY: -15,
@@ -615,9 +638,9 @@
                                 total: {
                                 show: true,
                                 offsetY: 15,
-                                label: 'App',
+                                label: '',
                                 formatter: function (w) {
-                                    return '53%';
+                                    return '100%';
                                 }
                                 }
                             }
@@ -676,6 +699,13 @@
                             enabled: false
                         }
                         },
+                        legend: { 
+                            show: false,
+                        },
+                        labels: {
+                            colors: '#000000',
+                            useSeriesColors: false,
+                        },
                         grid: {
                         borderColor: '#00e600',
                         strokeDashArray: 5,
@@ -700,7 +730,8 @@
                         colors: ['#00e600'],
                         series: [
                         {
-                            data: [0, 20, 5, 30, 15, 45]
+                            name: "%",
+                            data: [0, 0, 0, 0, 0, 0]
                         }
                         ],
                         markers: {
@@ -762,12 +793,26 @@
                             "X-Requested-With": "XMLHttpRequest",
                             "X-CSRF-TOKEN": token
                         },
-                        method: 'post',
+                        method: 'get',
                     })
                     .then(response => response.text())
                     .then(resultText => (
                         data = JSON.parse(resultText),
-                        console.log(data)
+                        console.log(data),
+                        total = data.capital.reduce((a, b) => a + b, 0),
+                        capital = data.capital.map(i => i = parseFloat(((i/total)*100).toFixed(2))),
+                        earningsChart.updateOptions({
+                            series: capital,
+                            labels: data.contratoid
+                        }),
+                        statisticsProfitChart.updateOptions({
+                            series: [
+                                {
+                                    data: data.capital
+                                }
+                            ],
+                        })
+                        
                     ))
                     .catch(function (error) {
                         console.log(error);

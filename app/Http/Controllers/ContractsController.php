@@ -489,6 +489,25 @@ class ContractsController extends Controller
         }
     }
 
+    /**
+     * Retorna todos los contratos para el admin
+     * 
+     * @return json
+     */
+    public function contractsAdmin()
+    {
+        // try{
+            $data = new stdClass();
+            $contratos = Contract::OrderBy('id', 'desc')->get();
+            $data->contratos = $contratos;
+            
+        // } catch (\Throwable $th) {
+        //     Log::error('ContractsController::getContrato -> Error: '.$th);
+        //     abort(403, "Ocurrio un error, contacte con el administrador");
+        // }
+        return response()->json($data);
+    }
+
     
       /**
      * Retorna el contrato según el id que se le pase
@@ -543,6 +562,7 @@ class ContractsController extends Controller
                 }
 
                 $data->mes = array_column($data->utilidades, 'payment_date');
+                $data->daysleft = $contrato->diffDaysExpiration();
                 return response()->json($data);
             } catch (\Throwable $th) {
             Log::error('ContractsController::getContrato -> Error: '.$th);
@@ -557,7 +577,23 @@ class ContractsController extends Controller
      */
     public function getInversion($id)
     {
-        return $id;
+        $data = new stdClass();
+        $inversiones = User::find($id)->contracts()->get()->toArray();
+        $data->invertido = array_column($inversiones, 'invested');
+        $data->capital = array_column($inversiones, 'capital');
+        $data->contratoid = array_column($inversiones, 'id');
+        $data->ganancia = User::find($id)->ganancia();
+
+        $contratos = User::find($id)->contracts()->get();
+        $utilidades = collect();
+        
+        foreach($contratos as  $contrato){
+            $utilidades->push($contrato->wallets);
+        };
+        $data->utilidades = $utilidades;
+        // $months = $inversiones->orderByDesc('id')->latest()->take(12);
+        // $data->month = $months;
+        return response()->json($data);
     }
 
     /**

@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function(){
     //ADMIN
     Route::middleware('admin')->group(function(){
 
+        Route::get('/dashboard', [DashboardController::class, 'indexAdmin'])->name('dashboard.admin');
         Route::group(['prefix' => 'contratos'], function () {
 
             Route::get('/', [ContractsController::class, 'index'])->name('contract.index');

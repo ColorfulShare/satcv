@@ -28,7 +28,6 @@ class Contract extends Model
 
     public function contractExpiration()
     {
-        $this->created_at = Carbon::now();
         return $this->created_at->addYear();
     }
 
