@@ -107,7 +107,7 @@
                         max: capital,
                         placeholder: 'Monto'
                     },
-                    text: "se te debitara el 25% de tu solicitud de retiro",
+                    text: "se te debitara el 20% de tu solicitud de retiro",
                     icon: 'warning',
                     showCancelButton: true,
                     inputValidator: (value) => { 
@@ -120,7 +120,7 @@
                         }            
                         
                     },
-                    confirmButtonColor: '#3085d6',
+                    confirmButtonColor: '#00bb2d',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Retirar',
                     preConfirm: (login) => {

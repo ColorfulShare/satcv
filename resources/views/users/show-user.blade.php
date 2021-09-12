@@ -31,10 +31,11 @@
                             <div class="col-2">
                                 <div class="form-group">
                                     <label>Tipo de documento</label>
-                                    <input type="text" readonly class="form-control" value="{{ $user->document_type }}">
-                                    <select id="document_type" type="number" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" wire:model.defer="state.country_id" >
-                                        <option>{{ $country->name}}</option>
-                                </select>
+                                    @if(Auth::user()->document_type == '0')
+                                    <input type="text" readonly class="form-control" value="DNI">
+                                    @else
+                                    <input type="text" readonly class="form-control" value="Pasaporte">
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-2">
@@ -89,12 +90,15 @@
                                 </div>
                             </div>
                             <h3 class="mt-3 mb-2 font-bold col-12 text-center">Información de Vivienda</h3>
+
+
                             <div class="col-3">
                                 <div class="form-group">
-                                    <label>Dirección</label>
-                                    <input type="text" readonly class="form-control" value="{{ $user->address }}">
+                                    <label>Nacionalidad</label>
+                                    <input type="text" readonly class="form-control" value="{{ $country->name }}">
                                 </div>
                             </div>
+
 
                             <div class="col-3">
                                 <div class="form-group">
@@ -116,6 +120,13 @@
                                 </div>
                             </div>
 
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Dirección</label>
+                                    <input type="text" readonly class="form-control" value="{{ $user->address }}">
+                                </div>
+                            </div>
+
                             <div class="col-12 d-flex justify-content-center mt-3">
                                 <div class="form-group">
                                     <label class="h1 justify-content-center">Recibo de servicios / Extracto bancario
@@ -132,7 +143,8 @@
                                 <a href="{{ route('verify-user', $user->id) }}"
                                     class="btn btn-success mr-1 mb-1 waves-effect waves-light">Verificar
                                 </a>
-                                <a class="btn btn-danger mr-1 mb-1 waves-effect waves-light" data-toggle="modal" data-target="#exampleModal">Rechazar</a>
+                                <a class="btn btn-danger mr-1 mb-1 waves-effect waves-light" data-toggle="modal"
+                                    data-target="#exampleModal">Rechazar</a>
                             </div>
                         </div>
                     </div>
@@ -144,34 +156,34 @@
 
 <!-- Button trigger modal -->
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Mensaje para el usuario</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="{{ route('deny-user', $user->id) }}" method="PATCH">
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center">
-                    <textarea name="msj_admin" cols="45%" rows="10"></textarea>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-danger">Rechazar
-        </button>
-        </div>
-    </form>
-      </div>
-    </div>
-  </div>
-  
-@endsection
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Mensaje para el usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('deny-user', $user->id) }}" method="PATCH">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <textarea name="msj_admin" cols="45%" rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Rechazar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@endsection
