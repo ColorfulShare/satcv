@@ -43,10 +43,15 @@ class ReportController extends Controller
     public function indexShow($id){
   
      $contrato = contract::find($id);
- 
 
-         return view('reports.show-contrato')->with('contrato', $contrato);
+     return view('reports.show-contrato')->with('contrato', $contrato);
+    }
 
-   }
+    public function comisiones()
+    {
+        $comisiones = Wallet::orderBy('id', 'desc')->where('type', 1)->get();
+
+        return view('reports.comisiones', compact('comisiones'));
+    }
 }
 

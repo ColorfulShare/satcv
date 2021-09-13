@@ -23,4 +23,9 @@ class Log_utility extends Model
     {
         return $this->contract->getOrden->user;
     }
+
+    public function wallet()
+    {
+        return $this->belongsTo('App\Models\Wallet', 'wallet_id');
+    }
 }

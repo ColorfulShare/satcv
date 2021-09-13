@@ -162,4 +162,9 @@ class User extends Authenticatable
 
         return $capital;
     }
+
+    public function comision()
+    {
+        return $this->wallets()->where('type', 1)->sum('amount');
+    }
 }

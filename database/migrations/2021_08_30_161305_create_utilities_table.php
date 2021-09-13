@@ -17,6 +17,8 @@ class CreateUtilitiesTable extends Migration
             $table->id();
             $table->double('gain');
             $table->double('percentage');
+            $table->double('gain_cartera')->nullable();
+            $table->double('percentage_cartera')->nullable();
             $table->date('payment_date');
             $table->tinyInteger('type')->default(0)->comment('0 - Normal, 1 - Administrador de cartera');
             $table->timestamps();
