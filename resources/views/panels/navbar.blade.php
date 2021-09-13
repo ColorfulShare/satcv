@@ -294,6 +294,7 @@
                 notifications</a></li>
         </ul>
         </li> --}}
+        
         <li class="nav-item dropdown dropdown-user">
             <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -304,8 +305,9 @@
                     @endif
                 </div>
                 @if (Auth::user()->profile_photo_path != NULL)
+              
                 <span class="avatar">
-                    <img class="round" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
+                    <img class="round" src="{{ asset(Auth::user()->profile_photo_url) }}" alt="{{ Auth::user()->name }}"
                         height="40px" width="40px">
                     @if (Auth::user()->status == 0)
                     <span class="avatar-status-busy"></span>

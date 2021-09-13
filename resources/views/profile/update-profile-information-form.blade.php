@@ -65,6 +65,7 @@
         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
         <div x-data="{photoName: null, photoPreview: null}" class="col-12 row flex-column align-items-center">
             <!-- Profile Photo File Input -->
+            {{--
             <input type="file" class="hidden" wire:model="photo" x-ref="photo" x-on:change="
                                     photoName = $refs.photo.files[0].name;
                                     const reader = new FileReader();
@@ -73,6 +74,16 @@
                                     };
                                     reader.readAsDataURL($refs.photo.files[0]);
                             " />
+            --}}
+            <input type="file" class="d-none" id="photo" name="photo" wire:model="photo" x-ref="photo" x-on:change="
+            photoName = $refs.photo.files[0].name;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                photoPreview = e.target.result;
+            };
+            reader.readAsDataURL($refs.photo.files[0]);
+    ">
+            
 
             <x-jet-label for="photo" value="{{ __('Foto') }}" />
 
@@ -95,10 +106,12 @@
                     x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
                 </span>
             </div>
-
+            {{--
             <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                {{ __('Seleccione una nueva foto') }}
+                {{ __('fdsfsdfsdf una nueva foto') }}
             </x-jet-secondary-button>
+            --}}
+            <label for="photo" class="mt-2 mr-2 inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition">Seleccione una nueva foto</label>
 
             @if ($this->user->profile_photo_path)
             <x-jet-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
