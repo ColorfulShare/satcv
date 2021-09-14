@@ -12,6 +12,8 @@ return [
     "Informes" => "Informes",
     "Inversiones" => "Inversiones",
     "Utilidades" => "Utilidades",
+    "Comisiones" => "Comisiones",
+    "Utilidades cartera" => "Utilidades cartera",
     "Ordenes" => "Ordenes",
     "Solicitud" => "Solicitud",
     "Historial de Retiros" => "Historial de Retiros",

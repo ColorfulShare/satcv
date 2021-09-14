@@ -23,6 +23,12 @@
           "name": "Utilidades",
           "icon": "circle",
           "slug": "contract.utilidades"
+        },
+        {
+          "url": "/contratos/utilidades/cartera",
+          "name": "Utilidades cartera",
+          "icon": "circle",
+          "slug": "contract.utilidadesCartera"
         }
       ]
     },
@@ -42,6 +48,12 @@
           "name": "Utilidades",
           "icon": "circle",
           "slug": "utilidad.utility"
+        },
+        {
+          "url": "reports/comisiones",
+          "name": "Comisiones",
+          "icon": "circle",
+          "slug": "reports.comisiones"
         }
       ]
     },

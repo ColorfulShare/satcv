@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function(){
 
             Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
             Route::get('/utilidades', [ContractsController::class, 'utilidades'])->name('contract.utilidades');
+            Route::get('/utilidades/cartera', [ContractsController::class, 'utilidadesCartera'])->name('contract.utilidadesCartera');
             Route::post('/payUtility', [ContractsController::class, 'payUtility'])->name('payUtility');
             Route::post('/payUtilityCartera', [ContractsController::class, 'payUtilityCartera'])->name('payUtilityCartera');
         });
@@ -104,7 +105,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/', [ReportController::class, 'index'])->name('reports.pedidos');
         Route::get('/purchase', [ReportController::class, 'indexPedidos'])->name('reports.index');
         Route::get('/show-contrato{id}', [ReportController::class, 'indexShow'])->name('reports.show-contrato');
-    
+        Route::get('/comisiones', [ReportController::class, 'comisiones'])->name('reports.comisiones');
     });
 
     Route::group(['prefix' => 'solicitud'], function () {

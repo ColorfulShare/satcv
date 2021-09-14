@@ -37,7 +37,7 @@ class TiendaController extends Controller
         ]);
 
         try {
-            if(Auth::user()->verify != 1){
+            if(Auth::user()->verify != '1'){
                 return redirect()->back()->with('danger', 'Su cuenta no ha sido verificada');
             }
             if ($validate) {

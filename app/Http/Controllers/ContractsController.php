@@ -345,20 +345,10 @@ class ContractsController extends Controller
                         $ids[] = $utility->id;
                         
                     }
-
-                    $utilidad = new Utility;
-                    $utilidad->gain = $gain;
-                    $utilidad->percentage = $request->porcentaje_administrador;
-                    $utilidad->payment_date = $request->mes;
-                    $utilidad->type = 1;
-                    $utilidad->save();
-
-                    $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
                 }
                 //REFERIDOS
 
-                $gain = 0;
-                $ids = [];
+                $gain2 = 0;
                 $porcentaje = $request->porcentaje_cartera / 100;
 
                 $referidos = Contract::where('status', 1)->whereHas('getOrden.user', function($user){
@@ -387,7 +377,7 @@ class ContractsController extends Controller
                             $wallet->payment_date = $request->mes;
                             $wallet->save();
 
-                            $gain+= $contrato->capital * $porcentaje;
+                            $gain2+= $contrato->capital * $porcentaje;
                             $contrato->gain += $contrato->capital * $porcentaje;
                             $contrato->save();
                         }else{
@@ -401,7 +391,7 @@ class ContractsController extends Controller
                             $wallet->status = 3;
                             $wallet->save();
                             
-                            $gain+= $contrato->capital * $porcentaje;
+                            $gain2+= $contrato->capital * $porcentaje;
                             $contrato->gain += $contrato->capital * $porcentaje;
                             $contrato->capital += $contrato->capital * $porcentaje;
                             $contrato->save();
@@ -423,18 +413,18 @@ class ContractsController extends Controller
                     }
 
                     $utilidad = new Utility;
-                    $utilidad->gain = $gain;
-                    $utilidad->percentage = $request->porcentaje_cartera;
+                    $utilidad->gain_cartera = $gain2;
+                    $utilidad->percentage_cartera = $request->porcentaje_cartera;
                     $utilidad->payment_date = $request->mes;
                     $utilidad->type = 1;
+                    $utilidad->gain = $gain;
+                    $utilidad->percentage = $request->porcentaje_administrador;
                     $utilidad->save();
 
-                    $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
                 }
                 
                 //RESTANTE
 
-                $gain = 0;
                 $porcentaje = ($request->porcentaje_administrador - $request->porcentaje_cartera) / 100;
                 
                 $administradores = Contract::where('status', 1)->whereHas('getOrden.user', function($user){
@@ -476,9 +466,24 @@ class ContractsController extends Controller
                             $wallet->type = 1;
                             $wallet->save();
                         }
+                        $current_capital = $contrato->capital;
+
+                        $utility = new Log_utility;
+                        $utility->Contract_id = $contrato->id;
+                        $utility->wallet_id = $wallet != null ? $wallet->id : null;
+                        $utility->percentage = $porcentaje;
+                        $utility->amount = $wallet->amount;
+                        $utility->payment_date = $request->mes;
+                        $utility->previoues_capital = $previoues_capital;
+                        $utility->current_capital = $current_capital;
+                        $utility->save();
+                        
+                        $ids[] = $utility->id;
                         
                     }
+                    $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
                 }
+                
             }
             DB::commit();
             return back()->with('success', 'Utilidad pagada exitosamente');
@@ -680,5 +685,12 @@ class ContractsController extends Controller
 
          return redirect()->back();
         }          
+    }
+
+    public function utilidadesCartera()
+    {
+        $utilities = Utility::orderBy('id', 'desc')->where('type', 1)->get();
+
+        return view('contract.utilidadesCartera', compact('utilities'));
     }
 }

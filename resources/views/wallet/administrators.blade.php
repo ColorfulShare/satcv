@@ -27,8 +27,7 @@
                                 <th>correo</th>
                                 <th>Estado</th>
                                 <th>portafolio</th>
-                                <th>Monto</th>
-                                <th>Ganancia</th>
+                                <th>Comisión</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,8 +45,7 @@
                                         @endif
 
                                         <td><a href="{{route('contract.index', ['id' => $item->id])}}">{{number_format($item->portafolio(), 2)}} $</a></td>
-                                        <td>{{number_format($item->invertido(), 2)}} $</td>
-                                        <td>{{number_format($item->ganancia(), 2)}} $</td>
+                                        <td>{{number_format($item->comision(), 2)}} $</td>
                                         
                                    </tr>
                                      <!-- Modal -->
