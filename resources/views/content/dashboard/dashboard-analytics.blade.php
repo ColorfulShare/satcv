@@ -730,7 +730,7 @@
                         colors: ['#00e600'],
                         series: [
                         {
-                            name: "%",
+                            name: "$",
                             data: [0, 0, 0, 0, 0, 0]
                         }
                         ],
@@ -808,7 +808,7 @@
                         statisticsProfitChart.updateOptions({
                             series: [
                                 {
-                                    data: data.capital
+                                    data: data.gananciaArray
                                 }
                             ],
                         })

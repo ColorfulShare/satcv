@@ -733,6 +733,7 @@ class ContractsController extends Controller
         $data->invertido = array_column($inversiones, 'invested');
         $data->capital = array_column($inversiones, 'capital');
         $data->contratoid = array_column($inversiones, 'id');
+        $data->gananciaArray = array_column($inversiones, 'gain');
         $data->ganancia = User::find($id)->ganancia();
 
         $contratos = User::find($id)->contracts()->get();
@@ -742,8 +743,6 @@ class ContractsController extends Controller
             $utilidades->push($contrato->wallets);
         };
         $data->utilidades = $utilidades;
-        // $months = $inversiones->orderByDesc('id')->latest()->take(12);
-        // $data->month = $months;
         return response()->json($data);
     }
 
