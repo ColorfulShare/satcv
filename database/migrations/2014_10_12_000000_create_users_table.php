@@ -32,8 +32,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('admin', [0, 1])->default(0)->comment('permite saber si un usuario es admin o no');
             $table->enum('status', [0, 1, 2])->default(0)->comment('0 - inactivo, 1 - activo, 2 - eliminado');        
-            $table->longtext('photo_dni_front')->nullable();
+            $table->longtext('photo_dni_front')->nullable(); 
             $table->longtext('photo_dni_back')->nullable();
+            $table->longtext('selfie_document')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             // Detalles de vivienda
             $table->string('address')->nullable();
