@@ -503,38 +503,128 @@ class ContractsController extends Controller
     {
         // try{
             $data = new stdClass();
-            $contratos = Contract::OrderBy('id', 'desc')->get();
-            $data->contratos = $contratos;
             $date = Carbon::now();
             $from = $date->subYear()->format('Y-m-d')." 00:00:00";
 
-            $inversionLineal = Contract::where('type_interes', 'lineal')->whereBetween('created_at', [$from, \Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('count(*) as contratos'),DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get()->toArray();
+            $lineal = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+            $compuesto = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+            /* Realizamos la consulta */
+            $inversionLineal = Contract::where('type_interes', 'lineal')
+            ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('count(*) as contratos'), DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
+            /* Iteramos cada registro del resultado */
+            foreach($inversionLineal as $registro) {
+                /* Rellenamos el mes adecuado de la matriz */
+                $lineal[intval($registro->mes) - 1] = $registro->contratos;
+            }
 
-            $inversionCompuesto = Contract::where('type_interes', 'compuesto')->whereBetween('created_at', [$from, \Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('count(*) as contratos'),DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get()->toArray();
+            $inversionCompuesto = Contract::where('type_interes', 'compuesto')->whereBetween('created_at', [$from, \Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('count(*) as contratos'),DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
 
-            dd($inversionLineal);
-            // $lineal = [];
-            // for($i = 1; $i <= 12; $i++){
+            foreach($inversionCompuesto as $registro) {
+                $compuesto[intval($registro->mes) - 1] = $registro->contratos;
+            }
+            $data->lineal = $lineal;
+            $data->compuesto =  $compuesto;
+            $linealPorcentaje = [];
+            foreach ($lineal as $key => $value) {
+                $total = ($lineal[$key] == 0 || $compuesto[$key] == 0) ? 1 : $lineal[$key] + $compuesto[$key];
+                $linealPorcentaje[] += ($lineal[$key] / $total) * 100;
+            }
+
+            $compuestoPorcentaje = [];
+            foreach ($compuesto as $key => $value) {
+                $total = ($compuesto[$key] == 0 || $compuesto[$key] == 0) ? 1 : $compuesto[$key] + $compuesto[$key];
+                $compuestoPorcentaje[] += ($compuesto[$key] / $total) * 100;
+            }
+
+            $data->linealPorcentaje = $linealPorcentaje;
+            $data->compuestoPorcentaje = $compuestoPorcentaje;
+
+
+            $linealEntradas = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+
+            $linealEntrada = Contract::where('type_interes', 'lineal')
+            ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('sum(invested) as entradas'), DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
+            foreach($linealEntrada as $registro) {
+                /* Rellenamos el mes adecuado de la matriz */
+                $linealEntradas[intval($registro->mes) - 1] = $registro->entradas;
+            }
+
+            $compuestoEntradas = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+
+            $compuestoEntrada = Contract::where('type_interes', 'compuesto')
+            ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('sum(invested) as entradas'), DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
+            foreach($compuestoEntrada as $registro) {
+                /* Rellenamos el mes adecuado de la matriz */
+                $compuestoEntradas[intval($registro->mes) - 1] = $registro->entradas;
+            }
+
+            $data->linealEntradas = $linealEntradas;
+            $data->compuestoEntradas = $compuestoEntradas;
+
+
+            // $linealUtility = Log_utility::
+            // whereBetween('log_utilities.created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])
+            // ->where('wallets.type', '=', '0')
+            // ->join('contracts', 'log_utilities.id', 'contracts.id')
+            // ->join('wallets', 'log_utilities.id', 'wallets.id')
+            // ->select(DB::raw('sum(log_utilities.amount) as lineal'), 
+            // DB::raw("DATE_FORMAT(log_utilities.created_at,'%m') as mes"))
+            // ->groupBy('mes')
+            // ->get()
+            // ->toArray();
+
+            $raw = Log_utility::join('contracts', 'contracts.id', 'log_utilities.id')
+            ->select(
+                DB::raw("DATE_FORMAT(log_utilities.created_at,'%m') as mes"),
+                DB::raw('sum(case when contracts.type_interes = "lineal" then amount end) as lineal'), 
+                DB::raw('sum(case when contracts.type_interes = "compuesto" then amount end) as compuesto'),     
+                )
+                ->groupBy('mes')
+                ->whereBetween('log_utilities.created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])
+                ->whereHas('wallet', function($wallet){
+                    $wallet->where('type', 0);
+                })
+                ->get();
                 
-            //     if(!isset($inversionLineal[$i])){
-            //         $inversionLineal[$i]= ['contratos' => 0, 'meses' => $i];// aqui hace la conversion
-            //     }
+                $utilidadesLineales = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+                $utilidadesCompuestas = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+                foreach($raw as $registro) {
+                    /* Rellenamos el mes adecuado de la matriz */
+                    if($registro->lineal == null){
+                        $registro->lineal = 0; 
+                    }
+                    if($registro->compuesto == null){
+                        $registro->compuesto = 0; 
+                    }
+                    $utilidadesLineales[intval($registro->mes) - 1] = $registro->lineal;
+                    $utilidadesCompuestas[intval($registro->mes) - 1] = $registro->compuesto;
+                }
+                // dd($utilidadesLineales, $utilidadesCompuestas);
+                $total = array();
+
+                for($i = 0; $i < count($utilidadesLineales); $i++) {
+                    $total[] = $utilidadesLineales[$i] + $utilidadesCompuestas[$i];
+                }
                 
-            // }
-            // $d = array_map(function($n){
-            //     return [$n['contratos'], intval($n['meses'])];
-            // }, $inversionLineal);
-
-            // foreach($d as $key => $val){
-            //     dd($d);
-            // }
-            // dd($d);
-            
+                $data->utilidadesTotales = $total;
+                $data->utilidadesLineales = $utilidadesLineales;
+                $data->utilidadesCompuestas = $utilidadesCompuestas;
 
 
-            $data->lineal = $inversionLineal;
-            $data->compuesto =  $inversionCompuesto;
-            
+
+                $capitales = Contract::
+                select(
+                    DB::raw('sum(case when type_interes = "lineal" then capital end) as lineal'), 
+                    DB::raw('sum(case when type_interes = "compuesto" then capital end) as compuesto'),     
+                    )
+                    ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])
+                    ->first()->toArray();
+                    $capitalesLineal = $capitales['lineal'];
+                    $capitalesCompuesto = $capitales['compuesto'];
+                
+                    
+            $data->capitalesLineal = $capitalesLineal;
+            $data->capitalesCompuesto = $capitalesCompuesto;
             return response()->json($data);
         // } catch (\Throwable $th) {
         //     Log::error('ContractsController::getContrato -> Error: '.$th);

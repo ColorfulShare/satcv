@@ -17,12 +17,43 @@
     </a>
     @endif
 
+    <div class="row match-height">
+        <!-- Earnings Card -->
+        <div class="col-md-6 col-12">
+            <div class="card earnings-card">
+                <div class="card-body">
+                    <div class="row mx-0">
+                        <div class="col-6">
+                            <h4 class="card-title mb-1">Total Saldo Capital</h4>
+                            <h2 class="mb-1" id="totalCapital">0</h2>
+                        </div>
+                        <div class="col-6">
+                            <div id="earnings-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ Earnings Card -->
+        <!-- Line Chart - Profit -->
+        <div class="col-md-6 col-12">
+            <div class="card card-tiny-line-stats">
+                <div class="card-body pb-50">
+                    <h4>Ganancia</h4>
+                    <h2 class="font-weight-bolder mb-1">0</h2>
+                    <div id="statistics-profit-chart"></div>
+                </div>
+            </div>
+        </div>
+        <!--/ Line Chart - Profit -->
+    </div>
 
     <div class="row match-height justify-content-center">
         <!-- Line Chart Starts -->
         <div class="col-6">
             <div class="card">
-                <div class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
+                <div
+                    class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
                     <h4 class="card-title mb-25">Medición STCV</h4>
                 </div>
                 <div class="card-body">
@@ -35,7 +66,8 @@
         <!-- Revenue Report Card -->
         <div class="col-6">
             <div class="card card-revenue-budget">
-                <div class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
+                <div
+                    class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
                     <h4 class="card-title mb-25">Inversiones</h4>
                 </div>
                 <div class="card-body">
@@ -47,20 +79,6 @@
     </div>
 
     <div class="row match-height justify-content-center">
-        <!-- Revenue Report Card -->
-        <div class="col-6">
-            <div class="card card-revenue-budget">
-                <div
-                    class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
-                    <h4 class="card-title mb-25">Inversiones</h4>
-                </div>
-                <div class="card-body">
-                    <div id="revenue-report-chart2"></div>
-                </div>
-            </div>
-        </div>
-        <!--/ Revenue Report Card -->
-
         <!-- Line Chart Starts -->
         <div class="col-6">
             <div class="card">
@@ -74,6 +92,20 @@
             </div>
         </div>
         <!-- Line Chart Ends -->
+
+        <!-- Revenue Report Card -->
+        <div class="col-6">
+            <div class="card card-revenue-budget">
+                <div
+                    class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
+                    <h4 class="card-title mb-25">Utilidades</h4>
+                </div>
+                <div class="card-body">
+                    <div id="UtilidadesChart"></div>
+                </div>
+            </div>
+            <!--/ Revenue Report Card -->
+        </div>
     </div>
 
 </section>
@@ -95,6 +127,9 @@
         var lineChartEl2 = document.querySelector('#line-chart2');
         var revenueReportChart = document.querySelector('#revenue-report-chart');
         var revenueReportChart2 = document.querySelector('#revenue-report-chart2');
+        var earningsChart = document.querySelector('#earnings-chart');
+        var statisticsProfitChart = document.querySelector('#statistics-profit-chart');
+        var totalCapital = document.querySelector('#totalCapital');
 
         lineChartConfig = {
             chart: {
@@ -110,11 +145,11 @@
             },
             series: [{
                     name: "Lineal",
-                    data: [280, 200, 220, 180, 270, 250, 70, 90, 200, 150, 160, 100]
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 },
                 {
                     name: "Compuesto",
-                    data: [200, 210, 120, 200, 170, 290, 200, 30, 100, 120, 200, 100]
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
             ],
             markers: {
@@ -146,7 +181,7 @@
                         '<div class="px-1 py-50">' +
                         '<span>' +
                         data.series[data.seriesIndex][data.dataPointIndex] +
-                        '%</span>' +
+                        ' Contratos</span>' +
                         '</div>'
                     );
                 }
@@ -160,7 +195,7 @@
             lineChart.render();
         }
 
-        
+
         //------------ Revenue Report Chart (RENDIMIENTO) ------------
         //----------------------------------------------
         revenueReportChartOptions = {
@@ -259,11 +294,11 @@
             },
             series: [{
                     name: "Lineal",
-                    data: [280, 200, 220, 180, 270, 250, 70, 90, 200, 150, 160, 100]
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 },
                 {
                     name: "Compuesto",
-                    data: [200, 210, 120, 200, 170, 290, 200, 30, 100, 120, 200, 100]
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
             ],
             markers: {
@@ -295,7 +330,7 @@
                         '<div class="px-1 py-50">' +
                         '<span>' +
                         data.series[data.seriesIndex][data.dataPointIndex] +
-                        '%</span>' +
+                        ' $</span>' +
                         '</div>'
                     );
                 }
@@ -309,90 +344,252 @@
             lineChart2.render();
         }
 
-        //------------ Revenue Report Chart (RENDIMIENTO) ------------
-        //----------------------------------------------
-        revenueReportChartOptions2 = {
+
+        UtilidadesChartOptions = {
+            series: [{
+                name: 'Total Utilidades',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }, {
+                name: 'Lineal',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }, {
+                name: 'Compuesto',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }],
             chart: {
-                width: '100%',
-                stacked: true,
                 type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: monthNames,
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return "$ " + val
+                    }
+                }
+            }
+        };
+
+        UtilidadesChart = new ApexCharts(document.querySelector("#UtilidadesChart"),
+            UtilidadesChartOptions);
+        UtilidadesChart.render();
+
+
+        earningsChartOptions = {
+            chart: {
+                type: 'donut',
+                height: 120,
                 toolbar: {
                     show: false
                 }
             },
-            plotOptions: {
-                bar: {
-                    columnWidth: '12%',
-                    endingShape: 'rounded'
-                },
-                distributed: true
-            },
-            colors: ['#00e600', window.colors.solid.warning],
-            series: [{
-                    name: "Lineal",
-                    data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
-                },
-                {
-                    name: "Compuesto",
-                    data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
-                }
-            ],
             dataLabels: {
-                enabled: false
+                enabled: false,
+                formatter: function (val) {
+                    return val + "%"
+                },
             },
+            series: [50, 50],
             legend: {
                 show: false
             },
+            labels: ['lineal', 'compuesto'],
+            stroke: {
+                width: 0
+            },
+            colors: ['#00c600', '#00d600', '#00e600'],
             grid: {
                 padding: {
-                    top: -20,
-                    bottom: -10
+                    right: -20,
+                    bottom: -8,
+                    left: -20
+                }
+            },
+            plotOptions: {
+                pie: {
+                    startAngle: -10,
+                    donut: {
+                        labels: {
+                            show: true,
+                            name: {
+                                offsetY: 15,
+                                formatter: function (val) {
+                                    return val;
+                                }
+                            },
+                            value: {
+                                offsetY: -15,
+                                formatter: function (val) {
+                                    return parseInt(val) + '%';
+                                }
+                            },
+                            total: {
+                                show: true,
+                                offsetY: 15,
+                                label: '',
+                                formatter: function (w) {
+                                    return '100%';
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            responsive: [{
+                    breakpoint: 1325,
+                    options: {
+                        chart: {
+                            height: 100
+                        }
+                    }
+                },
+                {
+                    breakpoint: 1200,
+                    options: {
+                        chart: {
+                            height: 120
+                        }
+                    }
+                },
+                {
+                    breakpoint: 1045,
+                    options: {
+                        chart: {
+                            height: 100
+                        }
+                    }
+                },
+                {
+                    breakpoint: 992,
+                    options: {
+                        chart: {
+                            height: 120
+                        }
+                    }
+                }
+            ]
+        };
+        earningsChart = new ApexCharts(earningsChart, earningsChartOptions);
+        earningsChart.render();
+
+        //------------ Statistics Line Chart ------------
+        //-----------------------------------------------
+
+        statisticsProfitChartOptions = {
+            chart: {
+                height: 70,
+                type: 'line',
+                toolbar: {
+                    show: false
+                },
+                zoom: {
+                    enabled: false
+                }
+            },
+            legend: {
+                show: false,
+            },
+            labels: {
+                colors: '#000000',
+                useSeriesColors: false,
+            },
+            grid: {
+                borderColor: '#00e600',
+                strokeDashArray: 5,
+                xaxis: {
+                    lines: {
+                        show: true
+                    }
                 },
                 yaxis: {
                     lines: {
                         show: false
                     }
+                },
+                padding: {
+                    top: -30,
+                    bottom: -10
+                }
+            },
+            stroke: {
+                width: 3
+            },
+            colors: ['#00e600'],
+            series: [{
+                name: "%",
+                data: [0, 0, 0, 0, 0, 0]
+            }],
+            markers: {
+                size: 2,
+                colors: '#00e600',
+                strokeColors: '#00e600',
+                strokeWidth: 2,
+                strokeOpacity: 1,
+                strokeDashArray: 0,
+                fillOpacity: 1,
+                discrete: [{
+                    seriesIndex: 0,
+                    dataPointIndex: 5,
+                    fillColor: '#ffffff',
+                    strokeColor: '#00e600',
+                    size: 5
+                }],
+                shape: 'circle',
+                radius: 2,
+                hover: {
+                    size: 3
                 }
             },
             xaxis: {
-                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov',
-                    'Dic'
-                ],
                 labels: {
+                    show: true,
                     style: {
-                        colors: '#b9b9c3',
-                        fontSize: '0.86rem',
-                    },
-                    show: true
-                },
-                axisTicks: {
-                    show: false
+                        fontSize: '0px'
+                    }
                 },
                 axisBorder: {
+                    show: false
+                },
+                axisTicks: {
                     show: false
                 }
             },
             yaxis: {
-                min: 0,
-                max: 100,
-                labels: {
-                    formatter: function (y) {
-                        return y.toFixed(2) + "%";
-                    },
-                    style: {
-                        colors: '#b9b9c3',
-                        fontSize: '0.86rem'
-                    },
-                    show: true
+                show: false
+            },
+            tooltip: {
+                x: {
+                    show: false
                 }
             }
         };
-        revenueReportChart2 = new ApexCharts(revenueReportChart2, revenueReportChartOptions2);
-        revenueReportChart2.render();
+        statisticsProfitChart = new ApexCharts(statisticsProfitChart, statisticsProfitChartOptions);
+        statisticsProfitChart.render();
+
+
 
         //------------PETICIÓN ASINCRONA  ------------
         //-----------------------------------------------
-
         fetch(`{{route("get.contracts.admin")}}`, {
                 headers: {
                     "Content-Type": "application/json",
@@ -405,8 +602,50 @@
             .then(response => response.text())
             .then(resultText => (
                 data = JSON.parse(resultText),
-                console.log(data)
-
+                console.log(data),
+                lineChart.updateOptions({
+                    series: [{
+                            data: data.lineal
+                        },
+                        {
+                            data: data.compuesto
+                        }
+                    ],
+                }),
+                revenueReportChart.updateOptions({
+                    series: [{
+                            data: data.linealPorcentaje
+                        },
+                        {
+                            data: data.compuestoPorcentaje
+                        }
+                    ],
+                }),
+                lineChart2.updateOptions({
+                    series: [{
+                            data: data.linealEntradas
+                        },
+                        {
+                            data: data.compuestoEntradas
+                        }
+                    ],
+                }),
+                UtilidadesChart.updateOptions({
+                    series: [{
+                        data: data.utilidadesTotales
+                    }, {
+                        data: data.utilidadesLineales
+                    }, {
+                        data: data.utilidadesCompuestas
+                    }],
+                }),
+                total = data.capitalesLineal + data.capitalesCompuesto,
+                capitalesLineal = ((data.capitalesLineal/total)*100).toFixed(2),
+                capitalesCompuesto = ((data.capitalesCompuesto/total)*100).toFixed(2),
+                totalCapital.innerHTML = '$'+total,
+                earningsChart.updateOptions({
+                    series: [parseFloat(capitalesLineal), parseFloat(capitalesCompuesto)],
+                })
             ))
             .catch(function (error) {
                 console.log(error);
