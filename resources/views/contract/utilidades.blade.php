@@ -10,7 +10,6 @@
             <div class="card-body card-dashboard">
 
                 <div class="float-right">
-                    <button class="btn btn-danger" id="btnModalCartera">Pagar administrador de cartera</button>
                     <button class="btn btn-danger" id="btnModalUtilidad">Pagar utilidad</button>
                 </div>
                 
@@ -196,18 +195,6 @@
 
 @push('custom_js')
     <script>
-        let btnModalCartera = document.querySelector('#btnModalCartera');
-
-        btnModalCartera.addEventListener("click", function( event ) {
-
-            let myModal = new bootstrap.Modal(document.getElementById('ModalCartera'), {
-                keyboard: false
-            })
-
-            myModal.show();
-            
-        }, false);
-
         let btnModalUtilidad = document.querySelector('#btnModalUtilidad');
 
         btnModalUtilidad.addEventListener("click", function( event ) {

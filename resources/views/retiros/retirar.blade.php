@@ -92,10 +92,12 @@
                             </thead>
                             <tbody>
                                 @foreach ($liquidaciones as $liquidacion)
+                                <tr>
                                     <td>{{$liquidacion->total_amount}} $</td>
                                     <td>{!!$liquidacion->estado()!!}</td>
                                     <td>{{$liquidacion->tipo()}}</td>
                                     <td>{{$liquidacion->created_at->format('Y-m-d')}}</td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>

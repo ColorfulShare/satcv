@@ -40,7 +40,7 @@ class WalletController extends Controller
      */
     public function dataUtilityServerSide(Request $request)
     {
-        $data = Wallet::orderBy('id', 'desc')->with('user');
+        $data = Wallet::orderBy('id', 'desc')->where('type', 0)->with('user');
 
         return Datatables::of($data)
         ->addColumn('Correo', function($data){
