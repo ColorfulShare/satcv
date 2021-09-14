@@ -620,11 +620,38 @@ class ContractsController extends Controller
                     ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])
                     ->first()->toArray();
                     $capitalesLineal = $capitales['lineal'];
-                    $capitalesCompuesto = $capitales['compuesto'];
-                
+                    $capitalesCompuesto = $capitales['compuesto']; 
+                $data->capitalesLineal = $capitalesLineal;
+                $data->capitalesCompuesto = $capitalesCompuesto;
+
+
+                $capitalesMesesLineal = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+                $capitalesMesesCompuesto = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+                $capitalesMes = Contract::
+                select(
+                    DB::raw("DATE_FORMAT(created_at,'%m') as mes"),
+                    DB::raw('sum(case when type_interes = "lineal" then capital end) as lineal'), 
+                    DB::raw('sum(case when type_interes = "compuesto" then capital end) as compuesto'),     
+                    )
+                    ->groupBy('mes')
+                    ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])
+                    ->get();
                     
-            $data->capitalesLineal = $capitalesLineal;
-            $data->capitalesCompuesto = $capitalesCompuesto;
+                    foreach($capitalesMes as $registro) {
+                        /* Rellenamos el mes adecuado de la matriz */
+                        if($registro->lineal == null){
+                            $registro->lineal = 0; 
+                        }
+                        if($registro->compuesto == null){
+                            $registro->compuesto = 0; 
+                        }
+                        $capitalesMesesLineal[intval($registro->mes) - 1] = $registro->lineal;
+                        $capitalesMesesCompuesto[intval($registro->mes) - 1] = $registro->compuesto;
+                    }
+                    
+                    $data->capitalesMesesLineal = $capitalesMesesLineal;
+                    $data->capitalesMesesCompuesto = $capitalesMesesCompuesto;
+                    
             return response()->json($data);
         // } catch (\Throwable $th) {
         //     Log::error('ContractsController::getContrato -> Error: '.$th);

@@ -18,34 +18,27 @@
     @endif
 
     <div class="row match-height">
-        <!-- Earnings Card -->
-        <div class="col-md-6 col-12">
-            <div class="card earnings-card">
-                <div class="card-body">
+
+        <!-- Line Chart - Profit -->
+        <div class="col-12">
+            <div class="card card-revenue-budget">
                     <div class="row mx-0">
-                        <div class="col-6">
-                            <h4 class="card-title mb-1">Total Saldo Capital</h4>
-                            <h2 class="mb-1" id="totalCapital">0</h2>
+                        <div class="col-md-9 col-12 revenue-report-wrapper">
+                            <div class="d-sm-flex justify-content-between align-items-center mb-3">
+                                <h4 class="card-title mb-50 mb-sm-0">Total Saldo Capital</h4>
+                                <h2 class="mb-1" id="totalCapital">0</h2>
+                            </div>
+                            <div id="statistics-profit-chart"></div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-3 col-12 budget-wrapper d-flex flex-column justify-content-center">
                             <div id="earnings-chart"></div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!--/ Earnings Card -->
-        <!-- Line Chart - Profit -->
-        <div class="col-md-6 col-12">
-            <div class="card card-tiny-line-stats">
-                <div class="card-body pb-50">
-                    <h4>Ganancia</h4>
-                    <h2 class="font-weight-bolder mb-1">0</h2>
-                    <div id="statistics-profit-chart"></div>
-                </div>
+
             </div>
         </div>
         <!--/ Line Chart - Profit -->
+
     </div>
 
     <div class="row match-height justify-content-center">
@@ -534,10 +527,14 @@
             stroke: {
                 width: 3
             },
-            colors: ['#00e600'],
+            colors: ['#00e600', window.colors.solid.warning],
             series: [{
-                name: "%",
-                data: [0, 0, 0, 0, 0, 0]
+                name: "Lineal",
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
+            {
+                name: "Compuesto",
+                data:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             }],
             markers: {
                 size: 2,
@@ -561,6 +558,7 @@
                 }
             },
             xaxis: {
+                categories: monthNames,
                 labels: {
                     show: true,
                     style: {
@@ -640,11 +638,19 @@
                     }],
                 }),
                 total = data.capitalesLineal + data.capitalesCompuesto,
-                capitalesLineal = ((data.capitalesLineal/total)*100).toFixed(2),
-                capitalesCompuesto = ((data.capitalesCompuesto/total)*100).toFixed(2),
-                totalCapital.innerHTML = '$'+total,
+                capitalesLineal = ((data.capitalesLineal / total) * 100).toFixed(2),
+                capitalesCompuesto = ((data.capitalesCompuesto / total) * 100).toFixed(2),
+                totalCapital.innerHTML = '$' + total,
                 earningsChart.updateOptions({
                     series: [parseFloat(capitalesLineal), parseFloat(capitalesCompuesto)],
+                }),
+                statisticsProfitChart.updateOptions({
+                    series: [{
+                        data: data.capitalesMesesLineal
+                    },{
+                        data: data.capitalesMesesCompuesto
+                    }
+                    ],
                 })
             ))
             .catch(function (error) {
