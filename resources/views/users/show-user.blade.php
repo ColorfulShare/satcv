@@ -71,6 +71,13 @@
                                         alt="{{ $user->photo_dni_back }}" class="img-fluid">
                                 </div>
                             </div>
+                            <div class="col-12 d-flex justify-content-center mt-3">
+                                <div class="form-group">
+                                    <label class="h1 justify-content-center">Selfie con el documento</label>
+                                    <img src="{{asset('storage/'.$user->selfie_document)}}"
+                                        alt="{{ $user->selfie_document }}" class="img-fluid">
+                                </div>
+                            </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label>Email</label>

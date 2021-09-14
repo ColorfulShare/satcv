@@ -40,6 +40,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'photo_dni_front' => ['nullable', 'max:1024'],
             'photo_dni_back' => ['nullable', 'max:1024'],
             'photo_document' => ['nullable', 'max:1024'],
+            'selfie_document' => ['nullable', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
@@ -68,6 +69,16 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             }
         }
 
+        if (isset($input['selfie_document'])) {
+            if(!is_string($input['selfie_document'])){
+                $file = $input['selfie_document'];
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'selfie_document/' . $user->id . '/' . $nombre;
+                $user->selfie_document = $ruta;
+                $file->storeAs('public/selfie_document/'.$user->id, $nombre);
+            }
+        }
+
         if (isset($input['photo_document'])) {
             if(!is_string($input['photo_document'])){
                 $file = $input['photo_document'];
@@ -77,6 +88,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 $file->storeAs('public/photo_document/'.$user->id, $nombre);
             }
         }
+
 
         if ($input['email'] !== $user->email &&
             $user instanceof MustVerifyEmail) {
