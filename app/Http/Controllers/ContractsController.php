@@ -503,9 +503,32 @@ class ContractsController extends Controller
             $date = Carbon::now();
             $from = $date->subYear()->format('Y-m-d')." 00:00:00";
 
-            $inversion = Contract::whereBetween('created_at', [$from, \Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('count(*) as contratos'),DB::raw("DATE_FORMAT(created_at,'%m') as months"))->groupBy('months')->get();
+            $inversionLineal = Contract::where('type_interes', 'lineal')->whereBetween('created_at', [$from, \Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('count(*) as contratos'),DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get()->toArray();
 
-            $data->inversiones = $inversion;
+            $inversionCompuesto = Contract::where('type_interes', 'compuesto')->whereBetween('created_at', [$from, \Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('count(*) as contratos'),DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get()->toArray();
+
+            dd($inversionLineal);
+            // $lineal = [];
+            // for($i = 1; $i <= 12; $i++){
+                
+            //     if(!isset($inversionLineal[$i])){
+            //         $inversionLineal[$i]= ['contratos' => 0, 'meses' => $i];// aqui hace la conversion
+            //     }
+                
+            // }
+            // $d = array_map(function($n){
+            //     return [$n['contratos'], intval($n['meses'])];
+            // }, $inversionLineal);
+
+            // foreach($d as $key => $val){
+            //     dd($d);
+            // }
+            // dd($d);
+            
+
+
+            $data->lineal = $inversionLineal;
+            $data->compuesto =  $inversionCompuesto;
             
             return response()->json($data);
         // } catch (\Throwable $th) {

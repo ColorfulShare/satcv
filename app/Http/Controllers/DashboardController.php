@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -15,18 +16,17 @@ class DashboardController extends Controller
      */
   public function index(Request $request)
   {
+    if(Auth::user()->admin != 1){
       $this->contratos = new ContractsController;
       $contratos = $this->contratos->contratos();
       $utilities = $this->contratos->getUtilities()->take(6);
       return view('/content/dashboard/dashboard-analytics', compact('contratos', 'utilities'));
-  }
-
-  public function indexAdmin(Request $request)
-  {
+    }else{
       $this->contratos = new ContractsController;
       $contratos = $this->contratos->contratos();
       $utilities = $this->contratos->getUtilities();
       return view('/content/dashboard/dashboard-admin', compact('contratos', 'utilities'));
+    }
   }
   public function dashboard2($id)
   {

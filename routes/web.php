@@ -34,10 +34,10 @@ use App\Http\Controllers\Auth\TwoFactorController;
 
 // Main Page Route
 Route::middleware('auth')->group(function(){
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     //ADMIN
     Route::middleware('admin')->group(function(){
 
-        Route::get('/dashboard', [DashboardController::class, 'indexAdmin'])->name('dashboard.admin');
         Route::group(['prefix' => 'contratos'], function () {
 
             Route::get('/', [ContractsController::class, 'index'])->name('contract.index');
@@ -82,7 +82,6 @@ Route::middleware('auth')->group(function(){
     });
     
     //USER
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
     Route::get('/ecommerce', function () { 
         return view('/content/dashboard/dashboard-ecommerce');
     });

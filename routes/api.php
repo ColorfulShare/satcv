@@ -19,7 +19,7 @@ use App\Http\Controllers\walletController;
 */
 Route::get('/getContrato/{id}', [ContractsController::class, 'getContrato'])->name('get.contrato');
 Route::get('/getInversion/{id}', [ContractsController::class, 'getInversion'])->name('get.inversion');
-Route::post('/getContratos', [ContractsController::class, 'contractsAdmin'])->name('get.contracts.admin');
+Route::get('/getContratos', [ContractsController::class, 'contractsAdmin'])->name('get.contracts.admin');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
