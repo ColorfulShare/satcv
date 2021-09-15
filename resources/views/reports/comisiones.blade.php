@@ -14,6 +14,7 @@
 
                                     <tr class="text-center">                                
                                         <th>ID</th>
+                                        <th>Contrato</th>
                                         <th>Correo</th>
                                         <th>Monto</th>
                                     </tr>
@@ -24,6 +25,7 @@
                                     @foreach ($comisiones as $comision)
                                         <tr class="text-center">
                                             <td>{{$comision->id}}</td>
+                                            <td>{{$comision->contract_id}}</td>
                                             <td>{{$comision->user->email}}</td>
                                             <td>{{number_format($comision->amount, 2)}} $</td>
                                         </tr>

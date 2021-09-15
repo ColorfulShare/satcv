@@ -45,10 +45,6 @@
         $('#myModal').modal('show');
     });
 </script>
-
-<script src="{{asset('assets/app-assets/js/core/app-menu.js')}}"></script>
-<script src="{{asset('assets/app-assets/js/core/app.js')}}"></script>
-<script src="{{asset('assets/app-assets/js/scripts/components.js')}}"></script>
 @endpush
 
 
@@ -226,7 +222,7 @@
             <div class="col-12 mt-3 d-flex justify-content-center row">
                 <x-jet-label for="photo_dni_front" value="{{ __('Foto de documento parte frontal') }}" class="col-6 mb-2" />
                 <x-jet-input id="photo_dni_front" type="file" class="col-6" wire:model.defer="state.photo_dni_front"
-                    autocomplete="photo_dni_front" onchange="previewFile(this, 'photo_preview_f')" accept="image/*" />
+                    autocomplete="photo_dni_front" accept="image/*" />
                 <img id="photo_preview_f" class="img-fluid col-6 mt-3 mb-5" />
                 <x-jet-input-error for="photo_dni_front" class="mt-2" />
             </div>
@@ -237,7 +233,7 @@
             <div class="col-12 mt-3 d-flex justify-content-center row">
                 <x-jet-label for="photo_dni_back" value="{{ __('Foto de documento parte trasera') }}" class="col-6 mb-2" />
                 <x-jet-input id="photo_dni_back" type="file" class="col-6" wire:model.defer="state.photo_dni_back"
-                    onchange="previewFile(this, 'photo_preview_b')" accept="image/*" />
+                accept="image/*" />
                 <img id="photo_preview_b" class="img-fluid col-6 mt-3 mb-5" />
                 <x-jet-input-error for="photo_dni_back" class="mt-2" />
             </div>
@@ -247,8 +243,7 @@
             @if (Auth::user()->verify == '0')
             <div class="col-12 mt-3 d-flex justify-content-center row">
                 <x-jet-label for="selfie_document" value="{{ __('Selfie con el documento') }}" class="col-6 mb-2" />
-                <x-jet-input id="selfie_document" type="file" class="col-6" wire:model.defer="state.selfie_document"
-                    onchange="previewFile(this, 'selfie_d')" accept="image/*" />
+                <x-jet-input id="selfie_document" type="file" class="col-6" wire:model.defer="state.selfie_document" accept="image/*" />
                 <img id="selfie_d" class="img-fluid col-6 mt-3 mb-5" />
                 <x-jet-input-error for="selfie_document" class="mt-2" />
             </div>
@@ -355,7 +350,7 @@
                 <x-jet-label for="photo_document" class="col-6 mb-2"
                     value="{{ __('Recibo de servicios / Extracto bancario / Recibo de teléfono') }}" />
                 <x-jet-input id="photo_document" type="file" class="col-6"
-                    wire:model.defer="state.photo_document" onchange="previewFile(this, 'photo_preview2')"
+                    wire:model.defer="state.photo_document"
                     accept="image/*" />
             <img id="photo_preview2" class="img-fluid col-8 mt-3" />
                 <x-jet-input-error for="photo_document" class="mt-2" />

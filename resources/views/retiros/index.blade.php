@@ -153,11 +153,14 @@
                     .then((result) => {
         
                     if (result.isConfirmed) {
-                        Swal.fire(
-                        'Retirado',
-                        'Contrato retirado con exito.',
-                        'success'
-                        )
+                        Swal.fire({
+                            title: 'Retirado',
+                            text: "Contrato retirado con exito.',",
+                            icon: 'success',
+                            confirmButtonColor: '#00bb2d',
+                            confirmButtonText: 'Ok',
+                        })
+                        
                         location.reload(true);
                     }
                     })

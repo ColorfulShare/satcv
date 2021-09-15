@@ -48,48 +48,7 @@
                                         <td>{{number_format($item->comision(), 2)}} $</td>
                                         
                                    </tr>
-                                     <!-- Modal -->
-                          
-                            <div class="modal fade" id="ModalAdministrador" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Seleccionar Nuevo Administrador</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form action="{{ route('cambiarTipo') }}" method="POST">
-                                            @csrf
-                                            <div class="modal-body">
-                                                <div class="">
-                                                    <label for="id" class="form-label">Id de usuario:</label>
-
-                                                    <div class="input-group">
-                                                        <input type="number" class="form-control" placeholder="Id de usuario" name="id" id="id" required>
-                                                        <button class="btn btn-outline-primary" style="width: 30%; padding-top: 5px; padding-bottom: 5px;" type="button" id="btn_enviar">
-                                                            <span id="text_btn_consultar">consultar</span>
-                                                            <div class="d-inline" >
-                                                                <div class="d-none spinner-border text-primary" role="status" id="spinner_enviar"></div>
-                                                            </div>
-                                                        </button>
-                                                    </div>    
-
-                                                    <label for="">Usuario</label>
-
-                                                    <input type="text" readonly="true" name="user" id="user" required class="form-control">
-                                                </div>
-                                                
-                                        
-                                                <div class="mt-5 float-right">
-                                                    <button type="button" class="btn btn-secondary">Cancelar</button>
-                                                    <button type="submit" class="btn btn-primary">Aceptar</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                            
           
                         @endforeach
                         </tbody>
@@ -100,14 +59,55 @@
     </div>
 </div>
 
+<!-- Modal -->
+                          
+<div class="modal fade" id="ModalAdministrador" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seleccionar Nuevo Administrador</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('cambiarTipo') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="">
+                        <label for="id" class="form-label">Id de usuario:</label>
+
+                        <div class="input-group">
+                            <input type="number" class="form-control" placeholder="Id de usuario" name="id" id="id" required>
+                            <button class="btn btn-outline-primary" style="width: 30%; padding-top: 5px; padding-bottom: 5px;" type="button" id="btn_enviar">
+                                <span id="text_btn_consultar">consultar</span>
+                                <div class="d-inline" >
+                                    <div class="d-none spinner-border text-primary" role="status" id="spinner_enviar"></div>
+                                </div>
+                            </button>
+                        </div>    
+
+                        <label for="">Usuario</label>
+
+                        <input type="text" readonly="true" name="user" id="user" required class="form-control">
+                    </div>
+                    
+            
+                    <div class="mt-5 float-right">
+                        <button type="button" class="btn btn-secondary">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 {{-- CONFIGURACIÓN DE DATATABLE --}}
 @include('panels.datatables-config')
 
 @section('page-script')
-  <!-- Page js files -->
-    <script src="{{ asset('js/scripts/forms/form-select2.js') }}"></script>
+
     <script>
         let btnUser = document.querySelector('#btn_enviar');
         let id = document.querySelector('#id');

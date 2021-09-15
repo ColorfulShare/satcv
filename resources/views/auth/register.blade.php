@@ -5,7 +5,7 @@
         </x-slot>
 
         <x-jet-validation-errors class="mb-2" />
-
+        
         <form method="POST" action="{{ route('register') }}">
             @csrf
             @if ( request()->referred_id != null )
@@ -41,9 +41,8 @@
                             <x-jet-checkbox name="terms" id="terms"/>
 
                             <div class="ml-2 ">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-green-600 hover:text-gray-900 ">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-green-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
+                                {!! __('Acepto los :terms_of_service', [
+                                        'terms_of_service' => '<a target="_blank" href="'.asset('politicas/POLÍTICAS.pdf').'" class="underline text-sm text-green-600 hover:text-gray-900 ">'.__('Terms of Service').'</a>',
                                 ]) !!}
                             </div>
                         </div>
