@@ -529,17 +529,12 @@ class ContractsController extends Controller
             $data->lineal = $lineal;
             $data->compuesto =  $compuesto;
             $linealPorcentaje = [];
+            $compuestoPorcentaje = [];
             foreach ($lineal as $key => $value) {
                 $total = ($lineal[$key] == 0 || $compuesto[$key] == 0) ? 1 : $lineal[$key] + $compuesto[$key];
                 $linealPorcentaje[] += ($lineal[$key] / $total) * 100;
-            }
-
-            $compuestoPorcentaje = [];
-            foreach ($compuesto as $key => $value) {
-                $total = ($compuesto[$key] == 0 || $compuesto[$key] == 0) ? 1 : $compuesto[$key] + $compuesto[$key];
                 $compuestoPorcentaje[] += ($compuesto[$key] / $total) * 100;
             }
-
             $data->linealPorcentaje = $linealPorcentaje;
             $data->compuestoPorcentaje = $compuestoPorcentaje;
 
