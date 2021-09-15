@@ -20,16 +20,6 @@
     @if(Auth::user()->type == 1)
     <div class="row match-height">
         <!-- Earnings Card -->
-        <div class="col-12">
-            <div class="card">
-                <div class="card-title">
-                    <h3 class="pt-2 text-center">STCV - Gestion de portafolio</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row match-height">
-        <!-- Earnings Card -->
         <div class="col-md-6 col-12">
             <div class="card earnings-card">
                 <div class="card-body">

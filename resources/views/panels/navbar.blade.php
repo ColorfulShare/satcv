@@ -84,6 +84,9 @@
             </ul>
         </div> --}}
         <ul class="nav navbar-nav align-items-center ml-auto">
+            <h3 class="mt-1 d-block text-center">STCV - Gestion de portafolio</h3>
+        </ul>
+        <ul class="nav navbar-nav align-items-center ml-auto">
             
             <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon"
                         data-feather="{{($configData['theme'] === 'dark') ? 'sun' : 'moon' }}"></i></a></li>
