@@ -10,12 +10,17 @@
             previewPersistedFile("{{asset('storage/'.$this->user->photo_dni_back)}}", 'photo_preview_b');
         @endif
 
+        @if($this->user->selfie_document !== NULL)
+            previewPersistedFile("{{asset('storage/'.$this->user->selfie_document)}}", 'selfie_d');
+        @endif
+
         @if($this->user->photo_document !== NULL)
         previewPersistedFile("{{asset('storage/'.$this->user->photo_document)}}", 'photo_preview2');
         @endif
     });
 
     function previewFile(input, preview_id) {
+        console.log(input)
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
@@ -238,6 +243,17 @@
             </div>
             @endif
 
+            {{-- Selfie con el documento--}}
+            @if (Auth::user()->verify == '0')
+            <div class="col-12 mt-3 d-flex justify-content-center row">
+                <x-jet-label for="selfie_document" value="{{ __('Selfie con el documento') }}" class="col-6 mb-2" />
+                <x-jet-input id="selfie_document" type="file" class="col-6" wire:model.defer="state.selfie_document"
+                    onchange="previewFile(this, 'selfie_d')" accept="image/*" />
+                <img id="selfie_d" class="img-fluid col-6 mt-3 mb-5" />
+                <x-jet-input-error for="selfie_document" class="mt-2" />
+            </div>
+            @endif
+
             {{-- Correo electrónico --}}
             <div class="col-4 mb-2">
                 <x-jet-label for="email" value="{{ __('Correo electrónico') }}" />
@@ -384,7 +400,7 @@
         @endif
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar y continuar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar y continuar</button>
         </div>
       </div>
     </div>

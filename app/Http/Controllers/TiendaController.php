@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\ContractsController;
 use Hexters\CoinPayment\CoinPayment;
+use DB;
 
 class TiendaController extends Controller
 {
@@ -170,16 +171,28 @@ class TiendaController extends Controller
 
     public function cambiar_status(Request $request)
     {
-        $orden = OrdenPurchases::findOrFail($request->id);
-        $orden->status = $request->status;
-        $orden->save();
+        try {
+            DB::beginTransaction();
 
-        $this->registeContract($orden);
+            $orden = OrdenPurchases::findOrFail($request->id);
+            $orden->status = $request->status;
+            $orden->save();
 
-        $user = User::findOrFail($orden->user_id);
-        $user->status = '1';
-        $user->save();
+            $this->registeContract($orden);
 
-        return back()->with('success', 'Orden actualizada exitosamente');
+            $user = User::findOrFail($orden->user_id);
+            $user->status = '1';
+            $user->save();
+
+            DB::commit();
+
+            return back()->with('success', 'Orden actualizada exitosamente');
+        } catch (\Throwable $th) {
+
+            DB::rollback();
+
+            Log::error('Tienda - cambiar_status -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 }
