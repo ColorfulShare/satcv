@@ -130,7 +130,7 @@ class UserController extends Controller
             }
         return view('contract.administrador', compact('referidos','contracts'));
         }else{
-         return redirect()->back()->with('danger', 'No tiene Permiso Para esta Seccion');
+         return redirect()->back()->with('danger', 'No tiene permiso para esta seccion');
         }
     }
 }
