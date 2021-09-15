@@ -15,7 +15,6 @@ class CreateContractsTable extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users');
             $table->foreignId('orden_purchases_id')->constrained('orden_purchases');
             $table->double('invested');
             $table->double('gain')->default(0);

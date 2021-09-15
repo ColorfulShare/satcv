@@ -119,4 +119,19 @@ class UserController extends Controller
     {
         return response()->json("hola");
     }
+
+   public function administratorsCartera()
+    {
+        $contracts = collect();
+        if(Auth::user()->type == 1){
+            $referidos = Auth::user()->referidos;
+            foreach ($referidos as $key => $value) {
+                $contracts = ($value->contracts);
+            }
+        return view('contract.administrador', compact('referidos','contracts'));
+        }else{
+         return redirect()->back()->with('danger', 'No tiene Permiso Para esta Seccion');
+        }
+    }
 }
+

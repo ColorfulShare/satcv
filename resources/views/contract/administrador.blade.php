@@ -21,19 +21,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                  @foreach ($inversion as $item)
+                                  @foreach ($contracts as $referido)
                                 <tr class="text-center">
-                                    <td>{{$item->id}}</td>
-                                    <td>{{$item->invested}}</td>
-                                    <td>{{$item->gain}}</td>
-                                    <td>{{$item->capital}}</td>
-                                    <td>{{$item->type_interes}}</td>
-                                    @if ($item->status == '0')
-                                    <td>En espera</td>
-                                    @elseif($item->status == '1')
-                                    <td>Pagado</td>
-                                    @elseif($item->status == '2')
-                                    <td>Cancelado</td>
+                                    <td>{{$referido->id}}</td>
+                                    <td>{{$referido->invested}}</td>
+                                    <td>{{$referido->gain}}</td>
+                                    <td>{{$referido->capital}}</td>
+                                    <td>{{$referido->type_interes}}</td>
+                                    @if ($referido->status == '1')
+                                    <td>Activo</td>
+                                    @elseif($referido->status == '2')
+                                    <td>Culminado</td>
                                     @endif
                                 </tr>
                                 @endforeach 

@@ -792,21 +792,7 @@ class ContractsController extends Controller
         //$html = $pdf->download('reporte-socios-'. Carbon::now()->format('d/m/Y').'.pdf');
 
         return $html;
-    }
-    public function administrators()
-    {
-        $user = Auth::user();
-
-        if(Auth::user()->type == 1){
-          $inversion = Contract::where([['user_id', '=', Auth::user()->id]])->get();
-
-        return view('contract.administrador', compact('inversion'));
-        }else{
-
-         return redirect()->back();
-        }          
-    }
-
+    }    
     public function utilidadesCartera()
     {
         $utilities = Utility::orderBy('id', 'desc')->where('type', 1)->get();
