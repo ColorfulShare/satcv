@@ -734,7 +734,6 @@ class ContractsController extends Controller
     public function getInversion($id)
     {
         $data = new stdClass();
-        $inversiones = User::find($id)->contracts()->get()->toArray();
         $inv = User::find($id)->contractsAdministrator()->toArray();
         $result = array_reduce($inv, 'array_merge', array());
         $data->invertido = array_column($result, 'invested');
