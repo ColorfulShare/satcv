@@ -167,4 +167,9 @@ class User extends Authenticatable
     {
         return $this->wallets()->where('type', 1)->sum('amount');
     }
+
+     public function getContracts()
+    {
+        return $this->belongsTo('App\Models\Contract', 'invested');
+    }
 }

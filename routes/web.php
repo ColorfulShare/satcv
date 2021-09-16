@@ -91,7 +91,6 @@ Route::middleware('auth')->group(function(){
         Route::get('/user', [ContractsController::class, 'contratosUser'])->name('contract.user');
         Route::post('/form-pdf', [ContractsController::class, 'formPdf'])->name('contract.pdf');
         Route::get('/generatePdf/{id}', [ContractsController::class, 'generatePdf'])->name('contract.generatePdf');
-        Route::get('/inversion', [ContractsController::class,'administrators'])->name('contract.administrador');
     });
 
     Route::group(['prefix' => 'shop'], function () {
@@ -148,6 +147,8 @@ Route::middleware('auth')->group(function(){
         Route::get('rechazar/{id}',[UserController::class,'denyUser'])->name('deny-user');
         
         Route::get('two_factor_challenge',[UserController::class,'two_factor_challenge'])->name('user.two_factor_challenge');
+
+        Route::get('/inversion', [UserController::class,'administratorsCartera'])->name('contract.administrador');
         /*
         Route::get('/impersonate/stop', 'ImpersonateController@stop')->name('impersonate.stop');
         Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
