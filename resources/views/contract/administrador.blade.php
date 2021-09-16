@@ -25,8 +25,8 @@
                             <tr class="text-center">
                                 <td>{{$referido->id}}</td>
                                 <td>{{$referido->invested}}</td>
-                                <td>{{$referido->gain}}</td>
-                                <td>{{$referido->capital}}</td>
+                                <td>{{number_format($referido->gain, 2, '.', '')}}</td>
+                                <td>{{number_format($referido->capital, 2, '.', '')}}</td>
                                 <td>{{$referido->type_interes}}</td>
                                 @if ($referido->status == '1')
                                 <td>Activo</td>
