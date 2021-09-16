@@ -19,7 +19,8 @@
                                 <th>Email</th>
                                 <th>Contrato</th>
                                 <th>Cantidad</th>
-                                <th>Porcentaje</th>
+                                <th>fee</th>
+                                <th>Monto</th>
                                 <th>Billetera</th>
                                 <th>Tipo</th>
                                 <th>Fecha</th>
@@ -31,8 +32,9 @@
                                 <td>{{$retiro->id}}</td>
                                 <td>{{$retiro->user->email}}</td>
                                 <td>N°. {{$retiro->contract_id}}</td>
-                                <td>{{number_format($retiro->amount, 2, '.', '')}}</td>
-                                <td>{{number_format($retiro->percentage, 2, '.', '')}}</td>
+                                <td>{{number_format($retiro->amount, 2, '.', '')}} $</td>
+                                <td>{{number_format($retiro->feed, 2, '.', '')}} $</td>.
+                                <td>{{number_format($retiro->total_amount, 2, '.', '')}} $</td>
                                 <td>{{$retiro->wallet_used}}</td>
                                 <td>
                                     @if($retiro->type == 0)

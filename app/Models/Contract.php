@@ -64,9 +64,9 @@ class Contract extends Model
         }
     }
 
-    public function firma_cliente()
+    public function solicitudesRetiro()
     {
-        
+        return $this->hasMany('App\Models\SolicitudRetiro', 'contracts_id');
     }
 
     public function getHistory()
