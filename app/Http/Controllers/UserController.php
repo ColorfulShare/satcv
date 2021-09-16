@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Country;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ContractsController;
 use App\Notifications\TwoFactorCode;
 
 class UserController extends Controller
@@ -122,13 +123,18 @@ class UserController extends Controller
 
    public function administratorsCartera()
     {
+
+        $this->contratos = new ContractsController;
+
+        $contratos = $this->contratos->contratos();
+
         $contracts = collect();
         if(Auth::user()->type == 1){
             $referidos = Auth::user()->referidos;
             foreach ($referidos as $key => $value) {
                 $contracts = ($value->contracts);
             }
-        return view('contract.administrador', compact('referidos','contracts'));
+        return view('contract.administrador', compact('referidos','contracts', 'contratos'));
         }else{
          return redirect()->back()->with('danger', 'No tiene permiso para esta seccion');
         }
