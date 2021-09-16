@@ -93,7 +93,7 @@ class ContractsController extends Controller
                 'feed' => $solicitud->amount * 0.20,
                 'percentage' => 0.20,
                 'wallet_used' => $request->wallet,
-                'status' => 0,
+                'status' => 1,
                 'type' => 0
             ]);
 
@@ -173,7 +173,7 @@ class ContractsController extends Controller
 
     public function getUtilities()
     {
-        $utilities = Utility::orderBy('id', 'desc')->get();
+        $utilities = Utility::orderBy('id', 'desc')->where('type', 0)->get();
         return $utilities;
     }
 
