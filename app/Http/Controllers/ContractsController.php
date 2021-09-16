@@ -517,15 +517,17 @@ class ContractsController extends Controller
             $compuesto = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
             /* Realizamos la consulta */
             $inversionLineal = Contract::where('type_interes', 'lineal')
-            ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('count(*) as contratos'), DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
+            ->whereDate('created_at', '>=', $from)->where('status', 1)->select(DB::raw('count(*) as contratos'), DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
             /* Iteramos cada registro del resultado */
+            
             foreach($inversionLineal as $registro) {
                 /* Rellenamos el mes adecuado de la matriz */
                 $lineal[intval($registro->mes) - 1] = $registro->contratos;
             }
+            
 
-            $inversionCompuesto = Contract::where('type_interes', 'compuesto')->whereBetween('created_at', [$from, \Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('count(*) as contratos'),DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
-
+            $inversionCompuesto = Contract::where('type_interes', 'compuesto')
+            ->whereDate('created_at', '>=', $from)->where('status', 1)->select(DB::raw('count(*) as contratos'),DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
             foreach($inversionCompuesto as $registro) {
                 $compuesto[intval($registro->mes) - 1] = $registro->contratos;
             }
@@ -545,7 +547,7 @@ class ContractsController extends Controller
             $linealEntradas = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
 
             $linealEntrada = Contract::where('type_interes', 'lineal')
-            ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('sum(invested) as entradas'), DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
+            ->whereDate('created_at', '>=', $from)->select(DB::raw('sum(invested) as entradas'), DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
             foreach($linealEntrada as $registro) {
                 /* Rellenamos el mes adecuado de la matriz */
                 $linealEntradas[intval($registro->mes) - 1] = $registro->entradas;
@@ -554,7 +556,7 @@ class ContractsController extends Controller
             $compuestoEntradas = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
 
             $compuestoEntrada = Contract::where('type_interes', 'compuesto')
-            ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])->select(DB::raw('sum(invested) as entradas'), DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
+            ->whereDate('created_at', '>=', $from)->select(DB::raw('sum(invested) as entradas'), DB::raw("DATE_FORMAT(created_at,'%m') as mes"))->groupBy('mes')->get();
             foreach($compuestoEntrada as $registro) {
                 /* Rellenamos el mes adecuado de la matriz */
                 $compuestoEntradas[intval($registro->mes) - 1] = $registro->entradas;
@@ -582,7 +584,7 @@ class ContractsController extends Controller
                 DB::raw('sum(case when contracts.type_interes = "compuesto" then amount end) as compuesto'),     
                 )
                 ->groupBy('mes')
-                ->whereBetween('log_utilities.created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])
+                ->whereDate('log_utilities.created_at', '>=', $from)
                 ->whereHas('wallet', function($wallet){
                     $wallet->where('type', 0);
                 })
@@ -619,7 +621,7 @@ class ContractsController extends Controller
                     DB::raw('sum(case when type_interes = "lineal" then capital end) as lineal'), 
                     DB::raw('sum(case when type_interes = "compuesto" then capital end) as compuesto'),     
                     )
-                    ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])
+                    ->whereDate('created_at', '>=', $from)
                     ->first()->toArray();
                     $capitalesLineal = $capitales['lineal'];
                     $capitalesCompuesto = $capitales['compuesto']; 
@@ -636,7 +638,7 @@ class ContractsController extends Controller
                     DB::raw('sum(case when type_interes = "compuesto" then capital end) as compuesto'),     
                     )
                     ->groupBy('mes')
-                    ->whereBetween('created_at',[$from,\Carbon\Carbon::now()->format('Y-m-d')])
+                    ->whereDate('created_at', '>=', $from)
                     ->get();
                     
                     foreach($capitalesMes as $registro) {

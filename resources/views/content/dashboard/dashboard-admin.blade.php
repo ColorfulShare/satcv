@@ -165,7 +165,7 @@
                     }
                 },
                 padding: {
-                    top: -20
+                    top: 0
                 }
             },
             tooltip: {
@@ -216,6 +216,7 @@
         revenueReportChartOptions = {
             chart: {
                 width: '100%',
+                height: 400,
                 stacked: true,
                 type: 'bar',
                 toolbar: {
@@ -342,7 +343,7 @@
                     }
                 },
                 padding: {
-                    top: -20
+                    top: 0
                 }
             },
             tooltip: {
@@ -401,7 +402,7 @@
             }],
             chart: {
                 type: 'bar',
-                height: 350
+                height: 400
             },
             plotOptions: {
                 bar: {
@@ -445,7 +446,8 @@
                         colors: '#b9b9c3',
                         fontSize: '0.86rem',
                     },
-                    show: true
+                    show: true,
+                    formatter: (val) => { return val.toFixed(2) },
                 },
             },
             fill: {
@@ -454,7 +456,7 @@
             tooltip: {
                 y: {
                     formatter: function (val) {
-                        return "$ " + val
+                        return "$ " + val.toFixed(2)
                     }
                 }
             }
@@ -621,13 +623,6 @@
                 strokeOpacity: 1,
                 strokeDashArray: 0,
                 fillOpacity: 1,
-                discrete: [{
-                    seriesIndex: 0,
-                    dataPointIndex: 5,
-                    fillColor: '#ffffff',
-                    strokeColor: '#00e600',
-                    size: 5
-                }],
                 shape: 'circle',
                 radius: 2,
                 hover: {
@@ -717,7 +712,7 @@
                 total = data.capitalesLineal + data.capitalesCompuesto,
                 capitalesLineal = ((data.capitalesLineal / total) * 100).toFixed(2),
                 capitalesCompuesto = ((data.capitalesCompuesto / total) * 100).toFixed(2),
-                totalCapital.innerHTML = '$' + total,
+                totalCapital.innerHTML = '$' + total.toFixed(2),
                 earningsChart.updateOptions({
                     series: [parseFloat(capitalesLineal), parseFloat(capitalesCompuesto)],
                 }),

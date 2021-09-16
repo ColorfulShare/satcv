@@ -27,7 +27,7 @@
                         <div class="col-6">
                             <h4 class="card-title mb-1">Cartera</h4>
                             <div class="font-small-2 mt-2">Total Capital</div>
-                            <h5 class="mb-1">${{Auth::user()->portafolio()}}</h5>
+                            <h5 class="mb-1">${{number_format( Auth::user()->portafolio(), 2, '.', '')}}</h5>
                         </div>
                         <div class="col-6">
                             <div id="earnings-chart"></div>
@@ -612,7 +612,7 @@
                 },
                 plotOptions: {
                     pie: {
-                        startAngle: -10,
+                        startAngle: 0,
                         donut: {
                             labels: {
                                 show: true,
@@ -710,10 +710,6 @@
                         lines: {
                             show: false
                         }
-                    },
-                    padding: {
-                        top: -30,
-                        bottom: -10
                     }
                 },
                 stroke: {
@@ -732,13 +728,6 @@
                     strokeOpacity: 1,
                     strokeDashArray: 0,
                     fillOpacity: 1,
-                    discrete: [{
-                        seriesIndex: 0,
-                        dataPointIndex: 5,
-                        fillColor: '#ffffff',
-                        strokeColor: '#00e600',
-                        size: 5
-                    }],
                     shape: 'circle',
                     radius: 2,
                     hover: {
@@ -786,7 +775,6 @@
                 .then(response => response.text())
                 .then(resultText => (
                     data = JSON.parse(resultText),
-                    console.log(data),
                     total = data.capital.reduce((a, b) => a + b, 0),
                     capital = data.capital.map(i => i = parseFloat(((i / total) * 100).toFixed(2))),
                     earningsChart.updateOptions({
