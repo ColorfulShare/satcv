@@ -167,7 +167,7 @@ class User extends Authenticatable
     {
         $gananciaReferidos = 0;
         foreach ($this->referidos as $key => $referido) {
-             $gananciaReferidos += $referido->contracts->sum('gain');;
+             $gananciaReferidos += $referido->contracts->sum('gain');
          } 
          $gananciaReferidos += $this->contracts->sum('gain');
         return $gananciaReferidos;
