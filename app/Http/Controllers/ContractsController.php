@@ -93,7 +93,7 @@ class ContractsController extends Controller
                 'feed' => $solicitud->amount * 0.20,
                 'percentage' => 0.20,
                 'wallet_used' => $request->wallet,
-                'status' => 0,
+                'status' => 1,
                 'type' => 0
             ]);
 
