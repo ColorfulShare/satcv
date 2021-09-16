@@ -198,11 +198,43 @@ class TiendaController extends Controller
 
     public function getStatus()
     {
-        $transacciones = CoinPayment::gettransactions()->where('status', 0)->pluck('txn_id');
-
+        $transacciones = CoinPayment::gettransactions()->select('txn_id', 'order_id')->where('status', 0)->get() ->toArray();
+    
         foreach($transacciones as $transaccion){
-            $estado = CoinPayment::getstatusbytxnid($transaccion);
+            $estado = CoinPayment::getstatusbytxnid($transaccion['txn_id']);
+            if($estado['status'] != 0){
+                $this->change_status($transaccion['order_id'], $estado['status']);
+            }
+
         }
         
+    }
+
+    public function change_status($id, $estado)
+    {
+        try {
+            DB::beginTransaction();
+
+            $orden = OrdenPurchases::findOrFail($id);
+            if($estado < 0){
+                $orden->status = 2;
+                $orden->save();    
+            }elseif($estado > 0){
+                $this->registeContract($orden);
+
+                $user = User::findOrFail($orden->user_id);
+                $user->status = '1';
+                $user->save();
+            }
+    
+            DB::commit();
+
+        } catch (\Throwable $th) {
+
+            DB::rollback();
+
+            Log::error('Tienda - change_status -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
     }
 }
