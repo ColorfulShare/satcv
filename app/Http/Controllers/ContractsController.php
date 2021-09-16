@@ -735,11 +735,14 @@ class ContractsController extends Controller
     {
         $data = new stdClass();
         $inversiones = User::find($id)->contracts()->get()->toArray();
-        $data->invertido = array_column($inversiones, 'invested');
-        $data->capital = array_column($inversiones, 'capital');
-        $data->contratoid = array_column($inversiones, 'id');
-        $data->gananciaArray = array_column($inversiones, 'gain');
-        $data->ganancia = User::find($id)->ganancia();
+        $inv = User::find($id)->contractsAdministrator()->toArray();
+        $result = array_reduce($inv, 'array_merge', array());
+        // dd($result);
+        $data->invertido = array_column($result, 'invested');
+        // dd($data->invertido);
+        $data->capital = array_column($result, 'capital');
+        $data->contratoid = array_column($result, 'id');
+        $data->gananciaArray = array_column($result, 'gain');
 
         $contratos = User::find($id)->contracts()->get();
         $utilidades = collect();
