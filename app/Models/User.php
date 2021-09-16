@@ -158,7 +158,7 @@ class User extends Authenticatable
             $contractsReferidos->push($referido->contracts);
         } 
         $contracts = $this->contracts;
-        $da = $contractsReferidos->push($contracts);
+        $contractsReferidos->push($contracts);
         return $contractsReferidos;
 
     }

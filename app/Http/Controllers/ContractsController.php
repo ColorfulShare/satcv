@@ -737,7 +737,7 @@ class ContractsController extends Controller
         $inversiones = User::find($id)->contracts()->get()->toArray();
         $inv = User::find($id)->contractsAdministrator()->toArray();
         $result = array_reduce($inv, 'array_merge', array());
-        // dd($result);
+        dd($result);
         $data->invertido = array_column($result, 'invested');
         // dd($data->invertido);
         $data->capital = array_column($result, 'capital');
