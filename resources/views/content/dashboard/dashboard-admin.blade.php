@@ -61,7 +61,7 @@
             <div class="card card-revenue-budget">
                 <div
                     class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
-                    <h4 class="card-title mb-25">Inversiones</h4>
+                    <h4 class="card-title mb-25">Porcentaje Lineal | Compuesto</h4>
                 </div>
                 <div class="card-body">
                     <div id="revenue-report-chart"></div>
@@ -77,7 +77,7 @@
             <div class="card">
                 <div
                     class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
-                    <h4 class="card-title mb-25">Medición STCV</h4>
+                    <h4 class="card-title mb-25">Inversiones</h4>
                 </div>
                 <div class="card-body">
                     <div id="line-chart2"></div>
@@ -152,12 +152,12 @@
                 colors: [window.colors.solid.warning]
             },
             dataLabels: {
-                enabled: false
+                enabled: false,
             },
             stroke: {
                 curve: 'straight'
             },
-            colors: [window.colors.solid.warning, window.colors.solid.primary],
+            colors: ['#00e600', window.colors.solid.warning],
             grid: {
                 xaxis: {
                     lines: {
@@ -179,9 +179,31 @@
                     );
                 }
             },
-            xaxis: {
-                categories: monthNames
+            legend: {
+                labels: {
+                    colors: '#b9b9c3',
+                    useSeriesColors: false,
+                },
             },
+            xaxis: {
+                categories: monthNames,
+                labels: {
+                    style: {
+                        colors: '#b9b9c3',
+                        fontSize: '0.86rem',
+                    },
+                    show: true
+                },
+            },
+            yaxis:{
+                labels: {
+                    style: {
+                        colors: '#b9b9c3',
+                        fontSize: '0.86rem',
+                    },
+                    show: true
+                },
+            }
         };
         if (typeof lineChartEl !== undefined && lineChartEl !== null) {
             var lineChart = new ApexCharts(lineChartEl, lineChartConfig);
@@ -220,9 +242,6 @@
             dataLabels: {
                 enabled: false
             },
-            legend: {
-                show: false
-            },
             grid: {
                 padding: {
                     top: -20,
@@ -233,6 +252,15 @@
                         show: false
                     }
                 }
+            },
+            legend: {
+                itemMargin: {
+                    vertical: 20
+                },
+                labels: {
+                    colors: '#b9b9c3',
+                    useSeriesColors: false,
+                },
             },
             xaxis: {
                 categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov',
@@ -306,7 +334,7 @@
             stroke: {
                 curve: 'straight'
             },
-            colors: [window.colors.solid.warning, window.colors.solid.primary],
+            colors: ['#00e600', window.colors.solid.warning],
             grid: {
                 xaxis: {
                     lines: {
@@ -328,9 +356,31 @@
                     );
                 }
             },
-            xaxis: {
-                categories: monthNames
+            legend: {
+                labels: {
+                    colors: '#b9b9c3',
+                    useSeriesColors: false,
+                },
             },
+            xaxis: {
+                categories: monthNames,
+                labels: {
+                    style: {
+                        colors: '#b9b9c3',
+                        fontSize: '0.86rem',
+                    },
+                    show: true
+                },
+            },
+            yaxis:{
+                labels: {
+                    style: {
+                        colors: '#b9b9c3',
+                        fontSize: '0.86rem',
+                    },
+                    show: true
+                },
+            }
         };
         if (typeof lineChartEl2 !== undefined && lineChartEl2 !== null) {
             var lineChart2 = new ApexCharts(lineChartEl2, lineChartConfig2);
@@ -368,8 +418,35 @@
                 width: 2,
                 colors: ['transparent']
             },
+            legend: {
+                itemMargin: {
+                    horizontal: 10,
+                    vertical: 10
+                },
+                labels: {
+                    colors: '#b9b9c3',
+                    useSeriesColors: false,
+                },
+            },
+            colors: [window.colors.solid.primary, '#00e600', window.colors.solid.warning],
             xaxis: {
                 categories: monthNames,
+                labels: {
+                    style: {
+                        colors: '#b9b9c3',
+                        fontSize: '0.86rem',
+                    },
+                    show: true
+                },
+            },
+            yaxis:{
+                labels: {
+                    style: {
+                        colors: '#b9b9c3',
+                        fontSize: '0.86rem',
+                    },
+                    show: true
+                },
             },
             fill: {
                 opacity: 1
