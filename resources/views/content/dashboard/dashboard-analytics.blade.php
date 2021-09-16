@@ -42,7 +42,7 @@
             <div class="card card-tiny-line-stats">
                 <div class="card-body pb-50">
                     <h4>Ganancia</h4>
-                    <h2 class="font-weight-bolder mb-1">{{Auth::user()->ganancia()}}</h2>
+                    <h2 class="font-weight-bolder mb-1">{{number_format(Auth::user()->ganancia(), 2, '.', '')}}</h2>
                     <div id="statistics-profit-chart"></div>
                 </div>
             </div>
