@@ -173,7 +173,7 @@ class ContractsController extends Controller
 
     public function getUtilities()
     {
-        $utilities = Utility::orderBy('id', 'desc')->get();
+        $utilities = Utility::orderBy('id', 'desc')->where('type', 0)->get();
         return $utilities;
     }
 
