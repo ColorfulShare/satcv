@@ -671,17 +671,18 @@ class ContractsController extends Controller
      */
     public function getContrato($id)
     {
-            try{
+            // try{
                 $data = new stdClass();
                 $contrato = Contract::find($id);
+                // dd($contrato->liquidado());
                 if($contrato->productividad() != null){
                     $productividad = $contrato->productividad();
                 }else{
                     $productividad = 0;
                 }
 
-                if($contrato->retirado() != null){
-                    $retirado = $contrato->retirado();
+                if($contrato->liquidado() != null){
+                    $retirado = $contrato->liquidado();
                 }else{
                     $retirado = 0;
                 }
@@ -719,10 +720,10 @@ class ContractsController extends Controller
                 $data->mes = array_column($data->utilidades, 'payment_date');
                 $data->daysleft = $contrato->diffDaysExpiration();
                 return response()->json($data);
-            } catch (\Throwable $th) {
-            Log::error('ContractsController::getContrato -> Error: '.$th);
-            abort(403, "Ocurrio un error, contacte con el administrador");
-            }
+            // } catch (\Throwable $th) {
+            // Log::error('ContractsController::getContrato -> Error: '.$th);
+            // abort(403, "Ocurrio un error, contacte con el administrador");
+            // }
     }
 
      /**

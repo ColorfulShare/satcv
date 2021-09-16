@@ -499,7 +499,7 @@
             },
             plotOptions: {
                 pie: {
-                    startAngle: -10,
+                    startAngle: 0,
                     donut: {
                         labels: {
                             show: true,
