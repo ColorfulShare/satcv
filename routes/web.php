@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/procces', [TiendaController::class, 'procesarOrden'])->name('shop.procces');
         Route::post('/ipn', [TiendaController::class, 'ipn'])->name('shop.ipn');
         Route::post('/{status}/estado', [TiendaController::class, 'statusProcess'])->name('shop.proceso.status');
+        Route::get('/getStatus', [TiendaController::class, 'getStatus'])->name('getStatus');
     });
 
     Route::group(['prefix' => 'reports'], function () {

@@ -12,14 +12,17 @@ use App\Models\Liquidation;
 use App\Models\Log_liquidation;
 use DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\LiquidationController;
 
 class RetirosController extends Controller
 {
     use TwoFactor;
+    public $LiquidationController;
     //
     public function __construct()
     {
-        $this->middleware('google_authenticator')->only(['retirar', 'retiro']);
+        //$this->middleware('google_authenticator')->only(['retirar', 'retiro']);
+        $this->LiquidationController = new LiquidationController();
     }
     public function retirar()
     {
@@ -32,6 +35,7 @@ class RetirosController extends Controller
 
     public function retiro(Request $request)
     {
+        
         $validate = $request->validate([
             'codigo_correo' => 'required',
             'wallet' => 'required',
@@ -42,13 +46,13 @@ class RetirosController extends Controller
             if ($validate) {
                 DB::beginTransaction();
                 $user = User::find(Auth::id());
-
-                if($this->checkCode($user, $request->authenticator) && $this->checkCodeMail($user, $request->codigo_correo)){
-
+                
+                //if($this->checkCode($user, $request->authenticator) && $this->checkCodeMail($user, $request->codigo_correo)){
+                    /*
                     if(Carbon::parse($user->two_factor_expires_at)->lt(Carbon::now())){
                         $user->resetTwoFactorCode();
                         return back()->with('danger','El código de dos factores ha expirado. Ingrese nuevamente.');
-                    }
+                    }*/
                     $saldo = Wallet::where([
                         ['user_id', '=', $user->id],
                         ['status', '=', 0],
@@ -59,36 +63,38 @@ class RetirosController extends Controller
                         'amount' => $saldo,
                         'total_amount' => $saldo,
                         'feed' => 0,
+                        'percentage' => 0.25,
                         'hash',
                         'wallet_used' => $request->wallet,
                         'status' => 0,
                         'type' => 1
                     ]);
-
+                    
                     $ids = Wallet::where([
                         ['user_id', '=', $user->id],
                         ['status', '=', 0],
                     ])->pluck('id');
-
+                    
                     foreach($ids as $id){
                         $log = Log_liquidation::create([
                             'wallets_id' => $id,
                             'liquidations_id' => $liquidacion->id
                         ]);
                     }
-
+                    
                     $wallet = Wallet::where([
                         ['user_id', '=', $user->id],
                         ['status', '=', 0],
-                    ])->update(['status' => 1]);
-
+                    ])->update(['status' => 1, 'liquidation_id' => $liquidacion->id]);
+                   
+                    $this->LiquidationController->aprovarLiquidacion($liquidacion->id, $request->wallet);
                     $user->resetTwoFactorCode();
                     DB::commit();
                     return back()->with('success', 'Monto retirado con exito');
-                }else{
+                /*}else{
                     
                     return back()->with('danger', 'Código incorrecto');
-                }
+                }*/
             }
         } catch (\Throwable $th) {
             DB::rollback();

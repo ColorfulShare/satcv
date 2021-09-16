@@ -73,7 +73,7 @@ class ContractsController extends Controller
         try{
             DB::beginTransaction();
             $solicitud = SolicitudRetiro::find($request->solicitudId);
-            $capital = $solicitud->amount - ($solicitud->amount * 0.25);
+            $capital = $solicitud->amount - ($solicitud->amount * 0.20);
 
             $Contract = Contract::findOrFail($request->contratoId);
             // $Contract->capital -= $capital;
@@ -87,9 +87,11 @@ class ContractsController extends Controller
             
             Liquidation::create([
                 'user_id' => $Contract->user()->id,
+                'contract_id' => $Contract->id,
                 'amount' => $solicitud->amount,
                 'total_amount' => $capital,
                 'feed' => $solicitud->amount * 0.20,
+                'percentage' => 0.20,
                 'wallet_used' => $request->wallet,
                 'status' => 0,
                 'type' => 0
@@ -475,17 +477,18 @@ class ContractsController extends Controller
                         
                     }
 
-                    $utilidad = new Utility;
-                    $utilidad->gain_cartera = $gain2;
-                    $utilidad->percentage_cartera = $request->porcentaje_cartera;
-                    $utilidad->payment_date = $request->mes;
-                    $utilidad->type = 1;
-                    $utilidad->gain = $gain;
-                    $utilidad->percentage = $request->porcentaje_administrador;
-                    $utilidad->save();
+                    
 
                 }
-                
+                $utilidad = new Utility;
+                $utilidad->gain_cartera = $gain2;
+                $utilidad->percentage_cartera = $request->porcentaje_cartera;
+                $utilidad->payment_date = $request->mes;
+                $utilidad->type = 1;
+                $utilidad->gain = $gain;
+                $utilidad->percentage = $request->porcentaje_administrador;
+                $utilidad->save();
+            
                 $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
             }
             

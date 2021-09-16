@@ -195,4 +195,14 @@ class TiendaController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
+
+    public function getStatus()
+    {
+        $transacciones = CoinPayment::gettransactions()->where('status', 0)->pluck('txn_id');
+
+        foreach($transacciones as $transaccion){
+            $estado = CoinPayment::getstatusbytxnid($transaccion);
+        }
+        
+    }
 }

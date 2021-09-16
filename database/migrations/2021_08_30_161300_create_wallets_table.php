@@ -17,6 +17,7 @@ class CreateWalletsTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->foreignId('contract_id')->nullable()->constrained('contracts');
+            $table->foreignId('liquidation_id')->nullable()->constrained('liquidations');   
             $table->double('amount');
             $table->double('percentage');
             $table->string('descripcion');

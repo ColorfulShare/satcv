@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\SolicitudRetiro;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Liquidation;
 
 class SolicitudController extends Controller
 {
@@ -25,18 +26,15 @@ class SolicitudController extends Controller
 
     public function history()
     {
-        if(Auth::user()->admin == 1){
-            $retiros = SolicitudRetiro::orderBy('id', 'desc')->where('status', 1)->get();
+        $user = Auth::user();
+
+        if($user->admin == 1){
+            $liquidaciones = Liquidation::orderBy('id', 'desc')->get();
         }else{
-            $retiros = collect();
-            $contracts = User::find(Auth::id())->contracts;
-            foreach($contracts as $contrato){
-                foreach($contrato->getHistory as $retiro){
-                    $retiros->push($retiro);
-                }
-            }
+            $liquidaciones = Liquidation::orderBy('id', 'desc')->where('user_id', $user->id)->get();
         }
-        return view('retiros.history', compact('retiros'));
+            
+        return view('retiros.history', compact('liquidaciones'));
     }
 
     public function solicitar(Request $request)

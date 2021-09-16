@@ -21,18 +21,26 @@
                                 <th>Cantidad</th>
                                 <th>Porcentaje</th>
                                 <th>Billetera</th>
+                                <th>Tipo</th>
                                 <th>Fecha</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($retiros as $retiro)
+                            @foreach ($liquidaciones as $retiro)
                             <tr class="text-center">
                                 <td>{{$retiro->id}}</td>
-                                <td>{{$retiro->user()->email}}</td>
-                                <td>N°. {{$retiro->contracts_id}}</td>
+                                <td>{{$retiro->user->email}}</td>
+                                <td>N°. {{$retiro->contract_id}}</td>
                                 <td>{{number_format($retiro->amount, 2, '.', '')}}</td>
                                 <td>{{number_format($retiro->percentage, 2, '.', '')}}</td>
-                                <td>{{$retiro->wallet}}</td>
+                                <td>{{$retiro->wallet_used}}</td>
+                                <td>
+                                    @if($retiro->type == 0)
+                                    Solicitud
+                                    @else
+                                    Rendimiento
+                                    @endif
+                                </td>
                                 <td>{{$retiro->created_at->format('Y/m/d')}}</td>
                             </tr>
                             @endforeach

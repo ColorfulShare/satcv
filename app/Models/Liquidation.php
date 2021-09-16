@@ -12,7 +12,7 @@ class Liquidation extends Model
 
   protected $fillable = [
         'user_id','amount', 'total_amount', 'feed','hash'
-        ,'wallet_used','status', 'type'
+        ,'wallet_used','status', 'type', 'percentage', 'contract_id'
   ];
  
 

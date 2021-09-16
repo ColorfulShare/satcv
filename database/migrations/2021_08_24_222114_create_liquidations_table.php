@@ -16,10 +16,12 @@ class CreateLiquidationsTable extends Migration
         Schema::create('liquidations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('contract_id')->nullable()->constrained('contracts');
             // $table->foreignId('inversion_id')->nullable()->constrained('inversions');
             $table->double('amount');
             $table->double('total_amount');
             $table->double('feed');
+            $table->double('percentage');
             $table->string('hash')->nullable();
             $table->string('wallet_used')->nullable();
             $table->tinyInteger('status')->default(0)->comment('0 - En Espera, 1 - Aprobada, 2 - Rechazada');
