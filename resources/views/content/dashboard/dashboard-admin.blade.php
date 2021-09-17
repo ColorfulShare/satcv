@@ -122,6 +122,7 @@
         var revenueReportChart2 = document.querySelector('#revenue-report-chart2');
         var earningsChart = document.querySelector('#earnings-chart');
         var statisticsProfitChart = document.querySelector('#statistics-profit-chart');
+        var UtilidadesChart = document.querySelector('#UtilidadesChart');
         var totalCapital = document.querySelector('#totalCapital');
 
         lineChartConfig = {
@@ -462,8 +463,7 @@
             }
         };
 
-        UtilidadesChart = new ApexCharts(document.querySelector("#UtilidadesChart"),
-            UtilidadesChartOptions);
+        UtilidadesChart = new ApexCharts(UtilidadesChart, UtilidadesChartOptions);
         UtilidadesChart.render();
 
 
@@ -648,8 +648,10 @@
                 show: false
             },
             tooltip: {
-                x: {
-                    show: false
+                y: {
+                    formatter: function (val) {
+                        return "$ " + val.toFixed(2)
+                    }
                 }
             }
         };
