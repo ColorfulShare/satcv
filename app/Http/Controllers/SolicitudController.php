@@ -80,4 +80,11 @@ class SolicitudController extends Controller
 
         return response()->json(true);
     }
+
+    public function sostenibilidad()
+    {
+        $solicitudes = Liquidation::where('status', 0)->get();
+
+        return view('retiros.sostenibilidad', compact('solicitudes'));
+    }
 }

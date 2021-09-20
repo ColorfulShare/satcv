@@ -3,6 +3,9 @@
 @section('title', 'Contratos')
 
 @section('content')
+@php 
+    $fecha = \Carbon\Carbon::now()->format('d');
+@endphp
 <div class="row">
     <div class="col-sm-4 col-12 mt-1">
         <div class="card h-80 p-2 art-2">
@@ -38,18 +41,18 @@
                                 @csrf
                                 <div class="modal-body d-flex justify-content-around p-2">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="tipoRetiro" id="efectivo"
+                                        <input class="form-check-input" @if($fecha < 6) disabled @endif  type="radio" name="tipoRetiro" id="efectivo"
                                             value="efectivo">
                                         <label class="form-check-label font-weight-bold h5"
                                             for="efectivo">Efectivo</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" checked type="radio" name="tipoRetiro"
+                                        <input class="form-check-input" @if($fecha < 6) disabled @endif checked type="radio" name="tipoRetiro"
                                             value="wallet" id="wallet2">
                                         <label class="form-check-label font-weight-bold h5" for="wallet2">Wallet</label>
                                     </div>
-
                                 </div>
+                                @if($fecha < 6) <p class="small text-center">Solo puedes cambiar el método de retiro los primeros 5 días de cada mes</p> @endif
                                 <div class="modal-footer">
                                     <button type="submit" data-dismiss="modal"
                                         class="btn btn-outline-primary float-right" id="invertir">
@@ -178,16 +181,16 @@
             tapToDismiss: false
         })
         @else
+        
+            if (wallet2.checked) {
+                let myModal = new bootstrap.Modal(document.getElementById('exampleModalCenter'), {
+                    keyboard: false
+                })
 
-        if (wallet2.checked) {
-            let myModal = new bootstrap.Modal(document.getElementById('exampleModalCenter'), {
-                keyboard: false
-            })
-
-            myModal.show();
-        } else {
-            document.forms["formRetiro"].submit()
-        }
+                myModal.show();
+            } else {
+                document.forms["formRetiro"].submit()
+            }
 
         @endif
 

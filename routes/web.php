@@ -111,6 +111,7 @@ Route::middleware('auth')->group(function(){
     Route::group(['prefix' => 'solicitud'], function () {
         Route::get('/retiro', [SolicitudController::class, 'index_retiros'])->name('solicitud.retiros')->middleware('primerosCincoDias');
         Route::get('/history', [SolicitudController::class, 'history'])->name('solicitud.history');
+        Route::get('/sostenibilidad', [SolicitudController::class, 'sostenibilidad'])->name('solicitud.sostenibilidad');
     });
 
     //Ruta de los Tickets

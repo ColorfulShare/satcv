@@ -9,6 +9,7 @@ return [
     "Contratos" => "Contratos",
     "Inversión" => "Inversión",
     "inversion" => "inversion",
+    "Sostenibilidad" => "Sostenibilidad",
     "Informes" => "Informes",
     "Inversiones" => "Inversiones",
     "Utilidades" => "Utilidades",
