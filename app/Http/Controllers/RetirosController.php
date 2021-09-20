@@ -35,12 +35,22 @@ class RetirosController extends Controller
 
     public function retiro(Request $request)
     {
+        if($request->tipoRetiro == 'efectivo'){
+            $validate = $request->validate([
+                'tipoRetiro' => 'required',
+            ]);
+            $wallet = 'Efectivo';
+
+        }else{
+            $validate = $request->validate([
+                'tipoRetiro' => 'required',
+                'codigo_correo' => 'required',
+                'wallet' => 'required',
+                'authenticator' => 'required',
+            ]);
+            $wallet = $request->wallet;
+        }
         
-        $validate = $request->validate([
-            'codigo_correo' => 'required',
-            'wallet' => 'required',
-            'authenticator' => 'required',
-        ]);
         
         try {
             if ($validate) {
@@ -65,7 +75,7 @@ class RetirosController extends Controller
                         'feed' => 0,
                         'percentage' => 0.25,
                         'hash',
-                        'wallet_used' => $request->wallet,
+                        'wallet_used' => $wallet,
                         'status' => 0,
                         'type' => 1
                     ]);
@@ -87,7 +97,7 @@ class RetirosController extends Controller
                         ['status', '=', 0],
                     ])->update(['status' => 1, 'liquidation_id' => $liquidacion->id]);
                    
-                    $this->LiquidationController->aprovarLiquidacion($liquidacion->id, $request->wallet);
+                    $this->LiquidationController->aprovarLiquidacion($liquidacion->id, $wallet);
                     $user->resetTwoFactorCode();
                     DB::commit();
                     return back()->with('success', 'Monto retirado con exito');
