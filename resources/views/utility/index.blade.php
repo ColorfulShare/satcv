@@ -44,7 +44,7 @@
         $('#informeUtility').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route("utilidad.dataUtilityServerSide") }}',
+            ajax: '{{ route("utilidad.dataUtilityServerSide", ["id" => Auth::id()]) }}',
             columns: [
                         { data: 'id', name: 'id', orderable: true, searchable: true },
                         { data: 'contract_id', name: 'contract_id', orderable: true, searchable: true },
