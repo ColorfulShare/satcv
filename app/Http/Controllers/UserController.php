@@ -121,16 +121,23 @@ class UserController extends Controller
         return response()->json("hola");
     }
 
-   public function administratorsCartera()
+   public function administratorsCartera(Request $request)
     {
 
         $this->contratos = new ContractsController;
-
-        $contratos = $this->contratos->contratos();
+        if(isset($request->id)){
+            $contratos = $this->contratos->contratos($request->id);
+            $user = User::find($request->id);
+        }else{
+            $contratos = $this->contratos->contratos();
+            $user = Auth::user();
+        }
+        
 
         $contracts = collect();
-        if(Auth::user()->type == 1){
-            $referidos = Auth::user()->referidos;
+        if($user->type == 1){
+            $referidos = $user->referidos;
+           
             foreach ($referidos as $key => $value) {
                 $contracts = ($value->contracts);
             }

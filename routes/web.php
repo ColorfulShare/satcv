@@ -148,6 +148,7 @@ Route::middleware('auth')->group(function(){
     Route::group(['prefix' => 'retiros'], function () {
         Route::get('/retirar', [RetirosController::class, 'retirar'])->name('retiros.retirar');
         Route::post('/retirar', [RetirosController::class, 'retiro'])->name('retiro');
+        Route::post('/change-type-retiro', [RetirosController::class, 'changeTypeRetiro'])->name('changeTypeRetiro');
     });
 
     // 2fact

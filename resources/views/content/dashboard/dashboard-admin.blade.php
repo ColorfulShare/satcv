@@ -47,7 +47,7 @@
             <div class="card">
                 <div
                     class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
-                    <h4 class="card-title mb-25">Medición STCV</h4>
+                    <h4 class="card-title mb-25">Medición Satcv</h4>
                 </div>
                 <div class="card-body">
                     <div id="line-chart"></div>

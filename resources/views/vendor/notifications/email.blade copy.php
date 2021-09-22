@@ -6,7 +6,7 @@
 @if ($level === 'error')
 # @lang('Whoops!')
 @else
-# @lang('Restablecer contraseña de BitcoinEcuador !')
+# @lang('Restablecer contraseña de satcv !')
 @endif
 @endif
 

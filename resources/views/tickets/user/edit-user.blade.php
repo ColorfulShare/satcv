@@ -44,7 +44,7 @@
                                                         alt="avatar" height="36" width="36">
                                                     <span class="avatar-status-online"></span>
                                                 </div>
-                                                <h6 class="ml-1 mb-0">Equipo de Bitcoin Ecuador</h6>
+                                                <h6 class="ml-1 mb-0">Equipo de satcv</h6>
                                             </div>
                                         </header>
                                     </div>

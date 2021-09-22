@@ -35,15 +35,11 @@ class RetirosController extends Controller
 
     public function retiro(Request $request)
     {
-        if($request->tipoRetiro == 'efectivo'){
-            $validate = $request->validate([
-                'tipoRetiro' => 'required',
-            ]);
+        if(Auth::user()->type_retiro == "efectivo"){
             $wallet = 'Efectivo';
 
         }else{
             $validate = $request->validate([
-                'tipoRetiro' => 'required',
                 'codigo_correo' => 'required',
                 'wallet' => 'required',
                 'authenticator' => 'required',
@@ -53,7 +49,6 @@ class RetirosController extends Controller
         
         
         try {
-            if ($validate) {
                 DB::beginTransaction();
                 $user = User::find(Auth::id());
                 
@@ -105,12 +100,21 @@ class RetirosController extends Controller
                     
                     return back()->with('danger', 'Código incorrecto');
                 }*/
-            }
+        
         } catch (\Throwable $th) {
             DB::rollback();
             Log::error('User - sendMailFactorCode -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
         
+    }
+
+    public function changeTypeRetiro(Request $request)
+    {
+        $user = Auth::user();
+        $user->type_retiro = $request->tipoRetiro;
+        $user->save();
+
+        return back()->with('success', 'tipo de retiro actualizado exitosamente');
     }
 }

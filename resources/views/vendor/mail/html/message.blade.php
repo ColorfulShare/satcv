@@ -21,7 +21,7 @@
 {{-- Footer --}}
 @slot('footer')
 @component('mail::footer')
-© {{ date('Y') }} bitcoinEcuador @lang('All rights reserved.')
+© {{ date('Y') }} satcv @lang('All rights reserved.')
 @endcomponent
 @endslot
 @endcomponent

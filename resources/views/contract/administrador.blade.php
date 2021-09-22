@@ -13,6 +13,7 @@
                         <thead class="">
                             <tr class="text-center text-darck bg-purple-alt2">
                                 <th>ID</th>
+                                <th>Correo</th>
                                 <th>Invertido</th>
                                 <th>ganancia</th>
                                 <th>Capital</th>
@@ -24,6 +25,7 @@
                             @foreach ($contracts as $referido)
                             <tr class="text-center">
                                 <td>{{$referido->id}}</td>
+                                <td>{{$referido->user()->email}}</td>
                                 <td>{{$referido->invested}}</td>
                                 <td>{{number_format($referido->gain, 2, '.', '')}}</td>
                                 <td>{{number_format($referido->capital, 2, '.', '')}}</td>

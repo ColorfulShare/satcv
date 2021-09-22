@@ -19,50 +19,9 @@
             </div>
             <!-- Vertical modal -->
             <div class="vertical-modal-ex">
-                <button type="button" class="btn btn-outline-primary float-right" data-toggle="modal"
-                    data-target="#metodoRetiro">
+                <button type="button" class="btn btn-outline-primary float-right" id="invertir">
                     Retirar
                 </button>
-
-
-
-                <!-- Modal Método Retiro -->
-                <div class="modal fade" id="metodoRetiro" tabindex="-1" role="dialog" aria-labelledby="metodoRetiro"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Método de retiro</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form action="" method="POST" id="formRetiro">
-                                @csrf
-                                <div class="modal-body d-flex justify-content-around p-2">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" @if($fecha < 6) disabled @endif  type="radio" name="tipoRetiro" id="efectivo"
-                                            value="efectivo">
-                                        <label class="form-check-label font-weight-bold h5"
-                                            for="efectivo">Efectivo</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" @if($fecha < 6) disabled @endif checked type="radio" name="tipoRetiro"
-                                            value="wallet" id="wallet2">
-                                        <label class="form-check-label font-weight-bold h5" for="wallet2">Wallet</label>
-                                    </div>
-                                </div>
-                                @if($fecha < 6) <p class="small text-center">Solo puedes cambiar el método de retiro los primeros 5 días de cada mes</p> @endif
-                                <div class="modal-footer">
-                                    <button type="submit" data-dismiss="modal"
-                                        class="btn btn-outline-primary float-right" id="invertir">
-                                        Retirar
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
@@ -121,10 +80,39 @@
             </div>
             <!-- Vertical modal end-->
 
-
+            <div class="row">
+                <div class="col col-12">
+                    <div class="">
+                        <h5 class="text-center">Método de retiro</h5>
+                    </div>
+                    <form action="{{route('changeTypeRetiro')}}" method="POST">
+                        @csrf
+                      
+                        <div class="modal-body d-flex justify-content-around p-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" @if($fecha < 6) disabled @endif  type="radio" name="tipoRetiro" id="efectivo" value="efectivo" @if(Auth::user()->type_retiro == 'efectivo') checked @endif> 
+                                <label class="form-check-label font-weight-bold h5"
+                                    for="efectivo">Efectivo</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" @if($fecha < 6) disabled @endif type="radio" name="tipoRetiro"
+                                    value="wallet" id="wallet2" @if(Auth::user()->type_retiro == 'wallet') checked @endif >
+                                <label class="form-check-label font-weight-bold h5" for="wallet2">Wallet</label>
+                            </div>
+                        </div>
+                        @if($fecha < 6) <p class="small text-center">Solo puedes cambiar el método de retiro los primeros 5 días de cada mes</p> @endif
+                        <div class="">
+                            <button type="submit" data-dismiss="modal"
+                                class="btn btn-outline-primary float-right" id="">
+                                Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
+    
     <div class="col-sm-8 col-12 mt-1">
         <div class="card bg-lp">
             <div class="card-content">
@@ -159,6 +147,10 @@
         </div>
     </div>
 </div>
+ {{--form de retiro de efectivo--}}
+ <form action="" method="POST" id="formRetiro">
+    @csrf
+ </form>
 @endsection
 
 {{-- CONFIGURACIÓN DE DATATABLE --}}
@@ -168,29 +160,30 @@
 <script>
     let invertir = document.querySelector('#invertir'),
         efectivo = document.querySelector('#efectivo');
-
+    /*
     let metodoRetiro = new bootstrap.Modal(document.getElementById('metodoRetiro'), {
         keyboard: false
     })
-
+    */
     invertir.addEventListener("click", function (event) {
 
-        @if($user -> activar_2fact == 0)
+        @if($user ->activar_2fact == 0)
         toastr['error']('Necessita la verificación de dos factores para poder retirar', 'Error', {
             closeButton: true,
             tapToDismiss: false
         })
         @else
         
-            if (wallet2.checked) {
-                let myModal = new bootstrap.Modal(document.getElementById('exampleModalCenter'), {
-                    keyboard: false
-                })
+            
+            @if($user->type_retiro == "wallet")
+                    let myModal = new bootstrap.Modal(document.getElementById('exampleModalCenter'), {
+                        keyboard: false
+                    })
 
-                myModal.show();
-            } else {
-                document.forms["formRetiro"].submit()
-            }
+                    myModal.show();
+            @else
+                    document.forms["formRetiro"].submit()
+            @endif
 
         @endif
 

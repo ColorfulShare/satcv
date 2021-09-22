@@ -44,7 +44,7 @@
                                         <td>Eliminado</td>
                                         @endif
 
-                                        <td><a href="{{route('contract.index', ['id' => $item->id])}}">{{number_format($item->portafolio(), 2)}} $</a></td>
+                                        <td><a href="{{route('contract.administrador', ['id' => $item->id])}}">{{number_format($item->portafolio(), 2)}} $</a></td>
                                         <td>{{number_format($item->comision(), 2)}} $</td>
                                         
                                    </tr>
