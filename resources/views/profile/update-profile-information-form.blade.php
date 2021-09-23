@@ -366,7 +366,9 @@
 
         <x-jet-button wire:loading.attr="disabled" wire:target="photo">
             {{ __('Guardar') }}
+            
         </x-jet-button>
+        
     </x-slot>
 
 </x-jet-form-section>

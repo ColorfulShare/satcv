@@ -132,15 +132,18 @@ class UserController extends Controller
             $contratos = $this->contratos->contratos();
             $user = Auth::user();
         }
-        
-
+    
         $contracts = collect();
         if($user->type == 1){
             $referidos = $user->referidos;
            
             foreach ($referidos as $key => $value) {
-                $contracts = ($value->contracts);
+                foreach($value->contracts as $contrac){
+                $contracts->push($contrac);
+
+                }
             }
+            
         return view('contract.administrador', compact('referidos','contracts', 'contratos'));
         }else{
          return redirect()->back()->with('danger', 'No tiene permiso para esta seccion');

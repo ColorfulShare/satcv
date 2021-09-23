@@ -115,22 +115,21 @@ class ContractsController extends Controller
         try{
             $user = auth()->user();
             if($user->admin == 1){
+                
                 if($id == null){
                     $contratos = Contract::orderBy('id', 'desc')->get();
                 }else{
                     $contratos = collect();
-                    $users = User::where('referred_id', $id)->get();
-                    foreach($users as $user){
-                        
-                        foreach($user->contracts as $contrato){
-                            $contratos->push($contrato);
-                        }
-                    }
+                    $users = User::find($id);
+                    
+                    $contratos = $users->Contracts->sortBy('id');
+                    
                 }
     
             }else{
                 $contratos = $user->Contracts->sortBy('id');
             }
+        
             return $contratos;
         } catch (\Throwable $th) {
             Log::error('ContractsController::contratos -> Error: '.$th);

@@ -10,7 +10,7 @@ use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\liquidationController;
-use App\Http\Controllers\walletController;
+use App\Http\Controllers\WalletController;
 use App\Http\Controllers\RetirosController;
 use App\Http\Controllers\DoubleAutenticationController;
 use App\Http\Controllers\ImpersonateController;
@@ -131,6 +131,7 @@ Route::middleware('auth')->group(function(){
     Route::group(['prefix' => 'solicitud'], function () {
         Route::get('/retiro', [SolicitudController::class, 'index_retiros'])->name('solicitud.retiros')->middleware('primerosCincoDias');
         Route::get('/history', [SolicitudController::class, 'history'])->name('solicitud.history');
+        Route::get('/sostenibilidad', [SolicitudController::class, 'sostenibilidad'])->name('solicitud.sostenibilidad');
     });
 
     //Ruta de los Tickets

@@ -32,9 +32,9 @@
                                 <td>{{$retiro->id}}</td>
                                 <td>{{$retiro->user->email}}</td>
                                 <td>N°. {{$retiro->contract_id}}</td>
-                                <td>{{number_format($retiro->amount, 2, '.', '')}} $</td>
-                                <td>{{number_format($retiro->feed, 2, '.', '')}} $</td>.
-                                <td>{{number_format($retiro->total_amount, 2, '.', '')}} $</td>
+                                <td>{{number_format($retiro->amount, 2)}} $</td>
+                                <td>{{number_format($retiro->feed, 2)}} $</td>
+                                <td>{{number_format($retiro->total_amount, 2)}} $</td>
                                 <td>{{$retiro->wallet_used}}</td>
                                 <td>
                                     @if($retiro->type == 0)

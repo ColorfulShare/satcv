@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Dashboard Analytics')
+@section('title', 'Satcv - Gestion de Portafolio')
 
 @section('vendor-style')
 <!-- vendor css files -->
