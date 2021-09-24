@@ -84,7 +84,7 @@
             </ul>
         </div> --}}
         <ul class="nav navbar-nav align-items-center ml-auto">
-            <h3 class="mt-1 d-block text-center">STCV - Gestion de portafolio</h3>
+            <h3 class="mt-1 d-block text-center">Satcv - Gestion de portafolio</h3>
         </ul>
         <ul class="nav navbar-nav align-items-center ml-auto">
             

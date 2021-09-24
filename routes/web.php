@@ -29,7 +29,26 @@ use App\Http\Controllers\Auth\TwoFactorController;
 
 // middleware auth: no da acceso a la ruta si el usuario no esta logueado
 // middleware verified: no da acceso a la ruta si el usuario no verifico su email
-
+Route::get('/clear', function() {
+    $exitCode = Artisan::call('cache:clear');
+    $exitCode = Artisan::call('config:cache');
+    $exitCode = Artisan::call('view:clear');
+    $exitCode = Artisan::call('route:clear');
+    // Mail::send('correo.subcripcion', ['data' => []], function ($correo2)
+    //     {
+    //         $correo2->subject('Limpio el sistema');
+    //         $correo2->to('cgonzalez.byob@gmail.com');
+    //     });
+    return 'DONE'; //Return anything
+});
+Route::get('/optimize', function() {
+    $exitCode = Artisan::call('optimize');
+    return 'DONE'; //Return anything
+});
+Route::get('/storage-link', function() {
+    $exitCode = Artisan::call('storage:link');
+    return 'DONE'; //Return anything
+});
 // Auth::routes(['verify' => true]);
 
 // Main Page Route
@@ -45,10 +64,6 @@ Route::middleware('auth')->group(function(){
             Route::get('/utilidades/cartera', [ContractsController::class, 'utilidadesCartera'])->name('contract.utilidadesCartera');
             Route::post('/payUtility', [ContractsController::class, 'payUtility'])->name('payUtility');
             Route::post('/payUtilityCartera', [ContractsController::class, 'payUtilityCartera'])->name('payUtilityCartera');
-        });
-
-        Route::group(['prefix' => 'utilidad'], function () {
-            Route::get('/', [WalletController::class,'utility'])->name('utilidad.utility');
         });
 
         Route::prefix('user')->group(function(){
@@ -83,6 +98,11 @@ Route::middleware('auth')->group(function(){
     });
     
     //USER
+
+    Route::group(['prefix' => 'utilidad'], function () {
+        Route::get('/', [WalletController::class,'utility'])->name('utilidad.utility');
+    });
+    
     Route::get('/ecommerce', function () { 
         return view('/content/dashboard/dashboard-ecommerce');
     });
@@ -128,6 +148,7 @@ Route::middleware('auth')->group(function(){
     Route::group(['prefix' => 'retiros'], function () {
         Route::get('/retirar', [RetirosController::class, 'retirar'])->name('retiros.retirar');
         Route::post('/retirar', [RetirosController::class, 'retiro'])->name('retiro');
+        Route::post('/change-type-retiro', [RetirosController::class, 'changeTypeRetiro'])->name('changeTypeRetiro');
     });
 
     // 2fact

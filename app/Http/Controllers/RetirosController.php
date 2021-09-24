@@ -35,15 +35,20 @@ class RetirosController extends Controller
 
     public function retiro(Request $request)
     {
+        if(Auth::user()->type_retiro == "efectivo"){
+            $wallet = 'Efectivo';
+
+        }else{
+            $validate = $request->validate([
+                'codigo_correo' => 'required',
+                'wallet' => 'required',
+                'authenticator' => 'required',
+            ]);
+            $wallet = $request->wallet;
+        }
         
-        $validate = $request->validate([
-            'codigo_correo' => 'required',
-            'wallet' => 'required',
-            'authenticator' => 'required',
-        ]);
         
         try {
-            if ($validate) {
                 DB::beginTransaction();
                 $user = User::find(Auth::id());
                 
@@ -65,7 +70,7 @@ class RetirosController extends Controller
                         'feed' => 0,
                         'percentage' => 0.25,
                         'hash',
-                        'wallet_used' => $request->wallet,
+                        'wallet_used' => $wallet,
                         'status' => 0,
                         'type' => 1
                     ]);
@@ -87,7 +92,7 @@ class RetirosController extends Controller
                         ['status', '=', 0],
                     ])->update(['status' => 1, 'liquidation_id' => $liquidacion->id]);
                    
-                    $this->LiquidationController->aprovarLiquidacion($liquidacion->id, $request->wallet);
+                    $this->LiquidationController->aprovarLiquidacion($liquidacion->id, $wallet);
                     $user->resetTwoFactorCode();
                     DB::commit();
                     return back()->with('success', 'Monto retirado con exito');
@@ -95,12 +100,21 @@ class RetirosController extends Controller
                     
                     return back()->with('danger', 'Código incorrecto');
                 }*/
-            }
+        
         } catch (\Throwable $th) {
             DB::rollback();
             Log::error('User - sendMailFactorCode -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
         
+    }
+
+    public function changeTypeRetiro(Request $request)
+    {
+        $user = Auth::user();
+        $user->type_retiro = $request->tipoRetiro;
+        $user->save();
+
+        return back()->with('success', 'tipo de retiro actualizado exitosamente');
     }
 }

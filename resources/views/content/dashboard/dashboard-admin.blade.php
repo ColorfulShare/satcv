@@ -47,7 +47,7 @@
             <div class="card">
                 <div
                     class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
-                    <h4 class="card-title mb-25">Medición STCV</h4>
+                    <h4 class="card-title mb-25">Medición Satcv</h4>
                 </div>
                 <div class="card-body">
                     <div id="line-chart"></div>
@@ -122,6 +122,7 @@
         var revenueReportChart2 = document.querySelector('#revenue-report-chart2');
         var earningsChart = document.querySelector('#earnings-chart');
         var statisticsProfitChart = document.querySelector('#statistics-profit-chart');
+        var UtilidadesChart = document.querySelector('#UtilidadesChart');
         var totalCapital = document.querySelector('#totalCapital');
 
         lineChartConfig = {
@@ -165,7 +166,7 @@
                     }
                 },
                 padding: {
-                    top: -20
+                    top: 0
                 }
             },
             tooltip: {
@@ -216,6 +217,7 @@
         revenueReportChartOptions = {
             chart: {
                 width: '100%',
+                height: 400,
                 stacked: true,
                 type: 'bar',
                 toolbar: {
@@ -342,7 +344,7 @@
                     }
                 },
                 padding: {
-                    top: -20
+                    top: 0
                 }
             },
             tooltip: {
@@ -401,7 +403,7 @@
             }],
             chart: {
                 type: 'bar',
-                height: 350
+                height: 400
             },
             plotOptions: {
                 bar: {
@@ -445,7 +447,8 @@
                         colors: '#b9b9c3',
                         fontSize: '0.86rem',
                     },
-                    show: true
+                    show: true,
+                    formatter: (val) => { return val.toFixed(2) },
                 },
             },
             fill: {
@@ -454,14 +457,13 @@
             tooltip: {
                 y: {
                     formatter: function (val) {
-                        return "$ " + val
+                        return "$ " + val.toFixed(2)
                     }
                 }
             }
         };
 
-        UtilidadesChart = new ApexCharts(document.querySelector("#UtilidadesChart"),
-            UtilidadesChartOptions);
+        UtilidadesChart = new ApexCharts(UtilidadesChart, UtilidadesChartOptions);
         UtilidadesChart.render();
 
 
@@ -497,7 +499,7 @@
             },
             plotOptions: {
                 pie: {
-                    startAngle: -10,
+                    startAngle: 0,
                     donut: {
                         labels: {
                             show: true,
@@ -621,13 +623,6 @@
                 strokeOpacity: 1,
                 strokeDashArray: 0,
                 fillOpacity: 1,
-                discrete: [{
-                    seriesIndex: 0,
-                    dataPointIndex: 5,
-                    fillColor: '#ffffff',
-                    strokeColor: '#00e600',
-                    size: 5
-                }],
                 shape: 'circle',
                 radius: 2,
                 hover: {
@@ -653,8 +648,10 @@
                 show: false
             },
             tooltip: {
-                x: {
-                    show: false
+                y: {
+                    formatter: function (val) {
+                        return "$ " + val.toFixed(2)
+                    }
                 }
             }
         };
@@ -717,7 +714,7 @@
                 total = data.capitalesLineal + data.capitalesCompuesto,
                 capitalesLineal = ((data.capitalesLineal / total) * 100).toFixed(2),
                 capitalesCompuesto = ((data.capitalesCompuesto / total) * 100).toFixed(2),
-                totalCapital.innerHTML = '$' + total,
+                totalCapital.innerHTML = '$' + total.toFixed(2),
                 earningsChart.updateOptions({
                     series: [parseFloat(capitalesLineal), parseFloat(capitalesCompuesto)],
                 }),

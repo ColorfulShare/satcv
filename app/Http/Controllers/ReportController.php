@@ -49,7 +49,13 @@ class ReportController extends Controller
 
     public function comisiones()
     {
-        $comisiones = Wallet::orderBy('id', 'desc')->where('type', 1)->get();
+        $user = Auth::user();
+
+        if($user->admin == 1){
+            $comisiones = Wallet::orderBy('id', 'desc')->where('type', 1)->get();
+        }else{
+            $comisiones = Wallet::orderBy('id', 'desc')->where('type', 1)->where('user_id', $user->id)->get();
+        }
 
         return view('reports.comisiones', compact('comisiones'));
     }

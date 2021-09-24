@@ -151,6 +151,27 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\User', 'referred_id');
     }
+    public function contractsAdministrator()
+    {
+        $contractsReferidos = collect();
+       foreach ($this->referidos as $key => $referido) {
+            $contractsReferidos->push($referido->contracts);
+        } 
+        $contracts = $this->contracts;
+        $contractsReferidos->push($contracts);
+        return $contractsReferidos;
+
+    }
+
+    public function gananciaAdministrator()
+    {
+        $gananciaReferidos = 0;
+        foreach ($this->referidos as $key => $referido) {
+             $gananciaReferidos += $referido->contracts->sum('gain');
+         } 
+         $gananciaReferidos += $this->contracts->sum('gain');
+        return $gananciaReferidos;
+    }
 
     public function portafolio()
     {

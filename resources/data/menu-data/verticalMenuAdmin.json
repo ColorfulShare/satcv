@@ -91,6 +91,12 @@
           "name": "Retiros de capital",
           "icon": "circle",
           "slug": "solicitud.remove"
+        },
+        {
+          "url": "solicitud/sostenibilidad",
+          "name": "Sostenibilidad",
+          "icon": "circle",
+          "slug": "solicitud.sostenibilidad"
         }
       ]
     },

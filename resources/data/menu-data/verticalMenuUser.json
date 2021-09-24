@@ -20,6 +20,25 @@
       "slug": "reports.pedidos"
     },
     {
+      "name": "Informes",
+      "icon": "file-text",
+      "slug": "reports.pedidos",
+      "submenu": [
+        {
+          "url": "utilidad",
+          "name": "Utilidades",
+          "icon": "circle",
+          "slug": "utilidad.utility"
+        },
+        {
+          "url": "reports/comisiones",
+          "name": "Comisiones",
+          "icon": "circle",
+          "slug": "reports.comisiones"
+        }
+      ]
+    },
+    {
       "url": "user/profile",
       "name": "KYC",
       "icon": "sidebar",

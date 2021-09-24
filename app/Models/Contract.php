@@ -50,9 +50,19 @@ class Contract extends Model
         return $this->wallets->where('status', 1)->sum('amount');
     }
 
+    public function liquidation()
+    {
+        return $this->hasMany('App\Models\Liquidation', 'contract_id');
+    }
+
+    public function liquidado()
+    {
+        return $this->liquidation->sum('amount');
+    }
+
     public function productividad()
     {
-        return ($this->type_interes == 'lineal') ? ($this->gain / $this->invested ) * 100 : ((($this->capital + $this->retirado() ) - $this->invested ) / $this->invested ) * 100;
+        return ($this->type_interes == 'lineal') ? ($this->gain / $this->invested ) * 100 : ((($this->capital + $this->liquidado() ) - $this->invested ) / $this->invested ) * 100;
     }
 
     public function estado()
@@ -64,9 +74,9 @@ class Contract extends Model
         }
     }
 
-    public function firma_cliente()
+    public function solicitudesRetiro()
     {
-        
+        return $this->hasMany('App\Models\SolicitudRetiro', 'contracts_id');
     }
 
     public function getHistory()
