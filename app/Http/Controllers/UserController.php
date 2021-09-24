@@ -120,7 +120,7 @@ class UserController extends Controller
         return response()->json("hola");
     }
 
-   public function administratorsCartera()
+    public function administratorsCartera()
     {
         $contracts = collect();
         if(Auth::user()->type == 1){
@@ -134,4 +134,5 @@ class UserController extends Controller
         }
     }
 }
+
 
