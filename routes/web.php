@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function(){
 
             Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
             Route::get('/list-kyc',[UserController::class,'listKyc'])->name('users.list-kyc');
-            Route::delete('/delete/{id}',[UserController::class, 'destroyUser'])->name('users.destroy-user');
+           
         
         });
 

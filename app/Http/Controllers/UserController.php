@@ -119,19 +119,7 @@ class UserController extends Controller
     public function UpdateProfileFoto(Request $request)
     {
         return response()->json("hola");
-    }
-
-     public function destroyUser($id)
-    {
-       
-      $user = User::find($id);
-      
-      $user->delete();
-      
-      return redirect()->route('users.list-user')->with('msj-success', 'Usuario '.$id.' Eliminado');
-    }
-
-  
+    } 
 
    public function administratorsCartera(Request $request)
 
