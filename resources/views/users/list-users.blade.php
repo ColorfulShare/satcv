@@ -57,21 +57,32 @@
                                         @endif
                                    
                                         <td>
-                                            <a href="{{route('dashboard2', ['id' => $item->id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Detalles">
+                                         <!--    <a href="{{route('dashboard2', ['id' => $item->id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Detalles">
                                                 <i class="fa fa-eye"></i>
-                                            </a>
+                                            </a> -->
                                             {{-- @if ($item->verify == '0' && $item->dni != NULL)
                                                 <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600"><i data-feather='pencil'></i></a>
                                                 <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning" data-toggle="tooltip" data-placement="left" title="Verificar KYC"><i data-feather='edit'></i></a>
                                             @else
                                                 <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Ver todos los datos del usuario"><i data-feather='eye'></i></a>
                                             @endif --}}
-                                        </td>
-                                        </button>
-                                   </tr>
+                                                
+                                         <form action="{{route('users.destroy-user', $item->id)}}"  method="POST">
+                                              @csrf
+                                              @method('DELETE')
+                                               <a href="{{route('dashboard2', ['id' => $item->id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Detalles">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <button class="btn btn-danger" title="eliminar"> 
+                                                <i class="fa fa-trash"></i>
+                                            </button> 
 
-                                           
-                           
+                                         </form>
+                                         
+                                     
+                                 
+                                    </td>
+                                </tr>
                                 @endforeach
                           
                     
