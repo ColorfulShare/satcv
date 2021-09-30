@@ -171,6 +171,9 @@ Route::middleware('auth')->group(function(){
         Route::get('two_factor_challenge',[UserController::class,'two_factor_challenge'])->name('user.two_factor_challenge');
 
         Route::get('/inversion', [UserController::class,'administratorsCartera'])->name('contract.administrador');
+        Route::get('profile',[UserController::class,'updateProfile'])->name('profile.show');
+        Route::post('update',[UserController::class,'update'])->name('user.update');
+        Route::post('updatePassword',[UserController::class,'updatePassword'])->name('user.updatePassword');
         /*
         Route::get('/impersonate/stop', 'ImpersonateController@stop')->name('impersonate.stop');
         Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');

@@ -8,6 +8,10 @@ use App\Models\Country;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ContractsController;
 use App\Notifications\TwoFactorCode;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -149,5 +153,159 @@ class UserController extends Controller
          return redirect()->back()->with('danger', 'No tiene permiso para esta seccion');
         }
     }
+
+    public function updateProfile()
+    {
+        $user = Auth::user();
+
+        return view('profile.updateProfile', compact('user'));
+    }
+
+    public function update(Request $request)
+    {
+        //dd($request->all());
+        $user = Auth::user();
+
+        $validate = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'dni' => ['required', 'string', 'max:255'],
+            'birth' => ['required', 'date'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id, 'id')],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'mobile_phone' => ['nullable', 'string', 'max:255'],
+            'city_dni' => ['nullable', 'string', 'max:255'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'country_id' => ['nullable', 'string', 'max:255'],
+            'document_type' => ['nullable', 'string', 'max:255'],
+            'district' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'department' => ['nullable', 'string', 'max:255'],
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'photo_dni_front' => ['nullable', 'max:1024'],
+            'photo_dni_back' => ['nullable', 'max:1024'],
+            'photo_document' => ['nullable', 'max:1024'],
+            'selfie_document' => ['nullable', 'max:1024'],
+        ]);
+        
+        if (isset($request['photo'])) {
+            if(!is_string($request['photo'])){
+                $file = $request['photo'];
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'photo/' . $user->id . '/' . $nombre;
+                $user->profile_photo_path = $ruta;
+                $file->move(public_path('storage') .'/photo/'.$user->id, $nombre);
+            }
+        }
+
+        // dd($request['photo_dni']);        
+        
+        if (isset($request['photo_dni_front'])) {
+            if(!is_string($request['photo_dni_front'])){
+                $file = $request['photo_dni_front'];
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'photo_dni_front/' . $user->id . '/' . $nombre;
+                $user->photo_dni_front = $ruta;
+                $file->move(public_path('storage') .'/photo_dni_front/'.$user->id, $nombre);
+            }
+        }
+
+        if (isset($request['photo_dni_back'])) {
+            if(!is_string($request['photo_dni_back'])){
+                $file = $request['photo_dni_back'];
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'photo_dni_back/' . $user->id . '/' . $nombre;
+                $user->photo_dni_back = $ruta;
+                $file->move(public_path('storage') .'/photo_dni_back/'.$user->id, $nombre);
+            }
+        }
+
+        if (isset($request['selfie_document'])) {
+            if(!is_string($request['selfie_document'])){
+                $file = $request['selfie_document'];
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'selfie_document/' . $user->id . '/' . $nombre;
+                $user->selfie_document = $ruta;
+                $file->move(public_path('storage') .'/selfie_document/'.$user->id, $nombre);
+            }
+        }
+
+        if (isset($request['photo_document'])) {
+            if(!is_string($request['photo_document'])){
+                $file = $request['photo_document'];
+                $nombre = time() . $file->getClientOriginalName();
+                $ruta = 'photo_document/' . $user->id . '/' . $nombre;
+                $user->photo_document = $ruta;
+                $file->move(public_path('storage') .'/photo_document/'.$user->id, $nombre);
+            }
+        }
+        $user->save();
+        $user->update([
+            'name' => $request['name'],
+            'lastname' => $request['lastname'],
+            'email' => $request['email'],
+            'dni' => $request['dni'],
+            'birth' => $request['birth'],
+            'dni_expedition' => $request['dni_expedition'],
+            'phone' => $request['phone'],
+            'mobile_phone' => $request['mobile_phone'],
+            'country_id' => $request['country_id'],
+            'document_type' => $request['document_type'],
+            'city_dni' => $request['city_dni'],
+            'address' => $request['address'],
+            'district' => $request['district'],
+            'city' => $request['city'],
+            'department' => $request['department'],
+        ]);
+        
+
+        return redirect()->route('dashboard')->with('success', 'Perfil actualizado exitosmente');
+    }
+
+    public function updatePassword(Request $request)
+   {
+      $rules = [
+         'mypassword' => 'required',
+         'password' => 'required|confirmed|string|min:8'
+      ];
+
+      $messages = [
+            'mypassword.required' => 'El campo mypassword es requerido',
+            'password.required' => 'El campo password es requerido',
+            'password.confirmed' => 'Las contraseñas no coinciden',
+            'password.min' => 'El mínimo permitido son 8 caracteres'
+      ];
+
+      $validator = Validator::make($request->all(), $rules, $messages);
+
+      if ($validator->fails()) {
+
+         return back()->withErrors($validator);
+      }else{
+         if (Hash::check($request->mypassword, Auth::user()->password)) {
+
+            $password = bcrypt($request->password);
+
+            if (Hash::check($request->mypassword, $password)){
+
+               return back()->with('danger', 'La nueva contraseña no puede ser igual a la anterior');
+            }else{
+               // dd($request->session()->has('password_hash_web'));
+               $user = User::find(Auth::user()->id)->update(['password' => $password]);
+
+               $user = auth('web')->getUser();
+        
+               $request->session()->forget('password_hash_web');
+               Auth::guard('web')->login($user);
+
+               return redirect()->route('dashboard')->with('success', "Contraseña cambiada con éxito");
+            }
+            
+         }else{
+
+            return back()->with('danger', 'Credenciales incorrectas');
+         }
+      }
+   }
 }
 

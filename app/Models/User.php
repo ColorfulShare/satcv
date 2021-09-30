@@ -15,7 +15,6 @@ class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
-    use HasProfilePhoto;
     use Notifiable;
     //use TwoFactorAuthenticatable;
     /**
@@ -33,7 +32,22 @@ class User extends Authenticatable
         'activar_2fact',
         'two_factor_code_email',
         'two_factor_expires_at',
-        'referred_id'
+        'referred_id',
+        'dni',
+        'birth',
+        'dni_expedition',
+        'phone',
+        'mobile_phone',
+        'country_id',
+        'document_type',
+        'city_dni',
+        'address',
+        'district',
+        'city',
+        'department',
+        'photo_dni_back',
+        'selfie_document',
+        'photo_document'
     ];
 
     /**
