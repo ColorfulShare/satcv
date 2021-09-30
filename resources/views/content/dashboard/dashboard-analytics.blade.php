@@ -588,6 +588,13 @@
                         show: false
                     }
                 },
+                yaxis: {
+                    labels: {
+                        formatter: function (i) {
+                        return parseFloat(((i / total) * 100).toFixed(2)) + "%";
+                        }
+                    }
+                },
                 dataLabels: {
                     enabled: false,
                     formatter: function (val) {
@@ -625,7 +632,7 @@
                                 value: {
                                     offsetY: -15,
                                     formatter: function (val) {
-                                        return parseInt(val) + '%';
+                                        return parseInt(val) + '$';
                                     }
                                 },
                                 total: {
@@ -778,10 +785,11 @@
                 .then(response => response.text())
                 .then(resultText => (
                     data = JSON.parse(resultText),
-                    total = data.capital.reduce((a, b) => a + b, 0),
+                    console.log(data),
+                    total = data.capital.reduce((a, b) => a + b, 0), 
                     capital = data.capital.map(i => i = parseFloat(((i / total) * 100).toFixed(2))),
                     earningsChart.updateOptions({
-                        series: capital,
+                        series: data.capital,
                         labels: data.contratoid
                     }),
                     statisticsProfitChart.updateOptions({
