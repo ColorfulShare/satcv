@@ -96,7 +96,7 @@ $configData = Helper::applClasses();
       @endif
       {{-- Foreach menu item ends --}}
     @endif
-      @if(Auth::user()->type == 1)
+      @if(Auth::user()->type == 1 || Auth::user()->referred_id != null)
         <li class="nav-item ">
           <a class="d-flex align-items-center" onclick="getlink()">
             <i class="fa fa-copy"></i>
