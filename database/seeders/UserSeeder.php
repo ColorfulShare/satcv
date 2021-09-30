@@ -27,6 +27,7 @@ class UserSeeder extends Seeder
         ]);
 
         // usuario normal
+        /*
         User::create([
             'name'=> 'user',
             'lastname'=> Str::random(5),
@@ -47,5 +48,6 @@ class UserSeeder extends Seeder
             'email'=> 'user3@btc.com',
             'password' => Hash::make('123456789'),
         ]);
+        */
     }
 }

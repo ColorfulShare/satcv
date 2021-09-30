@@ -47,12 +47,6 @@ $country = \App\Models\Country::all();
                 <!-- New Profile Photo Preview -->
                 <label for="photo" class="mt-2 mr-2 inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition" id="label_photo">Seleccione una nueva foto</label>
 
-                @if ($user->profile_photo_path)
-                <button type="button" class="mt-2" click="deleteProfilePhoto">
-                    {{ __('Remove Photo') }}
-                </button>
-                @endif
-
                 <span for="photo" class="mt-2 span"> </>
             </div>
             
@@ -143,8 +137,7 @@ $country = \App\Models\Country::all();
                 @if ($user->verify == '0')
                 <input name="city_dni" type="text" class="mt-1 block w-full form-control w-100" value="{{old('city_dni') != null ? old('city_dni') : ($user->city_dni != null? $user->city_dni : null) }}"></>
                 @else
-                <input name="city_dni" type="text" class="mt-1 block w-full form-control w-100" value="{{old('city_dni') != null ? old('city_dni') : ($user->city_dni != null? $user->city_dni : null) }}"
-                    readonly></>
+                <input name="city_dni" type="text" class="mt-1 block w-full form-control w-100" value="{{old('city_dni') != null ? old('city_dni') : ($user->city_dni != null? $user->city_dni : null) }}" readonly></>
                 @endif
                 <span for="city_dni" class="mt-2"></>
             </div>
@@ -266,7 +259,7 @@ $country = \App\Models\Country::all();
                 @if ($user->verify == '0')
                 <input name="city" id="city" type="text" class="mt-1 block w-full form-control w-100" value="{{ old('city') != null ? old('city') : ($user->city != null? $user->city : null) }}"></>
                 @else
-                <input name="city" id="city" type="text" class="mt-1 block w-full form-control w-100" value="{{ old('city') != null ? old('city') : ($user->city != null? $user->city : null) }}"></>
+                <input name="city" id="city" type="text" class="mt-1 block w-full form-control w-100" value="{{ old('city') != null ? old('city') : ($user->city != null? $user->city : null) }}" readonly></>
                 @endif
                 <span for="city" class="mt-2"></>
             </div>
