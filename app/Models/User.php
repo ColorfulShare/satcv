@@ -48,7 +48,8 @@ class User extends Authenticatable
         'department',
         'photo_dni_back',
         'selfie_document',
-        'photo_document'
+        'photo_document',
+        'token_google'
     ];
 
     /**

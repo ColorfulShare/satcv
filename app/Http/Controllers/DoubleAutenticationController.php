@@ -12,6 +12,7 @@ use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Writer as BaconQrCodeWriter;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Log;
 
 class DoubleAutenticationController extends Controller
 {
@@ -119,5 +120,20 @@ class DoubleAutenticationController extends Controller
         return $result;
     }
 
+    public function removeAuth(Request $request)
+    {
+        try {
+            $user = User::find($request->userId)->update([
+                'token_google' => null,
+                'activar_2fact' => "0",
+                'QR_code' => null
+            ]);
 
+            return response()->json(['success' => true]);
+        } catch (\Throwable $th) {
+            
+            Log::error('DoubleAutenticationController - removeAuth -> Error: '.$th);
+            return response()->json(['success' => false]);
+        }
+    }
 }

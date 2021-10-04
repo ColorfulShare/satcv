@@ -7,6 +7,7 @@ use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\walletController;
+use App\Http\Controllers\DoubleAutenticationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -43,3 +44,5 @@ Route::group(['prefix' => 'solicitud'], function () {
 Route::group(['prefix' => 'utilidad'], function () {
     Route::get('/', [WalletController::class,'dataUtilityServerSide'])->name('utilidad.dataUtilityServerSide');
 });
+
+Route::post('/removeAuth', [DoubleAutenticationController::class, 'removeAuth'])->name('2fact.removeAuth');
