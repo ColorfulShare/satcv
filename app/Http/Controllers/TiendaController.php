@@ -34,7 +34,7 @@ class TiendaController extends Controller
         
         $validate = $request->validate([
             'interes' => 'required',
-            'monto' => 'required|numeric|min:500'
+            'monto' => 'required|numeric|min:3000'
         ]);
 
         try {
@@ -43,7 +43,7 @@ class TiendaController extends Controller
             }
             if ($validate) {
 
-                $porcentaje = ($request->monto * 0.03);
+                $porcentaje = 10;
                                 
                 $data = [
                     'user_id' => Auth::id(),

@@ -21,7 +21,7 @@ class UserController extends Controller
     }
     public function listUser()
     {
-        $user = User::all();
+        $user = User::orderBy('id', 'desc')->get();
 
 
         return view('users.list-users')
@@ -172,94 +172,102 @@ class UserController extends Controller
             'dni' => ['required', 'string', 'max:255'],
             'birth' => ['required', 'date'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id, 'id')],
-            'phone' => ['nullable', 'string', 'max:255'],
-            'mobile_phone' => ['nullable', 'string', 'max:255'],
-            'city_dni' => ['nullable', 'string', 'max:255'],
-            'address' => ['nullable', 'string', 'max:255'],
-            'country_id' => ['nullable', 'string', 'max:255'],
-            'document_type' => ['nullable', 'string', 'max:255'],
-            'district' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'department' => ['nullable', 'string', 'max:255'],
-            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-            'photo_dni_front' => ['nullable', 'max:1024'],
-            'photo_dni_back' => ['nullable', 'max:1024'],
-            'photo_document' => ['nullable', 'max:1024'],
-            'selfie_document' => ['nullable', 'max:1024'],
+            'phone' => ['required', 'string', 'max:255'],
+            'mobile_phone' => ['required', 'string', 'max:255'],
+            'city_dni' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'country_id' => ['required', 'string', 'max:255'],
+            'document_type' => ['required', 'string', 'max:255'],
+            'district' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'department' => ['required', 'string', 'max:255'],
+            'photo' => ['mimes:jpg,jpeg,png', 'max:1024'],
+            'photo_dni_front' => ['max:1024'],
+            'photo_dni_back' => ['max:1024'],
+            'photo_document' => ['max:1024'],
+            'selfie_document' => ['max:1024'],
         ]);
+
+        //validamos las imagenes
+        if((isset($request['photo']) && isset($request['photo_dni_front']) && isset($request['photo_dni_back']) && isset($request['selfie_document']) && isset($request['photo_document'])) || (isset($user->profile_photo_path) && isset($user->photo_dni_front) && isset($user->photo_dni_back) && isset($user->selfie_document) && isset($user->photo_document))){
+
+            if(isset($request['photo'])){
+                if(!is_string($request['photo'])){
+                    $file = $request['photo'];
+                    $nombre = time() . $file->getClientOriginalName();
+                    $ruta = 'photo/' . $user->id . '/' . $nombre;
+                    $user->profile_photo_path = $ruta;
+                    $file->move(public_path('storage') .'/photo/'.$user->id, $nombre);
+                }
+            }
+    
+            // dd($request['photo_dni']);        
+            
+            if (isset($request['photo_dni_front'])) {
+                if(!is_string($request['photo_dni_front'])){
+                    $file = $request['photo_dni_front'];
+                    $nombre = time() . $file->getClientOriginalName();
+                    $ruta = 'photo_dni_front/' . $user->id . '/' . $nombre;
+                    $user->photo_dni_front = $ruta;
+                    $file->move(public_path('storage') .'/photo_dni_front/'.$user->id, $nombre);
+                }
+            }
+    
+            if (isset($request['photo_dni_back'])) {
+                if(!is_string($request['photo_dni_back'])){
+                    $file = $request['photo_dni_back'];
+                    $nombre = time() . $file->getClientOriginalName();
+                    $ruta = 'photo_dni_back/' . $user->id . '/' . $nombre;
+                    $user->photo_dni_back = $ruta;
+                    $file->move(public_path('storage') .'/photo_dni_back/'.$user->id, $nombre);
+                }
+            }
+    
+            if (isset($request['selfie_document'])) {
+                if(!is_string($request['selfie_document'])){
+                    $file = $request['selfie_document'];
+                    $nombre = time() . $file->getClientOriginalName();
+                    $ruta = 'selfie_document/' . $user->id . '/' . $nombre;
+                    $user->selfie_document = $ruta;
+                    $file->move(public_path('storage') .'/selfie_document/'.$user->id, $nombre);
+                }
+            }
+    
+            if (isset($request['photo_document'])) {
+                if(!is_string($request['photo_document'])){
+                    $file = $request['photo_document'];
+                    $nombre = time() . $file->getClientOriginalName();
+                    $ruta = 'photo_document/' . $user->id . '/' . $nombre;
+                    $user->photo_document = $ruta;
+                    $file->move(public_path('storage') .'/photo_document/'.$user->id, $nombre);
+                }
+            }
+            $user->save();
+            $user->update([
+                'name' => $request['name'],
+                'lastname' => $request['lastname'],
+                'email' => $request['email'],
+                'dni' => $request['dni'],
+                'birth' => $request['birth'],
+                'dni_expedition' => $request['dni_expedition'],
+                'phone' => $request['phone'],
+                'mobile_phone' => $request['mobile_phone'],
+                'country_id' => $request['country_id'],
+                'document_type' => $request['document_type'],
+                'city_dni' => $request['city_dni'],
+                'address' => $request['address'],
+                'district' => $request['district'],
+                'city' => $request['city'],
+                'department' => $request['department'],
+            ]);
+            
+    
+            return redirect()->route('dashboard')->with('success', 'Perfil actualizado exitosmente');
+        }else{
+            return back()->withInput()->with('danger', 'Debe cargar todas las imagenes');
+        }
         
-        if (isset($request['photo'])) {
-            if(!is_string($request['photo'])){
-                $file = $request['photo'];
-                $nombre = time() . $file->getClientOriginalName();
-                $ruta = 'photo/' . $user->id . '/' . $nombre;
-                $user->profile_photo_path = $ruta;
-                $file->move(public_path('storage') .'/photo/'.$user->id, $nombre);
-            }
-        }
-
-        // dd($request['photo_dni']);        
         
-        if (isset($request['photo_dni_front'])) {
-            if(!is_string($request['photo_dni_front'])){
-                $file = $request['photo_dni_front'];
-                $nombre = time() . $file->getClientOriginalName();
-                $ruta = 'photo_dni_front/' . $user->id . '/' . $nombre;
-                $user->photo_dni_front = $ruta;
-                $file->move(public_path('storage') .'/photo_dni_front/'.$user->id, $nombre);
-            }
-        }
-
-        if (isset($request['photo_dni_back'])) {
-            if(!is_string($request['photo_dni_back'])){
-                $file = $request['photo_dni_back'];
-                $nombre = time() . $file->getClientOriginalName();
-                $ruta = 'photo_dni_back/' . $user->id . '/' . $nombre;
-                $user->photo_dni_back = $ruta;
-                $file->move(public_path('storage') .'/photo_dni_back/'.$user->id, $nombre);
-            }
-        }
-
-        if (isset($request['selfie_document'])) {
-            if(!is_string($request['selfie_document'])){
-                $file = $request['selfie_document'];
-                $nombre = time() . $file->getClientOriginalName();
-                $ruta = 'selfie_document/' . $user->id . '/' . $nombre;
-                $user->selfie_document = $ruta;
-                $file->move(public_path('storage') .'/selfie_document/'.$user->id, $nombre);
-            }
-        }
-
-        if (isset($request['photo_document'])) {
-            if(!is_string($request['photo_document'])){
-                $file = $request['photo_document'];
-                $nombre = time() . $file->getClientOriginalName();
-                $ruta = 'photo_document/' . $user->id . '/' . $nombre;
-                $user->photo_document = $ruta;
-                $file->move(public_path('storage') .'/photo_document/'.$user->id, $nombre);
-            }
-        }
-        $user->save();
-        $user->update([
-            'name' => $request['name'],
-            'lastname' => $request['lastname'],
-            'email' => $request['email'],
-            'dni' => $request['dni'],
-            'birth' => $request['birth'],
-            'dni_expedition' => $request['dni_expedition'],
-            'phone' => $request['phone'],
-            'mobile_phone' => $request['mobile_phone'],
-            'country_id' => $request['country_id'],
-            'document_type' => $request['document_type'],
-            'city_dni' => $request['city_dni'],
-            'address' => $request['address'],
-            'district' => $request['district'],
-            'city' => $request['city'],
-            'department' => $request['department'],
-        ]);
-        
-
-        return redirect()->route('dashboard')->with('success', 'Perfil actualizado exitosmente');
     }
 
     public function updatePassword(Request $request)

@@ -33,28 +33,25 @@
                 <div class="col-12 col-sm-8 col-md-6 col-lg-7 px-xl-2">
                     <h2>Agregue seguridad adicional a su cuenta mediante la autenticación de dos factores.</h2>
 
+                    @if (!$user->activar_2fact)
+            
+                        <div class="mt-4 max-w-xl text-sm text-gray-600">
+                            <p class="font-semibold">
+                                {{ __('La autenticación de dos factores ahora está deshabilitada. Escanee el siguiente código QR usando la aplicación de Google authenticator de su teléfono.') }}
+                            </p>
+                        </div>
+                    @endif
                     @if ($user->activar_2fact)
-                        {{ __('Ha habilitado la autenticación de dos factores.') }}
+                    <p class="font-semibold">{{ __('Ha habilitado la autenticación de dos factores.') }}</p>
                     @else
-                        {{ __('No ha habilitado la autenticación de dos factores.') }}
+                    <p class="font-semibold">{{ __('No ha habilitado la autenticación de dos factores.') }}</p>
                     @endif
 
-                    <div class="mt-3 max-w-xl text-sm text-gray-600">
+                    <div class="mt-1 max-w-xl text-sm text-gray-600">
                         <p>
                             {{ __('Cuando la autenticación de dos factores está habilitada, se le solicitará un token aleatorio seguro durante la autenticación. Puede recuperar este token de la aplicación Google Authenticator de su teléfono.') }}
                         </p>
                     </div>
-
-                    @if ($user->activar_2fact)
-                        @if ($urlQr)
-                            <div class="mt-4 max-w-xl text-sm text-gray-600">
-                                <p class="font-semibold">
-                                    {{ __('Two factor authentication is now enabled. Scan the following QR code using your phone\'s authenticator application.') }}
-                                </p>
-                            </div>
-
-                        @endif
-                    @endif
                 </div>
             </div>
         </div>
