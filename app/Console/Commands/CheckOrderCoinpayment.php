@@ -45,8 +45,6 @@ class CheckOrderCoinpayment extends Command
         $tiendaController = new TiendaController();
         $tiendaController->getStatus();
         Log::info('Actualizo las ordenes '.Carbon::now()->format('Y-m-d'));
-        $tiendaController->activarUser();
-        Log::info('Activo a los usuarios '.Carbon::now()->format('Y-m-d'));
         Log::info('Fin Comando checkStatusPurchase '.Carbon::now()->format('Y-m-d'));
     }
 }
