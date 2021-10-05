@@ -199,9 +199,11 @@ class TiendaController extends Controller
     public function getStatus()
     {
         $transacciones = CoinPayment::gettransactions()->select('txn_id', 'order_id')->get()->toArray();
-     
+        //dump('transacciones');
+        //dump($transacciones);
         foreach($transacciones as $transaccion){
             $estado = CoinPayment::getstatusbytxnid($transaccion['txn_id']);
+            //dump($estado);
             if($estado['status'] != 0){
                 $this->change_status($transaccion['order_id'], $estado['status']);
             }
@@ -216,20 +218,23 @@ class TiendaController extends Controller
             DB::beginTransaction();
 
             $orden = OrdenPurchases::findOrFail($id);
-            if($orden->status == 0){
+            
+            if($orden->status == '0'){
+        
                 if($estado < 0){
-                    $orden->status = 2;
+                    //dump("cancelado");
+                    $orden->status = "2";
                     $orden->save();    
                 }elseif($estado > 0){
                     $this->registeContract($orden);
-                    $orden->status = 1;
+                    $orden->status = "1";
                     $orden->save(); 
                     $user = User::findOrFail($orden->user_id);
                     $user->status = '1';
                     $user->save();
                 }
             }
-    
+            
             DB::commit();
 
         } catch (\Throwable $th) {

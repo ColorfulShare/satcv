@@ -181,11 +181,11 @@ class UserController extends Controller
             'district' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'department' => ['required', 'string', 'max:255'],
-            'photo' => ['mimes:jpg,jpeg,png', 'max:1024'],
-            'photo_dni_front' => ['max:1024'],
-            'photo_dni_back' => ['max:1024'],
-            'photo_document' => ['max:1024'],
-            'selfie_document' => ['max:1024'],
+            'photo' => ['mimes:jpg,jpeg,png'],
+            'photo_dni_front' => [],
+            'photo_dni_back' => [],
+            'photo_document' => [],
+            'selfie_document' => [],
         ]);
 
         //validamos las imagenes
