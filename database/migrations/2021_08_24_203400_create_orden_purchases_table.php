@@ -20,7 +20,7 @@ class CreateOrdenPurchasesTable extends Migration
             $table->decimal('fee');
             $table->string('transaction_id')->nullable()->comment('ID de la transacion');
             $table->enum('status', [0, 1, 2, 3])->default(0)->comment('0 - En Espera, 1 - Completada, 2 - Rechazada, 3 - Cancelada');
-            $table->enum('type_interes', ['lineal', 'compuesto'])->comment('0 - Lineal, 1 - Compuesto');
+            $table->enum('type_interes', ['lineal', 'compuesto', 'retiro'])->comment('0 - Lineal, 1 - Compuesto, 2 Retiro');
             $table->text('firma_cliente')->nullable();
             $table->timestamps();
         });

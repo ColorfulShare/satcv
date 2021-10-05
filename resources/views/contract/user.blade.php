@@ -47,6 +47,12 @@
                                                 <label class="form-check-label" for="inlineCheckbox2">Compuesto (12
                                                     meses)</label>
                                             </div>
+                                            <div class="form-check form-check-inline">
+                                                <input required class="form-check-input" type="radio"
+                                                    id="inlineCheckbox3" name="interes" value="retiro">
+                                                <label class="form-check-label" for="inlineCheckbox3">Retiro (36
+                                                    meses)</label>
+                                            </div>
                                         </div>
 
                                     </div>

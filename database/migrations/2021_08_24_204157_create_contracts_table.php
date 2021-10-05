@@ -22,7 +22,7 @@ class CreateContractsTable extends Migration
             $table->double('capital');
             $table->string('url_pdf')->nullable()->comment('URL donde se almacenará el PDF');
             $table->tinyInteger('status')->default(1)->comment('1 - activo , 2 - culminada');
-            $table->enum('type_interes', ['lineal', 'compuesto'])->comment('0 - Lineal, 1 - Compuesto');
+            $table->enum('type_interes', ['lineal', 'compuesto', 'retiro'])->comment('0 - Lineal, 1 - Compuesto, 2 Retiro');
             $table->text('firma_cliente')->nullable();
             $table->timestamps();
         });

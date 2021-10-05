@@ -26,9 +26,19 @@ class Contract extends Model
         return $this->getOrden->user;
     }
 
+    public function users()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
     public function contractExpiration()
     {
-        return $this->created_at->addYear();
+        if($this->type_interes != 'retiro'){
+            return $this->created_at->addYear();
+        }else{
+            return $this->created_at->addYear(3);
+        }
+        
     }
 
     public function diffDaysExpiration()

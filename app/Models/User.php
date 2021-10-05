@@ -167,6 +167,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\User', 'referred_id');
     }
+
+    public function refirio()
+    {
+        return $this->belongsTo('App\Models\User', 'referred_id');
+    }
+
     public function contractsAdministrator()
     {
         $contractsReferidos = collect();
@@ -194,6 +200,11 @@ class User extends Authenticatable
         $capital = 0;
         foreach($this->referidos as $referido){
             $capital += $referido->contracts->sum('capital');
+            if($referido->referidos != null){
+                foreach($referido->referidos as $user){
+                    $capital += $user->contracts->sum('capital');
+                }
+            }
         }
         $capital+= $this->contracts->sum('capital');
 
