@@ -198,8 +198,8 @@ class TiendaController extends Controller
 
     public function getStatus()
     {
-        $transacciones = CoinPayment::gettransactions()->select('txn_id', 'order_id')->where('status', 0)->get() ->toArray();
-    
+        $transacciones = CoinPayment::gettransactions()->select('txn_id', 'order_id')->get()->toArray();
+     
         foreach($transacciones as $transaccion){
             $estado = CoinPayment::getstatusbytxnid($transaccion['txn_id']);
             if($estado['status'] != 0){
@@ -216,15 +216,18 @@ class TiendaController extends Controller
             DB::beginTransaction();
 
             $orden = OrdenPurchases::findOrFail($id);
-            if($estado < 0){
-                $orden->status = 2;
-                $orden->save();    
-            }elseif($estado > 0){
-                $this->registeContract($orden);
-
-                $user = User::findOrFail($orden->user_id);
-                $user->status = '1';
-                $user->save();
+            if($orden->status == 0){
+                if($estado < 0){
+                    $orden->status = 2;
+                    $orden->save();    
+                }elseif($estado > 0){
+                    $this->registeContract($orden);
+                    $orden->status = 1;
+                    $orden->save(); 
+                    $user = User::findOrFail($orden->user_id);
+                    $user->status = '1';
+                    $user->save();
+                }
             }
     
             DB::commit();
