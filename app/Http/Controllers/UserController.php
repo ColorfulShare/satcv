@@ -184,7 +184,6 @@ class UserController extends Controller
             'document_type' => ['required', 'string', 'max:255'],
             'district' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
-            'department' => ['required', 'string', 'max:255'],
             'photo' => ['mimes:jpg,jpeg,png'],
             'photo_dni_front' => [],
             'photo_dni_back' => [],
@@ -192,9 +191,14 @@ class UserController extends Controller
             'selfie_document' => [],
         ]);
 
+        if($request->country_id == 42){
+            $request->validate([
+                'department' => ['required', 'string', 'max:255'],
+            ]);
+        }
         //validamos las imagenes
-        if((isset($request['photo']) && isset($request['photo_dni_front']) && isset($request['photo_dni_back']) && isset($request['selfie_document']) && isset($request['photo_document'])) || (isset($user->profile_photo_path) && isset($user->photo_dni_front) && isset($user->photo_dni_back) && isset($user->selfie_document) && isset($user->photo_document))){
-
+        if((isset($request['photo']) && isset($request['photo_dni_front']) && (isset($request['photo_dni_back']) || $request['document_type'] < 2) && isset($request['selfie_document']) && isset($request['photo_document'])) || (isset($user->profile_photo_path) && isset($user->photo_dni_front) && (isset($user->photo_dni_back) || $user->document_type < 2) && isset($user->selfie_document) && isset($user->photo_document))){
+            
             if(isset($request['photo'])){
                 if(!is_string($request['photo'])){
                     $file = $request['photo'];

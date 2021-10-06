@@ -94,10 +94,12 @@ $country = \App\Models\Country::all();
             <div class="col-2">
                 <label for="document_type">{{ __('Tipo de documento') }}</>
                 @if ($user->verify == '0')
-                    <select name="document_type" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm form-control w-100" >
+                    <select name="document_type" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm form-control w-100" id="document_type">
                         <option value="">Seleccione un tipo de documento</option>
                         <option value="0" @if((old('document_type') != null && old('document_type') ==  '0' ) || $user->document_type == '0')  selected  @endif>DNI</option>
                         <option value="1" @if((old('document_type') != null && old('document_type') ==  '1' ) || $user->document_type == '1') selected  @endif>Pasaporte</option>
+                        <option value="2" @if((old('document_type') != null && old('document_type') ==  '2' ) || $user->document_type == '2') selected  @endif>Cedula ciudadana</option>
+                        <option value="3" @if((old('document_type') != null && old('document_type') ==  '3' ) || $user->document_type == '3') selected  @endif>Licencia de conducir</option>
                     </select>
                 @else
                     @if ($user->document_type == '0')
@@ -161,17 +163,19 @@ $country = \App\Models\Country::all();
             {{-- Foto del documento back--}}
 
                 @if ($user->verify == '0')
-                    <div class="col-6 mt-3">
-                        <label for="photo_dni_back" class="">{{ __('Foto de documento parte trasera') }}</>
-                    </div>
-                    <div class="col-6 mt-3">
-                    
-                        <input name="photo_dni_back" id="photo_dni_back" type="file" class="w-100"
-                        autocomplete="photo_dni_back" accept="image/*"></>
-                    </div>
-                    <div class="col-12 text-center">
-                        <img id="photo_preview_b" class=""></>
-                        <span for="photo_dni_back" class=""></>
+                    <div id="box_dni_back" class="d-none col-12 row">
+                        <div class="col-6 mt-3">
+                            <label for="photo_dni_back" class="">{{ __('Foto de documento parte trasera') }}</>
+                        </div>
+                        <div class="col-6 mt-3">
+                        
+                            <input name="photo_dni_back" id="photo_dni_back" type="file" class="w-100"
+                            autocomplete="photo_dni_back" accept="image/*"></>
+                        </div>
+                        <div class="col-12 text-center">
+                            <img id="photo_preview_b" class=""></>
+                            <span for="photo_dni_back" class=""></>
+                        </div>
                     </div>
                 @endif
 
@@ -264,7 +268,7 @@ $country = \App\Models\Country::all();
                 <span for="city" class="mt-2"></>
             </div>
 
-            <div class="col-3">
+            <div class="col-3" id="box_department">
                 <label for="department">{{ __('Departamento') }}</>
                 @if ($user->verify == '0')
                 <input name="department" id="department" type="text" class="mt-1 block w-full form-control w-100" value="{{ old('department') != null ? old('department') : ($user->department != null? $user->department : null) }}"></>
@@ -431,11 +435,11 @@ $country = \App\Models\Country::all();
         @if($user->photo_dni_front !== NULL)
             previewPersistedFile("{{asset('storage/'.$user->photo_dni_front)}}", 'photo_preview_f');
         @endif
-
+        
         @if($user->photo_dni_back !== NULL)
             previewPersistedFile("{{asset('storage/'.$user->photo_dni_back)}}", 'photo_preview_b');
         @endif
-
+            
         @if($user->selfie_document !== NULL)
             previewPersistedFile("{{asset('storage/'.$user->selfie_document)}}", 'selfie_d');
         @endif
@@ -462,7 +466,7 @@ $country = \App\Models\Country::all();
     function previewPersistedFile(url, preview_id) {
         $("#" + preview_id).attr('src', url);
         //$("#" + preview_id).css('height', '200px');
-        $("#" + preview_id).parent().parent().removeClass('d-none');
+        //$("#" + preview_id).parent().parent().removeClass('d-none');
     }
 
     //eventos CHANGES
@@ -477,6 +481,29 @@ $country = \App\Models\Country::all();
     photo_dni_back.addEventListener('change', function(e){ previewFile(e.target, 'photo_preview_b'); });
     selfie_document.addEventListener('change', function(e){ previewFile(e.target, 'selfie_d'); });
     photo_document.addEventListener('change', function(e){ previewFile(e.target, 'photo_preview2'); });
+
+    let document_type = document.querySelector('#document_type');
+    let box_dni_back = document.querySelector('#box_dni_back');
+    
+    document_type.addEventListener('change', function(e){
+        console.log(e.target.value);
+        if(e.target.value == 2 || e.target.value == 3){
+            box_dni_back.classList.remove("d-none");
+        }else{
+            box_dni_back.classList.add("d-none");
+        }
+    });
+
+    let country_id = document.querySelector('#country_id');
+    let box_department = document.querySelector('#box_department');
+
+    country_id.addEventListener('change', function(e){
+        if(e.target.value == 42){
+            box_department.classList.remove("d-none");
+        }else{
+            box_department.classList.add("d-none");
+        }
+    });
 </script>
 
 <script type="text/javascript">
