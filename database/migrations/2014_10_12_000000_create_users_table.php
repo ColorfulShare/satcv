@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->date('birth')->nullable(); 
             $table->date('dni_expedition')->nullable(); 
             $table->string('msj_admin')->nullable();      
-            $table->enum('document_type', [0, 1])->default(0)->comment('0 - dni, 1 - pasaporte');
+            $table->enum('document_type', [0, 1, 2, 3])->default(0)->comment('0 - dni, 1 - pasaporte, 2 - Cedula ciudadana, 3 - Licencia de conducir');
             $table->string('phone')->nullable();      
             $table->string('mobile_phone')->nullable();      
             $table->string('city_dni')->nullable();      
