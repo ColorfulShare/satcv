@@ -95,9 +95,15 @@ Route::middleware('auth')->group(function(){
         Route::group(['prefix' => 'shop'], function () {
             Route::post('/cambiarStatus', [TiendaController::class, 'cambiar_status'])->name('cambiarStatus');
         });
+
+        Route::group(['prefix' => 'solicitud'], function () {
+            Route::get('/sostenibilidad', [SolicitudController::class, 'sostenibilidad'])->name('solicitud.sostenibilidad');
+        });
+        
     });
     
     //USER
+    Route::get('/comision', [WalletController::class,'comision'])->name('comision');
 
     Route::group(['prefix' => 'utilidad'], function () {
         Route::get('/', [WalletController::class,'utility'])->name('utilidad.utility');
@@ -131,7 +137,7 @@ Route::middleware('auth')->group(function(){
     Route::group(['prefix' => 'solicitud'], function () {
         Route::get('/retiro', [SolicitudController::class, 'index_retiros'])->name('solicitud.retiros')->middleware('primerosCincoDias');
         Route::get('/history', [SolicitudController::class, 'history'])->name('solicitud.history');
-        Route::get('/sostenibilidad', [SolicitudController::class, 'sostenibilidad'])->name('solicitud.sostenibilidad');
+        
     });
 
     //Ruta de los Tickets

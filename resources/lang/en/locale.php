@@ -14,6 +14,7 @@ return [
     "Inversiones" => "Inversiones",
     "Utilidades" => "Utilidades",
     "Comisiones" => "Comisiones",
+    "Comision" => "Comision",
     "Utilidades cartera" => "Utilidades cartera",
     "Ordenes" => "Ordenes",
     "Solicitud" => "Solicitud",

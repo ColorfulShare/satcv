@@ -312,7 +312,7 @@ class ContractsController extends Controller
                             $wallet->payment_date = $request->mes;
                             $wallet->type = 1;
                             $wallet->save();
-
+                            
                             //0.5% PARA EL Q LO REFIRIO
                             if($contrato->users->refirio->type == 0){
                                 $wallet = new Wallet;
@@ -337,7 +337,7 @@ class ContractsController extends Controller
                             $wallet->status = 3;
                             $wallet->type = 1;
                             $wallet->save();
-
+                            
                             //0.5% PARA EL Q LO REFIRIO
                             if($contrato->users->refirio->type == 0){
                                 $wallet = new Wallet;

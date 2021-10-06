@@ -185,10 +185,10 @@ class UserController extends Controller
             'district' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'photo' => ['mimes:jpg,jpeg,png'],
-            'photo_dni_front' => [],
-            'photo_dni_back' => [],
-            'photo_document' => [],
-            'selfie_document' => [],
+            'photo_dni_front' => ['mimes:jpg,jpeg,png'],
+            'photo_dni_back' => ['mimes:jpg,jpeg,png'],
+            'photo_document' => ['mimes:jpg,jpeg,png'],
+            'selfie_document' => ['mimes:jpg,jpeg,png'],
         ]);
 
         if($request->country_id == 42){

@@ -35,6 +35,12 @@
           "name": "Comisiones",
           "icon": "circle",
           "slug": "reports.comisiones"
+        },
+        {
+          "url": "comision",
+          "name": "Comision",
+          "icon": "circle",
+          "slug": "comision"
         }
       ]
     },

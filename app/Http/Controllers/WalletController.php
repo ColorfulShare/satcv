@@ -78,4 +78,15 @@ class WalletController extends Controller
         ->make(true);
     }
 
+    public function comision(Request $request)
+    {
+        $user = Auth::user();
+        if($user->admin != 1){
+            $wallets = $user->wallets->where('percentage', 0.005);
+        }else{
+            $wallets = Wallet::orderBy('id', 'desc')->where('percentage', 0.005)->get();
+        }
+        return view('reports.comision', compact('wallets'));
+    }
+
 }
