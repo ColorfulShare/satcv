@@ -471,19 +471,7 @@ class ContractsController extends Controller
                             $gain2+= $contrato->capital * $porcentaje;
                             $contrato->gain += $contrato->capital * $porcentaje;
                             $contrato->save();
-                            
-                            //0.5% PARA EL Q LO REFIRIO
-                            if($contrato->users->refirio->type == 0){
-                                $wallet = new Wallet;
-                                $wallet->user_id = $contrato->users->refirio->id;
-                                $wallet->contract_id = $contrato->id;
-                                $wallet->amount = ($contrato->capital * $porcentaje) * (0.005);
-                                $wallet->percentage = 0.005;
-                                $wallet->descripcion = "Comision de 0.5%";
-                                $wallet->payment_date = $request->mes;
-                                $wallet->type = 1;
-                                $wallet->save();
-                            }
+                          
                         }else{
                             $wallet = new Wallet;
                             $wallet->user_id = $contrato->user()->id;
@@ -499,19 +487,7 @@ class ContractsController extends Controller
                             $contrato->gain += $contrato->capital * $porcentaje;
                             $contrato->capital += $contrato->capital * $porcentaje;
                             $contrato->save();
-                            
-                            //0.5% PARA EL Q LO REFIRIO
-                            if($contrato->users->refirio->type == 0){
-                                $wallet = new Wallet;
-                                $wallet->user_id = $contrato->users->refirio->id;
-                                $wallet->contract_id = $contrato->id;
-                                $wallet->amount = ($contrato->capital * $porcentaje) * (0.005);
-                                $wallet->percentage = 0.005;
-                                $wallet->descripcion = "Comision de 0.5%";
-                                $wallet->payment_date = $request->mes;
-                                $wallet->type = 1;
-                                $wallet->save();
-                            }
+                           
 
                         }
                         $current_capital = $contrato->capital;
