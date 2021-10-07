@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function(){
 
             Route::get('/list-user',[UserController::class,'listUser'])->name('users.list-user');
             Route::get('/list-kyc',[UserController::class,'listKyc'])->name('users.list-kyc');
-        
+            Route::get('/kyc/verificados',[UserController::class,'verificados'])->name('users.kyc.verificados');
         });
 
         //ruta para administradores de carteras

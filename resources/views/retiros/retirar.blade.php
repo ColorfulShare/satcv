@@ -158,8 +158,8 @@
 
 @push('custom_js')
 <script>
-    let invertir = document.querySelector('#invertir'),
-        efectivo = document.querySelector('#efectivo');
+    let invertir = document.querySelector('#invertir');
+    let efectivo = document.querySelector('#efectivo');
     /*
     let metodoRetiro = new bootstrap.Modal(document.getElementById('metodoRetiro'), {
         keyboard: false

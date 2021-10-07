@@ -52,12 +52,12 @@ class RetirosController extends Controller
                 DB::beginTransaction();
                 $user = User::find(Auth::id());
                 
-                //if($this->checkCode($user, $request->authenticator) && $this->checkCodeMail($user, $request->codigo_correo)){
-                    /*
+                if($this->checkCode($user, $request->authenticator) && $this->checkCodeMail($user, $request->codigo_correo)){
+                    
                     if(Carbon::parse($user->two_factor_expires_at)->lt(Carbon::now())){
                         $user->resetTwoFactorCode();
                         return back()->with('danger','El código de dos factores ha expirado. Ingrese nuevamente.');
-                    }*/
+                    }
                     $saldo = Wallet::where([
                         ['user_id', '=', $user->id],
                         ['status', '=', 0],
@@ -96,10 +96,10 @@ class RetirosController extends Controller
                     $user->resetTwoFactorCode();
                     DB::commit();
                     return back()->with('success', 'Monto retirado con exito');
-                /*}else{
+                }else{
                     
                     return back()->with('danger', 'Código incorrecto');
-                }*/
+                }
         
         } catch (\Throwable $th) {
             DB::rollback();
