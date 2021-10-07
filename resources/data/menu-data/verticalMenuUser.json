@@ -32,13 +32,13 @@
         },
         {
           "url": "reports/comisiones",
-          "name": "Comisiones",
+          "name": "Utilidades AC",
           "icon": "circle",
           "slug": "reports.comisiones"
         },
         {
           "url": "comision",
-          "name": "Comision",
+          "name": "Comisiones Niveles",
           "icon": "circle",
           "slug": "comision"
         }

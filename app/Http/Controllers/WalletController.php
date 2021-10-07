@@ -81,6 +81,7 @@ class WalletController extends Controller
     public function comision(Request $request)
     {
         $user = Auth::user();
+        
         if($user->admin != 1){
             $wallets = $user->wallets->where('percentage', 0.005);
         }else{

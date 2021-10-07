@@ -14,9 +14,10 @@
 
                                     <tr class="text-center">                                
                                         <th>ID</th>
-                                        <th>Contrato</th>
                                         <th>Correo</th>
+                                        <th>Contrato</th>
                                         <th>Monto</th>
+                                        <th>Estado</th>
                                     </tr>
 
                                 </thead>
@@ -25,9 +26,16 @@
                                     @foreach ($comisiones as $comision)
                                         <tr class="text-center">
                                             <td>{{$comision->id}}</td>
-                                            <td>{{$comision->contract_id}}</td>
                                             <td>{{$comision->user->email}}</td>
+                                            <td>{{$comision->contract_id}}</td>
                                             <td>{{number_format($comision->amount, 2)}} $</td>
+                                            <td>
+                                                @if($comision->status == 0) <span class="btn btn-warning">En espera</span>
+                                                @elseif($comision->status == 1) <span class="btn btn-success">Pagado (liquidado)</span>
+                                                @elseif($comision->status == 2) <span class="btn btn-danger">Cancelado</span>
+                                                @elseif($comision->status == 3) <span class="btn btn-info">Reinvertido</span>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach                      
                                 </tbody>

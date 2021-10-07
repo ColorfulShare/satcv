@@ -33,9 +33,10 @@
                                             <th>{{number_format($wallet->amount, 2)}} $</th>
                                             <td>{{$wallet->percentage * 100}} %</td>
                                             <td>
-                                                @if($wallet->status == 0) En espera
-                                                @elseif($wallet->status == 1) Pagado
-                                                @elseif($wallet->status == 2) Cancelado
+                                                @if($wallet->status == 0) <span class="btn btn-warning">En espera</span>
+                                                @elseif($wallet->status == 1) <span class="btn btn-success">Pagado (liquidado)</span>
+                                                @elseif($wallet->status == 2) <span class="btn btn-danger">Cancelado</span>
+                                                @elseif($wallet->status == 3) <span class="btn btn-info">Reinvertido</span>
                                                 @endif
                                             </td>
                                             <td>{{$wallet->created_at->format('Y-m-d')}}</td>
