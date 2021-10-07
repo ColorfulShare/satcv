@@ -144,14 +144,16 @@
                             </div>
 
                             <div class="col-12 mt-1 d-flex justify-content-around ">
-                                <a href="{{ route('users.list-kyc') }}"
+                                <a href="{{ url()->previous() }}"
                                     class="btn btn-primary mr-1 mb-1 waves-effect waves-light">Regresar
                                 </a>
+                                @if($user->verify == '0')
                                 <a href="{{ route('verify-user', $user->id) }}"
                                     class="btn btn-success mr-1 mb-1 waves-effect waves-light">Verificar
                                 </a>
                                 <a class="btn btn-danger mr-1 mb-1 waves-effect waves-light" data-toggle="modal"
                                     data-target="#exampleModal">Rechazar</a>
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -216,6 +216,8 @@ return [
     "Liquidaciones de Comisiones" => "Liquidaciones de Comisiones",
     "Retiros Realizados" => "Retiros Realizados",
     "KYC" => "KYC",
+    "Por verificar" => "Por verificar",
+    "Verificados" => "Verificados",
     "Retiros de capital" => "Retiros de capital",
     "Historial de retiros" => "Historial de retiros",
     "Admistradores de Carteras" => "Admistradores de Carteras",

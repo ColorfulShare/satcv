@@ -30,7 +30,7 @@ class UserController extends Controller
 
     public function listKyc()
     {
-        $user = User::where([['verify', '0'], ['admin', '0']])->get();
+        $user = User::orderBy('id', 'desc')->where([['verify', '0'], ['admin', '0']])->get();
 
         return view('users.list-kyc')
             ->with('user', $user);
@@ -331,6 +331,15 @@ class UserController extends Controller
             return back()->with('danger', 'Credenciales incorrectas');
          }
       }
+   }
+
+   public function verificados()
+   {
+       $user = User::orderBy('id', 'desc')->where([['verify', '1'], ['admin', '0']])->get();
+
+        return view('users.list-kyc')
+            ->with('user', $user);
+
    }
 }
 

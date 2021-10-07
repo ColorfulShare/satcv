@@ -70,10 +70,23 @@
       "slug": "users.list-user"
     },
     {
-      "url": "user/list-kyc",
       "name": "KYC",
       "icon": "sidebar",
-      "slug": "users.list-kyc"
+      "slug": "",
+      "submenu": [
+        {
+          "url": "user/list-kyc",
+          "name": "Por verificar",
+          "icon": "circle",
+          "slug": "users.list-kyc"
+        },
+        {
+          "url": "user/kyc/verificados",
+          "name": "Verificados",
+          "icon": "circle",
+          "slug": "users.kyc.verificados"
+        }
+      ]
     },
      {
       "url": "administrators",
