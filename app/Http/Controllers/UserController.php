@@ -140,7 +140,7 @@ class UserController extends Controller
             $contratos = $this->contratos->contratos();
             $user = Auth::user();
         }
-    
+        //dd($user);
         $contracts = collect();
         if($user->type == 1){
             $referidos = $user->referidos;
@@ -149,6 +149,15 @@ class UserController extends Controller
                 foreach($value->contracts as $contrac){
                 $contracts->push($contrac);
 
+                }
+                //referidos de mis referidos
+                foreach ($value->referidos as $key => $referido) {
+                    if($referido->contracts != null){
+                        foreach($referido->contracts as $contrato){
+                        $contracts->push($contrato);
+        
+                        }
+                    }
                 }
             }
             
