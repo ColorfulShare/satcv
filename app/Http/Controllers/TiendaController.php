@@ -43,7 +43,7 @@ class TiendaController extends Controller
             }
             if ($validate) {
 
-                $porcentaje = 10;
+                $porcentaje = ($request->monto * 0.02) + 10;
                                 
                 $data = [
                     'user_id' => Auth::id(),

@@ -50,7 +50,8 @@ Route::get('/storage-link', function() {
     return 'DONE'; //Return anything
 });
 // Auth::routes(['verify' => true]);
-
+//cron
+Route::get('/bonoRed', [WalletController::class, 'bonoRed'])->name('bonoRed');
 // Main Page Route
 Route::middleware('auth')->group(function(){
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

@@ -13,6 +13,7 @@ use App\Models\Liquidation;
 use App\Models\Wallet;
 //use Yajra\Datatables\Facades\Datatables;
 use DataTables;
+use App\Models\LogBonoRed;
 
 class WalletController extends Controller
 {
@@ -83,11 +84,118 @@ class WalletController extends Controller
         $user = Auth::user();
         
         if($user->admin != 1){
-            $wallets = $user->wallets->where('percentage', 0.005);
+            $wallets = $user->wallets->where('type', 2);
         }else{
-            $wallets = Wallet::orderBy('id', 'desc')->where('percentage', 0.005)->get();
+            $wallets = Wallet::orderBy('id', 'desc')->where('type', 2)->get();
         }
         return view('reports.comision', compact('wallets'));
     }
 
+    public function bonoRed()
+    {
+        $administradores = User::where('type', 1)->get();
+        
+        foreach($administradores as $administrador){
+            //Nivel 1
+            if($administrador->referidos != null){
+                foreach($administrador->referidos as $userNivel1){
+                    
+                    //contratos
+                    foreach($userNivel1->contracts as $contrato1){
+                    
+                        if(isset($contrato1)){
+                            $bonoRed = LogBonoRed::orderBy('id', 'desc')->where('contracts_id', $contrato1->id)->first();
+                            
+                            if(isset($bonoRed)){
+                                
+                                if(Carbon::now() >= $bonoRed->created_at->addMonth()){
+
+                                    $this->pagarBonoRed($administrador->id, $contrato1->id, $contrato1->invested, 0.01);
+                                 
+                                }
+
+                            }elseif(Carbon::now() >= $contrato1->created_at->addMonth()){
+                                
+                                $this->pagarBonoRed($administrador->id, $contrato1->id, $contrato1->invested, 0.01);
+                                
+                            }
+
+                            
+                        }
+                    }
+                    //Nivel 2
+                    if($userNivel1->referidos != null){
+                        foreach($userNivel1->referidos as $userNivel2){
+                            
+                            //contratos
+                            foreach($userNivel2->contracts as $contrato2){
+                                if(isset($contrato2)){
+                                    $bonoRed = LogBonoRed::orderBy('id', 'desc')->where('contracts_id', $contrato2->id)->first();
+                                    if(isset($bonoRed)){
+                                        if(Carbon::now() >= $bonoRed->created_at->addMonth()){
+
+                                            $this->pagarBonoRed($administrador->id, $contrato2->id, $contrato2->invested, 0.006);
+                                           
+                                        }
+        
+                                    }elseif(Carbon::now() >= $contrato2->created_at->addMonth()){
+
+                                        $this->pagarBonoRed($administrador->id, $contrato2->id, $contrato2->invested, 0.006);
+                                        
+                                    }
+        
+                                    
+                                }
+                            }
+                            //Nivel 3
+                            if($userNivel2->referidos != null){
+                                foreach($userNivel2->referidos as $userNivel3){
+                
+                                    //contratos
+                                    foreach($userNivel3->contracts as $contrato3){
+                                        if(isset($contrato3)){
+                                            $bonoRed = LogBonoRed::orderBy('id', 'desc')->where('contracts_id', $contrato3->id)->first();
+                                            if(isset($bonoRed)){
+                                                if(Carbon::now() >= $bonoRed->created_at->addMonth()){
+
+                                                    $this->pagarBonoRed($administrador->id, $contrato3->id, $contrato3->invested, 0.004);
+                                                  
+                                                }
+                
+                                            }elseif(Carbon::now() >= $contrato3->created_at->addMonth()){
+
+                                                $this->pagarBonoRed($administrador->id, $contrato3->id, $contrato3->invested, 0.004);
+                                               
+                                            }
+                
+                                            
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function pagarBonoRed($administrador_id, $contract_id, $invertido, $porcentaje)
+    {
+        Wallet::create([
+            'user_id' => $administrador_id,
+            'contract_id' => $contract_id,
+            'amount' => $invertido * $porcentaje,
+            'percentage' => $porcentaje,
+            'descripcion' => 'bono red '. $porcentaje * 100 .'%',
+            'payment_date' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        LogBonoRed::create([
+            'amount' => $invertido * $porcentaje,
+            'percentage' => $porcentaje,
+            'user_id' => $administrador_id,
+            'contracts_id' => $contract_id
+        ]);
+    }
 }

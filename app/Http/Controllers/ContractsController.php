@@ -60,8 +60,12 @@ class ContractsController extends Controller
                 'type_interes' => $orden->type_interes,
                 'firma_cliente' => $orden->firma_cliente
             ];
-            Contract::create($data);
-    
+            $contrato = Contract::create($data);
+            $user = User::find($orden->user_id);
+            //PAGAMOS BONO DE 2% AL QUE LO REFIRIO
+            if($user->refirio != null){
+                $this->bono2Porciento($user->refirio->id, $contrato);
+            }
         } catch (\Throwable $th) {
             Log::error('ContractsController - saveContrato -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -322,7 +326,7 @@ class ContractsController extends Controller
                                 $wallet->percentage = 0.005;
                                 $wallet->descripcion = "Comision de 0.5%";
                                 $wallet->payment_date = $request->mes;
-                                $wallet->type = 1;
+                                $wallet->type = 2;
                                 $wallet->save();
                             }
 
@@ -347,7 +351,7 @@ class ContractsController extends Controller
                                 $wallet->percentage = 0.005;
                                 $wallet->descripcion = "Comision de 0.5%";
                                 $wallet->payment_date = $request->mes;
-                                $wallet->type = 1;
+                                $wallet->type = 2;
                                 $wallet->save();
                             }
 
@@ -829,5 +833,17 @@ class ContractsController extends Controller
         $utilities = Utility::orderBy('id', 'desc')->where('type', 1)->get();
 
         return view('contract.utilidadesCartera', compact('utilities'));
+    }
+
+    public function bono2Porciento($userId, $contrato)
+    {
+        $wallet = new Wallet;
+        $wallet->user_id = $userId;
+        $wallet->contract_id = $contrato->id;
+        $wallet->amount = $contrato->capital * 0.02;
+        $wallet->percentage = 0.02;
+        $wallet->descripcion = "Bono 2%";
+        $wallet->payment_date = Carbon::now()->format('Y-m-d');
+        $wallet->save();
     }
 }
