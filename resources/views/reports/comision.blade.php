@@ -19,6 +19,7 @@
                                         <th>Monto</th>
                                         <th>Porcentaje</th>
                                         <th>Estado</th>
+                                        <th>Tipo</th>
                                         <th>Fecha</th>
                                     </tr>
 
@@ -37,6 +38,13 @@
                                                 @elseif($wallet->status == 1) <span class="btn btn-success">Pagado (liquidado)</span>
                                                 @elseif($wallet->status == 2) <span class="btn btn-danger">Cancelado</span>
                                                 @elseif($wallet->status == 3) <span class="btn btn-info">Reinvertido</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($wallet->type == 2) Directo
+                                                @elseif($wallet->type == 3) Red nivel 1
+                                                @elseif($wallet->type == 4) Red nivel 2
+                                                @elseif($wallet->type == 5) Red nivel 3
                                                 @endif
                                             </td>
                                             <td>{{$wallet->created_at->format('Y-m-d')}}</td>

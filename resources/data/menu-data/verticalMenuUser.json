@@ -38,7 +38,7 @@
         },
         {
           "url": "comision",
-          "name": "Comisiones Niveles",
+          "name": "Comisiones",
           "icon": "circle",
           "slug": "comision"
         }

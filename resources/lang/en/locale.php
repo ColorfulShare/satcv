@@ -16,6 +16,7 @@ return [
     "Comisiones Niveles" => "Comisiones Niveles",
     "Utilidades AC" => "Utilidades AC",
     "Comision" => "Comision",
+    "Comisiones" => "Comisiones",
     "Utilidades cartera" => "Utilidades cartera",
     "Ordenes" => "Ordenes",
     "Solicitud" => "Solicitud",

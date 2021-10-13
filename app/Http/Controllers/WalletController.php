@@ -84,9 +84,9 @@ class WalletController extends Controller
         $user = Auth::user();
         
         if($user->admin != 1){
-            $wallets = $user->wallets->where('type', 2);
+            $wallets = $user->wallets->whereIn('type', [2,3,4,4]);
         }else{
-            $wallets = Wallet::orderBy('id', 'desc')->where('type', 2)->get();
+            $wallets = Wallet::orderBy('id', 'desc')->whereIn('type', [2,3,4,5])->get();
         }
         return view('reports.comision', compact('wallets'));
     }
@@ -99,24 +99,24 @@ class WalletController extends Controller
             //Nivel 1
             if($administrador->referidos != null){
                 foreach($administrador->referidos as $userNivel1){
-                    
+                
                     //contratos
                     foreach($userNivel1->contracts as $contrato1){
-                    
+                        
                         if(isset($contrato1)){
                             $bonoRed = LogBonoRed::orderBy('id', 'desc')->where('contracts_id', $contrato1->id)->first();
-                            
+                
                             if(isset($bonoRed)){
                                 
                                 if(Carbon::now() >= $bonoRed->created_at->addMonth()){
 
-                                    $this->pagarBonoRed($administrador->id, $contrato1->id, $contrato1->invested, 0.01);
+                                    $this->pagarBonoRed($administrador->id, $contrato1->id, $contrato1->invested, 0.01, 3);
                                  
                                 }
 
                             }elseif(Carbon::now() >= $contrato1->created_at->addMonth()){
                                 
-                                $this->pagarBonoRed($administrador->id, $contrato1->id, $contrato1->invested, 0.01);
+                                $this->pagarBonoRed($administrador->id, $contrato1->id, $contrato1->invested, 0.01, 3);
                                 
                             }
 
@@ -134,13 +134,13 @@ class WalletController extends Controller
                                     if(isset($bonoRed)){
                                         if(Carbon::now() >= $bonoRed->created_at->addMonth()){
 
-                                            $this->pagarBonoRed($administrador->id, $contrato2->id, $contrato2->invested, 0.006);
+                                            $this->pagarBonoRed($administrador->id, $contrato2->id, $contrato2->invested, 0.006, 4);
                                            
                                         }
         
                                     }elseif(Carbon::now() >= $contrato2->created_at->addMonth()){
 
-                                        $this->pagarBonoRed($administrador->id, $contrato2->id, $contrato2->invested, 0.006);
+                                        $this->pagarBonoRed($administrador->id, $contrato2->id, $contrato2->invested, 0.006, 4);
                                         
                                     }
         
@@ -158,13 +158,13 @@ class WalletController extends Controller
                                             if(isset($bonoRed)){
                                                 if(Carbon::now() >= $bonoRed->created_at->addMonth()){
 
-                                                    $this->pagarBonoRed($administrador->id, $contrato3->id, $contrato3->invested, 0.004);
+                                                    $this->pagarBonoRed($administrador->id, $contrato3->id, $contrato3->invested, 0.004, 5);
                                                   
                                                 }
                 
                                             }elseif(Carbon::now() >= $contrato3->created_at->addMonth()){
 
-                                                $this->pagarBonoRed($administrador->id, $contrato3->id, $contrato3->invested, 0.004);
+                                                $this->pagarBonoRed($administrador->id, $contrato3->id, $contrato3->invested, 0.004, 5);
                                                
                                             }
                 
@@ -180,7 +180,7 @@ class WalletController extends Controller
         }
     }
 
-    public function pagarBonoRed($administrador_id, $contract_id, $invertido, $porcentaje)
+    public function pagarBonoRed($administrador_id, $contract_id, $invertido, $porcentaje, $type)
     {
         Wallet::create([
             'user_id' => $administrador_id,
@@ -188,7 +188,8 @@ class WalletController extends Controller
             'amount' => $invertido * $porcentaje,
             'percentage' => $porcentaje,
             'descripcion' => 'bono red '. $porcentaje * 100 .'%',
-            'payment_date' => Carbon::now()->format('Y-m-d')
+            'payment_date' => Carbon::now()->format('Y-m-d'),
+            'type' => $type
         ]);
 
         LogBonoRed::create([

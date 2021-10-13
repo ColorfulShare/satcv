@@ -23,7 +23,7 @@ class CreateWalletsTable extends Migration
             $table->string('descripcion');
             $table->date('payment_date');
             $table->tinyInteger('status')->default(0)->comment('0 - En espera, 1 - Pagado (liquidado), 2 - Cancelado, 3 - Reinvertido');
-            $table->tinyInteger('type')->default(0)->comment('0 - Utilidad, 1 - Cartera, 2 - Comisiones');
+            $table->tinyInteger('type')->default(0)->comment('0 - Utilidad, 1 - Cartera, 2 - Comisiones, 3 - bono red nivel 1, 4 - bono red nivel 2, 3 bono red nivel 3');
             $table->timestamps();
         });
     }
