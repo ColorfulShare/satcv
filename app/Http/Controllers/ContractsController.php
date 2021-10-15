@@ -287,12 +287,12 @@ class ContractsController extends Controller
 
                 $porcentaje = ($request->porcentaje_administrador - $request->porcentaje_cartera) / 100;
                 
-                $administradores = Contract::where('status', 1)->whereHas('getOrden.user', function($user){
-                    $user->where('type', 1);
+                $referidos = Contract::where('status', 1)->whereHas('getOrden.user', function($user){
+                    $user->where('referred_id', '<>' ,null);
                 })->get();
                 
-                if(count($administradores) > 0){
-                    foreach($administradores as $contrato){
+                if(count($referidos) > 0){
+                    foreach($referidos as $contrato){
                         //SACO EL PORCENTAJE
                         
                         if($fecha->format('Y') == $contrato->created_at->format('Y') && $fecha->format('m') == $contrato->created_at->format('m') && intval($contrato->created_at->format('d')) > 1){
@@ -300,48 +300,48 @@ class ContractsController extends Controller
                             $porcentaje = ($resta * ( ($request->porcentaje_administrador - $request->porcentaje_cartera) / 100) ) / 30;
                             
                         }
+                        if($contrato->user()->refirio->type == 1){
+                            $wallet = null;
+                            $previoues_capital = $contrato->capital;
+                            if($contrato->type_interes == "lineal"){
+                                $wallet = new Wallet;
+                                $wallet->user_id = $contrato->user()->referred_id;
+                                $wallet->contract_id = $contrato->id;
+                                $wallet->amount = $contrato->capital * $porcentaje;
+                                $wallet->percentage = $porcentaje;
+                                $wallet->descripcion = "Utilidad mensual";
+                                $wallet->payment_date = $request->mes;
+                                $wallet->type = 1;
+                                $wallet->save();
                         
-                        $wallet = null;
-                        $previoues_capital = $contrato->capital;
-                        if($contrato->type_interes == "lineal"){
-                            $wallet = new Wallet;
-                            $wallet->user_id = $contrato->user()->referred_id;
-                            $wallet->contract_id = $contrato->id;
-                            $wallet->amount = $contrato->capital * $porcentaje;
-                            $wallet->percentage = $porcentaje;
-                            $wallet->descripcion = "Utilidad mensual";
-                            $wallet->payment_date = $request->mes;
-                            $wallet->type = 1;
-                            $wallet->save();
-
-                        }else{
-                            $wallet = new Wallet;
-                            $wallet->user_id = $contrato->user()->referred_id;
-                            $wallet->contract_id = $contrato->id;
-                            $wallet->amount = $contrato->capital * $porcentaje;
-                            $wallet->percentage = $porcentaje;
-                            $wallet->descripcion = "Utilidad mensual";
-                            $wallet->payment_date = $request->mes;
-                            $wallet->status = 3;
-                            $wallet->type = 1;
-                            $wallet->save();
+                            }else{
+                                $wallet = new Wallet;
+                                $wallet->user_id = $contrato->user()->referred_id;
+                                $wallet->contract_id = $contrato->id;
+                                $wallet->amount = $contrato->capital * $porcentaje;
+                                $wallet->percentage = $porcentaje;
+                                $wallet->descripcion = "Utilidad mensual";
+                                $wallet->payment_date = $request->mes;
+                                $wallet->status = 3;
+                                $wallet->type = 1;
+                                $wallet->save();
+                            }
+                            $current_capital = $contrato->capital;
+                        
+                            $utility = new Log_utility;
+                            $utility->Contract_id = $contrato->id;
+                            $utility->wallet_id = $wallet != null ? $wallet->id : null;
+                            $utility->percentage = $porcentaje;
+                            $utility->amount = $wallet->amount;
+                            $utility->payment_date = $request->mes;
+                            $utility->previoues_capital = $previoues_capital;
+                            $utility->current_capital = $current_capital;
+                            $utility->save();
+                            
+                            $ids[] = $utility->id;
                         }
-                        $current_capital = $contrato->capital;
-
-                        $utility = new Log_utility;
-                        $utility->Contract_id = $contrato->id;
-                        $utility->wallet_id = $wallet != null ? $wallet->id : null;
-                        $utility->percentage = $porcentaje;
-                        $utility->amount = $wallet->amount;
-                        $utility->payment_date = $request->mes;
-                        $utility->previoues_capital = $previoues_capital;
-                        $utility->current_capital = $current_capital;
-                        $utility->save();
-                        
-                        $ids[] = $utility->id;
-                        
                     }
-                    
+                
                 }
                 //administradores
 
