@@ -314,6 +314,7 @@ class ContractsController extends Controller
                             $wallet->percentage = $porcentaje;
                             $wallet->descripcion = "Utilidad mensual";
                             $wallet->payment_date = $request->mes;
+                            $wallet->status = 0;
                             $wallet->type = 1;
                             $wallet->save();
                         
@@ -327,7 +328,7 @@ class ContractsController extends Controller
                             $wallet->percentage = $porcentaje;
                             $wallet->descripcion = "Utilidad mensual";
                             $wallet->payment_date = $request->mes;
-                            $wallet->status = 3;
+                            $wallet->status = 0;
                             $wallet->type = 1;
                             $wallet->save();
                             
@@ -381,6 +382,7 @@ class ContractsController extends Controller
                             $wallet->percentage = $porcentaje;
                             $wallet->descripcion = "Utilidad mensual";
                             $wallet->payment_date = $request->mes;
+                            $wallet->status = 0;
                             $wallet->save();
 
                             $gain+= $contrato->capital * $porcentaje;
@@ -394,7 +396,7 @@ class ContractsController extends Controller
                             $wallet->percentage = $porcentaje;
                             $wallet->descripcion = "Utilidad mensual";
                             $wallet->payment_date = $request->mes;
-                            $wallet->status = 3;
+                            $wallet->status = 0;
                             $wallet->save();
                             
                             $gain+= $contrato->capital * $porcentaje;
@@ -494,7 +496,6 @@ class ContractsController extends Controller
                                 $wallet->type = 2;
                                 $wallet->save();
                             }
-                           
 
                         }
                         $current_capital = $contrato->capital;
