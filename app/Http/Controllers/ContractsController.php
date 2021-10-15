@@ -287,12 +287,12 @@ class ContractsController extends Controller
 
                 $porcentaje = ($request->porcentaje_administrador - $request->porcentaje_cartera) / 100;
                 
-                $referidos = Contract::where('status', 1)->whereHas('getOrden.user', function($user){
-                    $user->where('referred_id', '<>' ,null);
+                $administradores = Contract::where('status', 1)->whereHas('getOrden.user', function($user){
+                    $user->where('type', 1);
                 })->get();
                 
-                if(count($referidos) > 0){
-                    foreach($referidos as $contrato){
+                if(count($administradores) > 0){
+                    foreach($administradores as $contrato){
                         //SACO EL PORCENTAJE
                         
                         if($fecha->format('Y') == $contrato->created_at->format('Y') && $fecha->format('m') == $contrato->created_at->format('m') && intval($contrato->created_at->format('d')) > 1){
