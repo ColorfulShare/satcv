@@ -308,7 +308,7 @@ class ContractsController extends Controller
                         $previoues_capital = $contrato->capital;
                         if($contrato->type_interes == "lineal"){
                             $wallet = new Wallet;
-                            $wallet->user_id = $contrato->user()->referred_id;
+                            $wallet->user_id = $contrato->user()->id;
                             $wallet->contract_id = $contrato->id;
                             $wallet->amount = $contrato->capital * $porcentaje;
                             $wallet->percentage = $porcentaje;
@@ -321,7 +321,7 @@ class ContractsController extends Controller
 
                         }else{
                             $wallet = new Wallet;
-                            $wallet->user_id = $contrato->user()->referred_id;
+                            $wallet->user_id = $contrato->user()->id;
                             $wallet->contract_id = $contrato->id;
                             $wallet->amount = $contrato->capital * $porcentaje;
                             $wallet->percentage = $porcentaje;
