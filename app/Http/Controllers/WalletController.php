@@ -84,7 +84,7 @@ class WalletController extends Controller
         $user = Auth::user();
         
         if($user->admin != 1){
-            $wallets = $user->wallets->whereIn('type', [2,3,4,4]);
+            $wallets = $user->wallets->whereIn('type', [2,3,4,5]);
         }else{
             $wallets = Wallet::orderBy('id', 'desc')->whereIn('type', [2,3,4,5])->get();
         }
