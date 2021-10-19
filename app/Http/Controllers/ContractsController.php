@@ -900,6 +900,7 @@ class ContractsController extends Controller
         $wallet->percentage = 0.02;
         $wallet->descripcion = "Bono 2%";
         $wallet->payment_date = Carbon::now()->format('Y-m-d');
+        $wallet->type = 2;
         $wallet->save();
     }
 }
