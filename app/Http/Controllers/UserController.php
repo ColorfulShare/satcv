@@ -98,6 +98,10 @@ class UserController extends Controller
         $this->validate($request, $rules, $messages);
 
         $user = User::where('email', $request->user)->first();
+
+        if($user->referred_id != null){
+            return back()->with('danger', 'Este usuario no puede ser administrador de cartera');
+        }
      
         $user->type = 1;
              
