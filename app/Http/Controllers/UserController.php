@@ -157,6 +157,15 @@ class UserController extends Controller
                         $contracts->push($contrato);
         
                         }
+                        //referidos de mis referidos de mis referidos
+                        foreach ($referido->referidos as $key => $referido2) {
+                            if($referido2->contracts != null){
+                                foreach($referido2->contracts as $contrato2){
+                                $contracts->push($contrato2);
+                
+                                }
+                            }
+                        }
                     }
                 }
             }
