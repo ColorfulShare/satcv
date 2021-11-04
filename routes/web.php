@@ -132,7 +132,6 @@ Route::middleware('auth')->group(function(){
         Route::get('/', [ReportController::class, 'index'])->name('reports.pedidos');
         Route::get('/purchase', [ReportController::class, 'indexPedidos'])->name('reports.index');
         Route::get('/show-contrato{id}', [ReportController::class, 'indexShow'])->name('reports.show-contrato');
-        Route::get('/comisiones', [ReportController::class, 'comisiones'])->name('reports.comisiones');
     });
 
     Route::group(['prefix' => 'solicitud'], function () {

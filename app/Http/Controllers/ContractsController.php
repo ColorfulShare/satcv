@@ -287,123 +287,6 @@ class ContractsController extends Controller
             if ($validate){
                 DB::beginTransaction();
                 $ids = [];
-                //COMISION
-
-                $porcentaje = ($request->porcentaje_administrador - $request->porcentaje_cartera) / 100;
-                
-                $referidos = Contract::where('status', 1)->whereHas('getOrden.user', function($user){
-                    $user->where('referred_id', '<>' ,null);
-                })->get();
-                
-                if(count($referidos) > 0){
-                    foreach($referidos as $contrato){
-                        //SACO EL PORCENTAJE
-                        
-                        if($fecha->format('Y') == $contrato->created_at->format('Y') && $fecha->format('m') == $contrato->created_at->format('m') && intval($contrato->created_at->format('d')) > 1){
-                            $resta = 30 - (intval($contrato->created_at->format('d')) + 1);
-                            $porcentaje = ($resta * ( ($request->porcentaje_administrador - $request->porcentaje_cartera) / 100) ) / 30;
-                            
-                        }
-                        //el ac puede cobrar utilidades de todo su portafolio (hasta nivel 3)
-                        //NIVEL 1
-                        if($contrato->user()->refirio->type == 1){
-                            $wallet = null;
-                            $previoues_capital = $contrato->capital;
-                
-                            $wallet = new Wallet;
-                            $wallet->user_id = $contrato->user()->referred_id;
-                            $wallet->contract_id = $contrato->id;
-                            $wallet->amount = $contrato->capital * $porcentaje;
-                            $wallet->percentage = $porcentaje;
-                            $wallet->descripcion = "Utilidad mensual AC nivel 1";
-                            $wallet->payment_date = $request->mes;
-                            $wallet->type = 1;
-                            $wallet->save();
-                        
-                           
-                            $current_capital = $contrato->capital;
-                        
-                            $utility = new Log_utility;
-                            $utility->Contract_id = $contrato->id;
-                            $utility->wallet_id = $wallet != null ? $wallet->id : null;
-                            $utility->percentage = $porcentaje;
-                            $utility->amount = $wallet->amount;
-                            $utility->payment_date = $request->mes;
-                            $utility->previoues_capital = $previoues_capital;
-                            $utility->current_capital = $current_capital;
-                            $utility->save();
-                            
-                            $ids[] = $utility->id;
-                        }
-                        //NIVEL 2
-                        if($contrato->user()->refirio != null && $contrato->user()->refirio->refirio != null){
-                            if($contrato->user()->refirio->refirio->type == 1){
-                                $wallet = null;
-                                $previoues_capital = $contrato->capital;
-                    
-                                $wallet = new Wallet;
-                                $wallet->user_id = $contrato->user()->refirio->referred_id;
-                                $wallet->contract_id = $contrato->id;
-                                $wallet->amount = $contrato->capital * $porcentaje;
-                                $wallet->percentage = $porcentaje;
-                                $wallet->descripcion = "Utilidad mensual AC nivel 2";
-                                $wallet->payment_date = $request->mes;
-                                $wallet->type = 1;
-                                $wallet->save();
-                            
-                               
-                                $current_capital = $contrato->capital;
-                            
-                                $utility = new Log_utility;
-                                $utility->Contract_id = $contrato->id;
-                                $utility->wallet_id = $wallet != null ? $wallet->id : null;
-                                $utility->percentage = $porcentaje;
-                                $utility->amount = $wallet->amount;
-                                $utility->payment_date = $request->mes;
-                                $utility->previoues_capital = $previoues_capital;
-                                $utility->current_capital = $current_capital;
-                                $utility->save();
-                                
-                                $ids[] = $utility->id;
-                            }
-                        }
-                        //NIVEL 3
-                        
-                        if($contrato->user()->refirio->refirio != null && $contrato->user()->refirio->refirio->refirio != null){
-                            if($contrato->user()->refirio->refirio->refirio->type == 1){
-                                
-                                $wallet = null;
-                                $previoues_capital = $contrato->capital;
-                    
-                                $wallet = new Wallet;
-                                $wallet->user_id = $contrato->user()->refirio->refirio->referred_id;
-                                $wallet->contract_id = $contrato->id;
-                                $wallet->amount = $contrato->capital * $porcentaje;
-                                $wallet->percentage = $porcentaje;
-                                $wallet->descripcion = "Utilidad mensual AC nivel 3";
-                                $wallet->payment_date = $request->mes;
-                                $wallet->type = 1;
-                                $wallet->save();
-                            
-                                $current_capital = $contrato->capital;
-                            
-                                $utility = new Log_utility;
-                                $utility->Contract_id = $contrato->id;
-                                $utility->wallet_id = $wallet != null ? $wallet->id : null;
-                                $utility->percentage = $porcentaje;
-                                $utility->amount = $wallet->amount;
-                                $utility->payment_date = $request->mes;
-                                $utility->previoues_capital = $previoues_capital;
-                                $utility->current_capital = $current_capital;
-                                $utility->save();
-                                
-                                $ids[] = $utility->id;
-                            }
-                        }
-                    }
-                
-                }
-                
                 //administradores
 
                 $gain = 0;
@@ -781,10 +664,10 @@ class ContractsController extends Controller
                 $data->productividad = $productividad;
                 $data->retirado = $retirado;
                 $data->dias = ($contrato->countDaysContract() / 365) * 100;
-                $utilities = $contrato->wallets()->orderByDesc('id')->latest()->take(6)->get()->toArray();
+                $utilities = $contrato->wallets()->orderByDesc('id')->where('type', 0)->latest()->take(6)->get()->toArray();
                 sort($utilities);
                 $data->utilidades = $utilities;
-                $utility = $contrato->wallets()->select('id', 'payment_date', 'amount', 'percentage')->orderByDesc('id')->latest()->take(6)->get()->toArray();
+                $utility = $contrato->wallets()->select('id', 'payment_date', 'amount', 'percentage')->where('type', 0)->orderByDesc('id')->latest()->take(6)->get()->toArray();
                 // dd($utility);
                 $data->utility = $utility;
                 $data->amount = array_column($data->utilidades, 'amount');

@@ -46,18 +46,5 @@ class ReportController extends Controller
 
      return view('reports.show-contrato')->with('contrato', $contrato);
     }
-
-    public function comisiones()
-    {
-        $user = Auth::user();
-
-        if($user->admin == 1){
-            $comisiones = Wallet::orderBy('id', 'desc')->where('type', 1)->get();
-        }else{
-            $comisiones = Wallet::orderBy('id', 'desc')->where('type', 1)->where('user_id', $user->id)->get();
-        }
-
-        return view('reports.comisiones', compact('comisiones'));
-    }
 }
 

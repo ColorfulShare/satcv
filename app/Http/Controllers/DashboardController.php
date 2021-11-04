@@ -24,6 +24,7 @@ class DashboardController extends Controller
       $utilities = $this->contratos->getUtilities()->take(6);
       return view('/content/dashboard/dashboard-analytics', compact('contratos', 'utilities'));
     }else{
+      
       if(isset($request->id)){
         $this->contratos = new ContractsController;
         $contratos = $this->contratos->contratos();
