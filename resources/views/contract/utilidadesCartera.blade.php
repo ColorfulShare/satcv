@@ -10,7 +10,7 @@
             <div class="card-body card-dashboard">
 
                 <div class="float-right">
-                    <button class="btn btn-danger" id="btnModalCartera">Pagar administrador de cartera</button>
+                    <button class="btn btn-danger" id="btnModalCartera">Pagar utilidad</button>
                 </div>
                 
 
@@ -79,7 +79,7 @@
                             <input type="number" class="form-control" id="porcentaje_administrador" aria-describedby="porcentaje_administrador"
                                 name="porcentaje_administrador" step="any">
     
-                            <label for="porcentaje_cartera" class="form-label">Porcentaje de cartera </label>
+                            <label for="porcentaje_cartera" class="form-label">Porcentaje de inversión </label>
                             <input type="number" class="form-control" id="porcentaje_cartera" aria-describedby="porcentaje_cartera"
                                 name="porcentaje_cartera" step="any">
                             

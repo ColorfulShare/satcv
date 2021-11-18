@@ -280,7 +280,10 @@ class ContractsController extends Controller
             'porcentaje_cartera' => 'required',
             'mes' => 'required'
         ]);
-
+        $request->merge(['porcentaje' => $request->porcentaje_cartera]);
+        //PAGAMOS LAS UTILIDADES NORMALES
+        $this->payUtility($request);
+        ///////
         $fecha = Carbon::parse($request->mes);
         
         try {
@@ -769,7 +772,7 @@ class ContractsController extends Controller
     }    
     public function utilidadesCartera()
     {
-        $utilities = Utility::orderBy('id', 'desc')->where('type', 1)->get();
+        $utilities = Utility::orderBy('id', 'desc')->get();
 
         return view('contract.utilidadesCartera', compact('utilities'));
     }

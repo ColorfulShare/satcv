@@ -19,14 +19,8 @@
           "slug": "contract.index"
         },
         {
-          "url": "/contratos/utilidades",
-          "name": "Utilidades",
-          "icon": "circle",
-          "slug": "contract.utilidades"
-        },
-        {
           "url": "/contratos/utilidades/cartera",
-          "name": "Utilidades cartera",
+          "name": "Utilidades",
           "icon": "circle",
           "slug": "contract.utilidadesCartera"
         }
@@ -48,12 +42,6 @@
           "name": "Utilidades",
           "icon": "circle",
           "slug": "utilidad.utility"
-        },
-        {
-          "url": "reports/comisiones",
-          "name": "Utilidades AC",
-          "icon": "circle",
-          "slug": "reports.comisiones"
         },
         {
           "url": "comision",
