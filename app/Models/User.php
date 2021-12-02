@@ -167,7 +167,6 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\User', 'referred_id');
     }
-
     public function refirio()
     {
         return $this->belongsTo('App\Models\User', 'referred_id');
