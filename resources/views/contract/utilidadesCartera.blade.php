@@ -30,7 +30,6 @@
                                 <th>Pagado</th>
                                 <th>Lineal</th>
                                 <th>Compuesto</th>
-                                <th>Comisión</th>
                             </tr>
 
                         </thead>
@@ -41,11 +40,10 @@
                                 <td>{{$utility->id}}</td>
                                 <td>{{\Carbon\Carbon::parse($utility->payment_date)->format('Y-m-d')}}</td>
                                 <td>{{number_format($utility->percentage, 2) }} %</td>
-                                <td>{{number_format($utility->percentage_cartera, 2)}} $</td>
+                                <td>{{number_format($utility->percentage_cartera, 2)}} %</td>
                                 <td>{{number_format($utility->gain + $utility->gain_cartera , 2)}} $</td>
                                 <td>{{number_format($utility->amount_lineal(), 2)}} $</td>
                                 <td>{{number_format($utility->amount_compuesto(), 2)}} $</td>
-                                <td>{{number_format($utility->comision(), 2)}} $</td>
                             </tr>
                             @endforeach
                         </tbody>

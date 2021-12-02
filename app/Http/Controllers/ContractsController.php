@@ -234,7 +234,7 @@ class ContractsController extends Controller
                         $wallet->payment_date = $request->mes;
                         $wallet->status = 3;
                         $wallet->save();
-                        
+                    
                         $gain+= $contrato->capital * $porcentaje;
                         $contrato->gain += $contrato->capital * $porcentaje;
                         $contrato->capital += $contrato->capital * $porcentaje;
@@ -255,7 +255,7 @@ class ContractsController extends Controller
                     $ids[] = $utility->id;
                     
                 }
-
+                /*
                 $utilidad = new Utility;
                 $utilidad->gain = $gain;
                 $utilidad->percentage = $request->porcentaje;
@@ -263,9 +263,12 @@ class ContractsController extends Controller
                 $utilidad->save();
 
                 $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
+                */
             }
             DB::commit();
-            return back()->with('success', 'Utilidad pagada exitosamente');
+            //return back()->with('success', 'Utilidad pagada exitosamente');
+            return ['ids' => $ids, 'gain' => $gain];
+            
         } catch (\Throwable $th) {
             DB::rollback();
             Log::error('ContractsController - payUtility -> Error: '.$th);
@@ -282,7 +285,7 @@ class ContractsController extends Controller
         ]);
         $request->merge(['porcentaje' => $request->porcentaje_cartera]);
         //PAGAMOS LAS UTILIDADES NORMALES
-        $this->payUtility($request);
+        $payUtility = $this->payUtility($request);
         ///////
         $fecha = Carbon::parse($request->mes);
         
@@ -292,7 +295,8 @@ class ContractsController extends Controller
                 $ids = [];
                 //administradores
 
-                $gain = 0;
+                $gain = $payUtility['gain'];
+                $ids = collect($payUtility['ids']);
                 
                 $porcentaje = $request->porcentaje_administrador / 100;
 
@@ -336,7 +340,7 @@ class ContractsController extends Controller
                             $wallet->payment_date = $request->mes;
                             $wallet->status = 0;
                             $wallet->save();
-                            
+                        
                             $gain+= $contrato->capital * $porcentaje;
                             $contrato->gain += $contrato->capital * $porcentaje;
                             $contrato->capital += $contrato->capital * $porcentaje;
@@ -354,7 +358,7 @@ class ContractsController extends Controller
                         $utility->current_capital = $current_capital;
                         $utility->save();
                         
-                        $ids[] = $utility->id;
+                        $ids->push($utility->id);
                         
                     }
                 }
@@ -415,8 +419,7 @@ class ContractsController extends Controller
                             $wallet->payment_date = $request->mes;
                             $wallet->status = 3;
                             $wallet->save();
-                            
-                            
+                        
                             $gain2+= $contrato->capital * $porcentaje;
                             $contrato->gain += $contrato->capital * $porcentaje;
                             $contrato->capital += $contrato->capital * $porcentaje;
@@ -433,6 +436,7 @@ class ContractsController extends Controller
                                 $wallet->payment_date = $request->mes;
                                 $wallet->type = 2;
                                 $wallet->save();
+
                             }
 
                         }
@@ -448,11 +452,9 @@ class ContractsController extends Controller
                         $utility->current_capital = $current_capital;
                         $utility->save();
                         
-                        $ids[] = $utility->id;
+                        $ids->push($utility->id);
                         
                     }
-
-                    
 
                 }
                 $utilidad = new Utility;
@@ -463,12 +465,12 @@ class ContractsController extends Controller
                 $utilidad->gain = $gain;
                 $utilidad->percentage = $request->porcentaje_administrador;
                 $utilidad->save();
-            
-                $utilidades = Log_utility::whereIn('id', $ids)->update(['utility_id' => $utilidad->id]);
+
+                $utilidades = Log_utility::whereIn('id', $ids->toArray())->update(['utility_id' => $utilidad->id]);
             }
             
             DB::commit();
-            return back()->with('success', 'Utilidad pagada exitosamente');
+            //return back()->with('success', 'Utilidad pagada exitosamente');
         } catch (\Throwable $th) {
             DB::rollback();
             Log::error('ContractsController - payUtility -> Error: '.$th);

@@ -21,7 +21,7 @@ class Utility extends Model
 
     public function amount_compuesto()
     {
-        return $this->log->where('contract.type_interes', 'compuesto')->where('wallet.type', 0)->sum('amount');
+        return $this->log->where('contract.type_interes', 'compuesto')->sum('amount');
     }
 
     public function comision()
